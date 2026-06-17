@@ -28,7 +28,7 @@
       year: "Preview",
       accent: "violet",
       blurb: "An in-progress album of preview tracks — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
-      cover: "assets/covers/prism.png",
+      cover: "assets/covers/prism.webp",
       url: "https://soundcloud.com/docility-m/sets/prism",
     },
     {
@@ -36,7 +36,7 @@
       year: "Album",
       accent: "aqua",
       blurb: "My first fully intentional album, and first move into percussive elements and vocal samples. Shaped by place and state of mind.",
-      cover: "assets/covers/reflections.png",
+      cover: "assets/covers/reflections.webp",
       url: "https://soundcloud.com/docility-m/sets/reflections",
     },
     {
@@ -44,7 +44,7 @@
       year: "2015–2020",
       accent: "sky",
       blurb: "My first album: a collection of individual ambient tracks made between 2015 and 2020, drawn from travel field recordings and inspired by dub techno and ambient records like Yagya's Rigning.",
-      cover: "assets/covers/open-sky.png",
+      cover: "assets/covers/open-sky.webp",
       url: "https://soundcloud.com/docility-m/sets/open-sky",
     },
     {
@@ -52,7 +52,7 @@
       year: "EP · 2015",
       accent: "coral",
       blurb: "My first release (2015) — an experimental EP inspired by Carl Sagan's Contact and the idea of making first contact with aliens.",
-      cover: "assets/covers/contact.png",
+      cover: "assets/covers/contact.webp",
       url: "https://soundcloud.com/docility-m/sets/contact-ep",
     },
   ];
@@ -78,7 +78,7 @@
   function soundcloudSrc(url, accent) {
     const params = new URLSearchParams({
       url,
-      color: accent,         // URLSearchParams encodes the leading "#"
+      color: accent.replace(/^#/, ""), // SoundCloud expects bare hex (e.g. 36e0c8)
       auto_play: "false",
       hide_related: "true",
       show_comments: "false",
@@ -136,7 +136,9 @@
     document.getElementById("popupClose").addEventListener("click", closePopup);
     document.getElementById("popupBackdrop").addEventListener("click", closePopup);
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !popup.hidden) closePopup();
+      if (popup.hidden) return;
+      if (event.key === "Escape") closePopup();
+      else if (event.key === "Tab") trapFocus(event, popup);
     });
 
     // The volume slider always drives whichever player is currently open.
@@ -144,6 +146,23 @@
     slider.addEventListener("input", () => {
       if (currentWidget) currentWidget.setVolume(Number(slider.value));
     });
+  }
+
+  /** Keep Tab focus cycling inside the open modal. */
+  function trapFocus(event, popup) {
+    const focusable = popup.querySelectorAll(
+      'button, [href], input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   function openPopup(album, accent, sleeve) {
@@ -218,7 +237,13 @@
     flipcard.style.opacity = "0";
     document.documentElement.style.overflow = "";
 
-    window.setTimeout(() => {
+    // Finish once the leap-back/fade has actually ended (transitionend), with a
+    // timeout fallback so reduced-motion / interrupted transitions still clean up.
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      flipcard.removeEventListener("transitionend", onEnd);
       popup.hidden = true;
       flipcard.classList.remove("is-flipped");
       flipcard.style.transform = "none";
@@ -226,7 +251,12 @@
       document.getElementById("popupPlayer").replaceChildren(); // stop playback
       currentWidget = null;
       originSleeve = null;
-    }, 480);
+    };
+    const onEnd = (event) => {
+      if (event.target === flipcard && event.propertyName === "opacity") finish();
+    };
+    flipcard.addEventListener("transitionend", onEnd);
+    window.setTimeout(finish, 600);
 
     if (lastFocused && typeof lastFocused.focus === "function") {
       lastFocused.focus({ preventScroll: true });
