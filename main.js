@@ -25,28 +25,31 @@
   const ALBUMS = [
     {
       title: "Prism",
-      year: "Preview",
+      year: "Album · In progress",
       accent: "violet",
-      blurb: "An in-progress album of preview tracks — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
+      blurb: "A work in progress — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
       cover: "assets/covers/prism.webp",
       url: "https://soundcloud.com/docility-m/sets/prism",
     },
     {
       title: "Reflections",
-      year: "Album",
+      year: "Album · 2026",
       accent: "aqua",
-      blurb: "My first fully intentional album, and first move into percussive elements and vocal samples. Shaped by place and state of mind.",
+      blurb: "Inspired by places in both the world and mind. Expanding the use of percussive elements and vocal samples.",
       cover: "assets/covers/reflections.webp",
       url: "https://soundcloud.com/docility-m/sets/reflections",
     },
     {
       title: "Open Sky",
-      year: "2015–2020",
+      year: "Album · 2015–2020",
       accent: "sky",
-      blurb: "My first album: a collection of individual ambient tracks made between 2015 and 2020, drawn from travel field recordings and inspired by dub techno and ambient records like Yagya's Rigning.",
+      blurb: "A collection of individual ambient tracks made between 2015 and 2020, drawn from travel field recordings and inspired by dub techno and ambient records like Yagya's Rigning.",
       cover: "assets/covers/open-sky.webp",
       url: "https://soundcloud.com/docility-m/sets/open-sky",
     },
+  ];
+
+  const EPs = [
     {
       title: "Contact",
       year: "EP · 2015",
@@ -98,13 +101,14 @@
   let lastFocused = null;   // element to restore focus to on close
   let originSleeve = null;  // the sleeve a popup was opened from (for the leap animation)
 
-  function renderAlbums() {
-    const list = document.getElementById("albumList");
+  /** Render a set of releases as record sleeves into the given container. */
+  function renderSleeves(releases, listId) {
+    const list = document.getElementById(listId);
     if (!list) return;
 
     const fragment = document.createDocumentFragment();
 
-    ALBUMS.forEach((album) => {
+    releases.forEach((album) => {
       const accent = ACCENTS[album.accent] || album.accent || ACCENTS.aqua;
 
       const cover = el("img", {
@@ -371,7 +375,8 @@
      Init (the script is deferred, so the DOM is ready)
   ------------------------------------------------------- */
   function init() {
-    renderAlbums();
+    renderSleeves(ALBUMS, "albumList");
+    renderSleeves(EPs, "epList");
     setupPopup();
     buildBars();
     setupReveal();

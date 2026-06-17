@@ -180,6 +180,8 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 .section-head h2 { font-size: clamp(2.1rem, 6vw, 3.6rem); }
 .section-head__sub { color: var(--ink-dim); margin-top: 0.8rem; max-width: 46ch; }
+/* A second heading within a section (e.g. EPs after Albums) needs breathing room above it. */
+.albums__list + .section-head { margin-top: clamp(3rem, 7vw, 5rem); }
 
 /* =========================================================
    Hero
@@ -311,7 +313,7 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 /* =========================================================
    Albums
    ========================================================= */
-/* 2 × 2 grid of square album tiles */
+/* Grid of square album tiles — three across on desktop */
 .albums__list {
   max-width: var(--maxw);
   margin: 0 auto;
@@ -319,8 +321,11 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   gap: clamp(1.1rem, 3vw, 2rem);
   grid-template-columns: 1fr;
 }
-@media (min-width: 720px) {
+@media (min-width: 560px) {
   .albums__list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 760px) {
+  .albums__list { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* Record sleeves — the resting grid shows only these */
