@@ -92,74 +92,145 @@
   }
 
   /* -------------------------------------------------------
-     Album cards
+     Record sleeves + flip-over popup
   ------------------------------------------------------- */
+  let currentWidget = null; // SoundCloud widget for the open popup
+  let lastFocused = null;   // element to restore focus to on close
+  let originSleeve = null;  // the sleeve a popup was opened from (for the leap animation)
+
   function renderAlbums() {
     const list = document.getElementById("albumList");
     if (!list) return;
 
     const fragment = document.createDocumentFragment();
 
-    ALBUMS.forEach((album, index) => {
+    ALBUMS.forEach((album) => {
       const accent = ACCENTS[album.accent] || album.accent || ACCENTS.aqua;
 
       const cover = el("img", {
-        class: "album__art",
+        class: "sleeve__art",
         src: album.cover,
         alt: `${album.title} — album cover`,
         loading: "lazy",
       });
       cover.addEventListener("error", () => cover.classList.add("is-missing"));
 
-      const card = el(
-        "article",
-        { class: "album reveal" },
-        el(
-          "figure",
-          { class: "album__cover" },
-          el("span", { class: "album__fallback", "aria-hidden": "true", text: album.title }),
-          cover,
-          el("h3", { class: "sr-only", text: `${album.title} — ${album.year}` })
-        ),
-        el("p", { class: "album__blurb", text: album.blurb }),
-        el(
-          "div",
-          { class: "album__player" },
-          el("iframe", {
-            title: `${album.title} — SoundCloud player`,
-            src: soundcloudSrc(album.url, accent),
-            height: "300",
-            loading: "lazy",
-            allow: "autoplay",
-          })
-        )
+      const sleeve = el(
+        "button",
+        { class: "sleeve", type: "button", "aria-label": `${album.title} — open details` },
+        el("span", { class: "sleeve__fallback", "aria-hidden": "true", text: album.title }),
+        cover
       );
-
-      card.style.setProperty("--accent", accent);
-      card.style.setProperty("--delay", `${(index % 2) * 0.1}s`);
-      fragment.append(card);
+      sleeve.style.setProperty("--accent", accent);
+      sleeve.addEventListener("click", () => openPopup(album, accent, sleeve));
+      fragment.append(sleeve);
     });
 
     list.append(fragment);
-    initMasterVolume();
   }
 
-  /** Master slider drives every player's volume via the SoundCloud Widget API. */
-  function initMasterVolume() {
-    const slider = document.getElementById("masterVol");
-    if (!slider) return;
+  function setupPopup() {
+    const popup = document.getElementById("popup");
+    if (!popup) return;
 
+    document.getElementById("popupClose").addEventListener("click", closePopup);
+    document.getElementById("popupBackdrop").addEventListener("click", closePopup);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !popup.hidden) closePopup();
+    });
+
+    // The volume slider always drives whichever player is currently open.
+    const slider = document.getElementById("popupVol");
+    slider.addEventListener("input", () => {
+      if (currentWidget) currentWidget.setVolume(Number(slider.value));
+    });
+  }
+
+  function openPopup(album, accent, sleeve) {
+    const popup = document.getElementById("popup");
+    const flipcard = document.getElementById("flipcard");
+    originSleeve = sleeve;
+    lastFocused = sleeve;
+
+    flipcard.style.setProperty("--accent", accent);
+    const cover = document.getElementById("popupCover");
+    cover.src = album.cover;
+    cover.alt = `${album.title} — album cover`;
+    document.getElementById("popupThumb").src = album.cover;
+    document.getElementById("popupTitle").textContent = album.title;
+    document.getElementById("popupYear").textContent = album.year;
+    document.getElementById("popupBlurb").textContent = album.blurb;
+
+    const iframe = el("iframe", {
+      title: `${album.title} — SoundCloud player`,
+      src: soundcloudSrc(album.url, accent),
+      height: "300",
+      loading: "lazy",
+      allow: "autoplay",
+    });
+    document.getElementById("popupPlayer").replaceChildren(iframe);
+    currentWidget = wireVolume(iframe, document.getElementById("popupVol"));
+
+    // Reveal, place the card over the clicked sleeve, then let it leap to the
+    // centre and flip over to show the details.
+    popup.hidden = false;
+    flipcard.classList.remove("is-flipped");
+    flipcard.style.transition = "none";
+    flipcard.style.transform = "none";
+    const centred = flipcard.getBoundingClientRect();
+    flipcard.style.transform = originTransform(sleeve.getBoundingClientRect(), centred);
+    void flipcard.offsetWidth;          // commit the "at the sleeve" position…
+    flipcard.style.transition = "";      // …restore the CSS transition…
+    flipcard.style.transform = "none";   // …and animate out to the centre.
+    flipcard.classList.add("is-flipped"); // the inner's 0.15s delay flips it after the leap
+
+    document.documentElement.style.overflow = "hidden";
+    document.getElementById("popupClose").focus({ preventScroll: true });
+  }
+
+  /** Transform that maps the card's `to` rect onto the `from` rect (translate + uniform scale). */
+  function originTransform(from, to) {
+    const dx = (from.left + from.width / 2) - (to.left + to.width / 2);
+    const dy = (from.top + from.height / 2) - (to.top + to.height / 2);
+    const scale = from.width / to.width;
+    return `translate(${dx}px, ${dy}px) scale(${scale})`;
+  }
+
+  /** Connect a volume slider to a player; returns the widget (or null if the API is blocked). */
+  function wireVolume(iframe, slider) {
     if (typeof SC === "undefined" || !SC.Widget) {
-      // Widget API unavailable (e.g. blocked) — hide the control; players still work.
-      slider.closest(".master-vol")?.setAttribute("hidden", "");
-      return;
+      slider.closest(".popup__vol")?.setAttribute("hidden", "");
+      return null;
     }
+    const widget = SC.Widget(iframe);
+    widget.bind(SC.Widget.Events.READY, () => widget.setVolume(Number(slider.value)));
+    return widget;
+  }
 
-    const widgets = [...document.querySelectorAll(".album iframe")].map((frame) => SC.Widget(frame));
-    const applyVolume = () => widgets.forEach((widget) => widget.setVolume(Number(slider.value)));
+  function closePopup() {
+    const popup = document.getElementById("popup");
+    const flipcard = document.getElementById("flipcard");
 
-    widgets.forEach((widget) => widget.bind(SC.Widget.Events.READY, applyVolume));
-    slider.addEventListener("input", applyVolume);
+    // Shrink the card back into the sleeve it came from, then hide it.
+    if (originSleeve) {
+      flipcard.style.transform = originTransform(originSleeve.getBoundingClientRect(), flipcard.getBoundingClientRect());
+    }
+    flipcard.style.opacity = "0";
+    document.documentElement.style.overflow = "";
+
+    window.setTimeout(() => {
+      popup.hidden = true;
+      flipcard.classList.remove("is-flipped");
+      flipcard.style.transform = "none";
+      flipcard.style.opacity = "";
+      document.getElementById("popupPlayer").replaceChildren(); // stop playback
+      currentWidget = null;
+      originSleeve = null;
+    }, 480);
+
+    if (lastFocused && typeof lastFocused.focus === "function") {
+      lastFocused.focus({ preventScroll: true });
+    }
   }
 
   /* -------------------------------------------------------
@@ -271,6 +342,7 @@
   ------------------------------------------------------- */
   function init() {
     renderAlbums();
+    setupPopup();
     buildBars();
     setupReveal();
     setupNav();

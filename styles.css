@@ -323,91 +323,136 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   .albums__list { grid-template-columns: repeat(2, 1fr); }
 }
 
-.album {
+/* Record sleeves — the resting grid shows only these */
+.sleeve {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
-}
-.album::before { /* coloured glow per album */
-  content: ""; position: absolute; inset: 0;
-  background: radial-gradient(90% 80% at 0% 0%, var(--accent), transparent 60%);
-  opacity: 0.16; transition: opacity 0.4s var(--ease);
-  pointer-events: none; z-index: 2;
-}
-.album:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
-.album:hover::before { opacity: 0.26; }
-
-/* Square cover artwork (the album image, which carries the title) */
-.album__cover {
-  position: relative;
-  margin: 0;
   aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 2px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(150deg, var(--accent), #0a0e1c 78%);
+  box-shadow: var(--shadow);
   display: grid;
   place-items: center;
-  overflow: hidden;
-  background: linear-gradient(150deg, var(--accent), #0a0e1c 78%);
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
-.album__art {
+.sleeve:hover, .sleeve:focus-visible {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent) 80%, transparent);
+  box-shadow: var(--shadow), 0 12px 34px -10px color-mix(in srgb, var(--accent) 55%, transparent);
+  outline: none;
+}
+.sleeve__art {
   position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ease);
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s var(--ease);
 }
-.album:hover .album__art { transform: scale(1.04); }
-.album__art.is-missing { display: none; } /* fall back to gradient + title until images are added */
-.album__fallback {
+.sleeve:hover .sleeve__art, .sleeve:focus-visible .sleeve__art { transform: scale(1.02); }
+.sleeve__art.is-missing { display: none; }
+.sleeve__fallback {
   font-family: var(--font);
-  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
   color: #fff; opacity: 0.92; text-align: center;
   padding: 1rem; line-height: 1.05;
 }
-.album__blurb {
-  color: var(--ink-dim); font-size: 0.92rem;
-  padding: 1rem clamp(1.1rem, 3vw, 1.5rem) 0.2rem;
+
+/* =========================================================
+   Album popup — the sleeve flips to reveal details + player
+   ========================================================= */
+.popup {
+  position: fixed; inset: 0; z-index: 1000;
+  display: grid; place-items: center;
+  padding: clamp(1rem, 4vw, 2rem);
+}
+.popup[hidden] { display: none; }
+.popup__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(4, 6, 12, 0.66);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
 
-/* SoundCloud player — tall enough to show the whole album's tracklist */
-.album__player {
-  position: relative;
-  flex: none;
-  margin: 0.8rem clamp(0.8rem, 2vw, 1rem) clamp(0.8rem, 2vw, 1rem);
-  height: 300px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: rgba(0,0,0,0.3);
+.flipcard {
+  position: relative; z-index: 1;
+  width: min(500px, 92vw, 88vh);
+  aspect-ratio: 1 / 1;
+  perspective: 1600px;
+  will-change: transform;
+  /* leap-out from the clicked sleeve (with a little pop), plus a fade on close */
+  transition: transform 0.5s cubic-bezier(0.34, 1.25, 0.5, 1), opacity 0.4s ease;
 }
-.album__player iframe { display: block; width: 100%; height: 100%; border: 0; }
+.flipcard__inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.95s var(--ease) 0.15s; /* slightly slower flip, after the leap */
+}
+.flipcard.is-flipped .flipcard__inner { transform: rotateY(180deg); }
+.flipcard__face {
+  position: absolute; inset: 0;
+  border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--line);
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+}
+.flipcard__front { background: linear-gradient(150deg, var(--accent), #0a0e1c 80%); }
+.flipcard__cover { width: 100%; height: 100%; object-fit: cover; }
+.flipcard__back {
+  transform: rotateY(180deg);
+  background: linear-gradient(180deg, #0e1426, #0a0e1c);
+  display: flex; flex-direction: column;
+  padding: clamp(1.2rem, 3.5vw, 1.8rem);
+  overflow-y: auto;
+}
 
-/* Master volume control (in the Albums section header) */
-.master-vol {
-  display: flex; align-items: center; gap: 0.7rem;
-  margin-top: 1.5rem; max-width: 380px;
-  color: var(--aqua);
+.popup__close {
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.4); color: var(--ink);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
 }
-.master-vol__label {
-  font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--ink-dim); white-space: nowrap;
+.popup__close:hover { background: rgba(0, 0, 0, 0.7); transform: rotate(90deg); }
+.popup__head {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding-right: 2.6rem; margin-bottom: 1rem;
 }
+.popup__thumb {
+  width: 60px; height: 60px; flex: none;
+  border-radius: 10px; object-fit: cover;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+.popup__heading { min-width: 0; }
+.popup__title { font-size: clamp(1.5rem, 4.2vw, 2rem); line-height: 1.1; }
+.popup__year { /* subheading */
+  margin: 0.3rem 0 0;
+  font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 600; color: var(--accent);
+}
+.popup__blurb { color: var(--ink-dim); font-size: 0.95rem; margin-bottom: 1.1rem; }
+.popup__player {
+  border-radius: 12px; overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+}
+.popup__player iframe { display: block; width: 100%; height: 300px; border: 0; }
+
+/* Volume control (tinted to the album accent) */
+.popup__vol { display: flex; align-items: center; gap: 0.7rem; margin-top: 1rem; color: var(--accent); }
 .vol__icon { flex: none; opacity: 0.9; }
 .vol__range {
   -webkit-appearance: none; appearance: none;
   flex: 1; min-width: 120px; height: 4px; border-radius: 4px; cursor: pointer;
-  background: linear-gradient(90deg, var(--aqua), var(--violet));
+  background: linear-gradient(90deg, var(--accent, var(--aqua)), color-mix(in srgb, var(--accent, var(--aqua)) 30%, transparent));
 }
 .vol__range::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
   width: 16px; height: 16px; border-radius: 50%;
-  background: #fff; border: 0; box-shadow: 0 0 10px var(--aqua); cursor: pointer;
+  background: #fff; border: 0; box-shadow: 0 0 10px var(--accent, var(--aqua)); cursor: pointer;
 }
 .vol__range::-moz-range-thumb {
   width: 16px; height: 16px; border-radius: 50%;
-  background: #fff; border: 0; box-shadow: 0 0 10px var(--aqua); cursor: pointer;
+  background: #fff; border: 0; box-shadow: 0 0 10px var(--accent, var(--aqua)); cursor: pointer;
 }
 
 /* Visually-hidden but available to screen readers */

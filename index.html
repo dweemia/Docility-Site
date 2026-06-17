@@ -101,20 +101,11 @@
         <span class="section-head__kicker">02 — The records</span>
         <h2>Albums</h2>
         <p class="section-head__sub">
-          Each album plays here through SoundCloud.
+          Tap a sleeve to flip it over for the details and player.
         </p>
-        <div class="master-vol reveal" role="group" aria-label="Master volume">
-          <svg class="vol__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path fill="currentColor" d="M4 9v6h4l5 5V4L8 9H4z"/>
-            <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
-                  d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/>
-          </svg>
-          <label class="master-vol__label" for="masterVol">Master volume</label>
-          <input id="masterVol" class="vol__range" type="range" min="0" max="100" value="80" />
-        </div>
       </div>
       <div class="albums__list" id="albumList">
-        <!-- Cards injected by main.js -->
+        <!-- Record sleeves injected by main.js -->
       </div>
     </section>
 
@@ -129,6 +120,39 @@
       </div>
     </section>
   </main>
+
+  <!-- Album popup: a record sleeve that flips to reveal the details + player -->
+  <div class="popup" id="popup" hidden>
+    <div class="popup__backdrop" id="popupBackdrop"></div>
+    <div class="flipcard" id="flipcard" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+      <div class="flipcard__inner">
+        <div class="flipcard__face flipcard__front">
+          <img class="flipcard__cover" id="popupCover" alt="" />
+        </div>
+        <div class="flipcard__face flipcard__back">
+          <button class="popup__close" id="popupClose" type="button" aria-label="Close details">&times;</button>
+          <div class="popup__head">
+            <img class="popup__thumb" id="popupThumb" alt="" />
+            <div class="popup__heading">
+              <h3 class="popup__title" id="popupTitle"></h3>
+              <p class="popup__year" id="popupYear"></p>
+            </div>
+          </div>
+          <p class="popup__blurb" id="popupBlurb"></p>
+          <div class="popup__player" id="popupPlayer"></div>
+          <label class="popup__vol">
+            <svg class="vol__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path fill="currentColor" d="M4 9v6h4l5 5V4L8 9H4z"/>
+              <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                    d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/>
+            </svg>
+            <span class="sr-only">Player volume</span>
+            <input id="popupVol" class="vol__range" type="range" min="0" max="100" value="80" aria-label="Player volume" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     <span>Docility</span>
