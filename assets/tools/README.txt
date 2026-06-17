@@ -5,16 +5,21 @@ Drop the images for the Tools page (tools.html) in this folder, using these exac
 filenames. Until a file is present, that card shows a labelled placeholder, so the
 page never looks broken.
 
-Cut-outs (transparent PNG — subject only, background removed):
+Cut-outs (transparent subject, background removed):
 
-    rode-ntg2.png          → RØDE NTG2 shotgun mic
-    zoom-h5studio.png      → Zoom H5studio recorder
-    launchkey-mk4-61.png   → Novation Launchkey Mk4 61
-    arturia-minifreak.png  → Arturia MiniFreak
+    rode.png         → RØDE NTG2 shotgun mic        (gear--diag)
+    zoom.png         → Zoom H5studio recorder        (gear--tall)
+    launchkey.webp   → Novation Launchkey Mk4 61      (gear--wide)
+    minifreak.png    → Arturia MiniFreak              (gear--wide)
 
 Screenshot (rectangular, no transparency needed):
 
-    ableton-live-12.png    → Ableton Live 12 session
+    ableton.jpeg     → Ableton Live 12 session
+
+The class in brackets shapes each item's halo to its silhouette (see
+.gear--wide / --tall / --diag in styles.css). If you swap an image for a
+differently-shaped one, change that class on the matching <figure> in tools.html.
+To replace an image, keep the same filename (or update the src in tools.html).
 
 Where to get the cut-outs
 - Manufacturer press / media-kit images often come as transparent PNGs.

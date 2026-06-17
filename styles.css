@@ -432,23 +432,31 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   aspect-ratio: 1 / 1;
   margin-bottom: 1.1rem;
 }
-.gear__media::before { /* colourful halo behind the cut-out */
+.gear__media::before { /* colourful halo behind the cut-out, tinted per item */
   content: "";
-  position: absolute; inset: 12%;
+  position: absolute; inset: 16%;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 45%, var(--sky), var(--violet) 50%, transparent 72%);
-  filter: blur(34px);
-  opacity: 0.5;
+  background: radial-gradient(ellipse, var(--accent, var(--sky)), transparent 70%);
+  filter: blur(36px);
+  opacity: 0.55;
   z-index: 0;
   animation: halo 7s ease-in-out infinite;
 }
+/* Shape the halo to the silhouette: a flat ellipse behind wide kit (keyboard,
+   synth), an upright one behind tall kit (recorder), a roomy one behind the
+   diagonal mic — so the glow hugs the object instead of looming around it. */
+.gear--wide .gear__media::before { inset: 30% 3%; }
+.gear--tall .gear__media::before { inset: 7% 25%; }
+.gear--diag .gear__media::before { inset: 19%; }
+
 .gear__art {
   position: relative; z-index: 1;
-  max-width: 80%; max-height: 100%; width: auto; height: auto;
+  max-width: 88%; max-height: 100%; width: auto; height: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
   animation: float 6s var(--ease) infinite;
 }
+.gear--wide .gear__art { max-width: 100%; } /* let wide kit fill the width */
 .gear__art.is-missing { display: none; }
 .gear__fallback {
   display: none; /* shown only when the cut-out is missing */
