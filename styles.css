@@ -364,11 +364,8 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 /* =========================================================
-   Tools / gear page
+   Tools / gear
    ========================================================= */
-/* Clear the fixed nav on this standalone page */
-.tools { padding-top: clamp(7rem, 14vw, 10rem); }
-
 /* DAW screenshot, framed like an application window and tilted slightly */
 .gear-feature {
   max-width: var(--maxw);
