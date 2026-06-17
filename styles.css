@@ -415,17 +415,25 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .gear-feature__cap .gear__note { margin-top: 0.7rem; }
 
 /* Cut-out hardware grid — floating images with a colour halo (like the portrait) */
+/* Flex (not grid) so an odd count wraps to a centred final row: 1 / 2 / 3 per
+   row as the viewport grows — e.g. five items become a row of 3 then 2. */
 .gear-grid {
+  --gear-gap: clamp(1.2rem, 3vw, 2.5rem);
   max-width: var(--maxw);
   margin: 0 auto;
-  display: grid;
-  gap: clamp(1.5rem, 5vw, 3rem) clamp(1.2rem, 3vw, 2.5rem);
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.5rem, 5vw, 3rem) var(--gear-gap);
 }
-@media (min-width: 560px) { .gear-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 900px) { .gear-grid { grid-template-columns: repeat(4, 1fr); } }
 
-.gear { margin: 0; text-align: center; }
+.gear { margin: 0; text-align: center; flex: 0 1 100%; max-width: 380px; }
+@media (min-width: 560px) {
+  .gear { flex-basis: calc((100% - var(--gear-gap)) / 2); }
+}
+@media (min-width: 900px) {
+  .gear { flex-basis: calc((100% - 2 * var(--gear-gap)) / 3); max-width: none; }
+}
 .gear__media {
   position: relative;
   display: grid; place-items: center;
