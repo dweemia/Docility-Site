@@ -364,6 +364,123 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 /* =========================================================
+   Tools / gear
+   ========================================================= */
+/* DAW screenshot, framed like an application window and tilted slightly */
+.gear-feature {
+  max-width: var(--maxw);
+  margin: 0 auto clamp(3rem, 7vw, 5rem);
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 880px) {
+  .gear-feature { grid-template-columns: 1.4fr 1fr; }
+}
+.gear-feature__frame {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--violet) 22%, #0a0e1c), #0a0e1c 80%);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+  transform: perspective(1400px) rotateY(4deg) rotateX(2deg);
+  transition: transform 0.5s var(--ease);
+}
+.gear-feature:hover .gear-feature__frame { transform: perspective(1400px) rotateY(0deg) rotateX(0deg); }
+.gear-feature__bar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+  display: flex; gap: 7px; align-items: center;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.gear-feature__bar span { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+.gear-feature__shot { width: 100%; height: auto; display: block; }
+.gear-feature__shot.is-missing { display: none; }
+.gear-feature__fallback {
+  display: none; /* shown only when the screenshot is missing */
+  font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--ink-dim);
+  padding: clamp(2.5rem, 8vw, 5rem) 1rem; text-align: center;
+}
+.gear-feature__shot.is-missing ~ .gear-feature__fallback { display: block; }
+.gear-feature__cap .gear__name { font-size: clamp(1.6rem, 4vw, 2.3rem); margin-top: 0.3rem; }
+.gear-feature__cap .gear__note { margin-top: 0.7rem; }
+
+/* Cut-out hardware grid — floating images with a colour halo (like the portrait) */
+/* Flex (not grid) so an odd count wraps to a centred final row: 1 / 2 / 3 per
+   row as the viewport grows — e.g. five items become a row of 3 then 2. */
+.gear-grid {
+  --gear-gap: clamp(1.2rem, 3vw, 2.5rem);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.5rem, 5vw, 3rem) var(--gear-gap);
+}
+
+.gear { margin: 0; text-align: center; flex: 0 1 100%; max-width: 380px; }
+@media (min-width: 560px) {
+  .gear { flex-basis: calc((100% - var(--gear-gap)) / 2); }
+}
+@media (min-width: 900px) {
+  .gear { flex-basis: calc((100% - 2 * var(--gear-gap)) / 3); max-width: none; }
+}
+.gear__media {
+  position: relative;
+  display: grid; place-items: center;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 1.1rem;
+}
+.gear__media::before { /* colourful halo behind the cut-out, tinted per item */
+  content: "";
+  position: absolute; inset: 16%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--accent, var(--sky)), transparent 70%);
+  filter: blur(36px);
+  opacity: 0.55;
+  z-index: 0;
+  animation: halo 7s ease-in-out infinite;
+}
+/* Shape the halo to the silhouette: a flat ellipse behind wide kit (keyboard,
+   synth), an upright one behind tall kit (recorder), a roomy one behind the
+   diagonal mic — so the glow hugs the object instead of looming around it. */
+.gear--wide .gear__media::before { inset: 30% 3%; }
+.gear--tall .gear__media::before { inset: 7% 25%; }
+.gear--diag .gear__media::before { inset: 19%; }
+
+.gear__art {
+  position: relative; z-index: 1;
+  max-width: 88%; max-height: 100%; width: auto; height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+  animation: float 6s var(--ease) infinite;
+}
+.gear--wide .gear__art { max-width: 100%; } /* let wide kit fill the width */
+.gear__art.is-missing { display: none; }
+.gear__fallback {
+  display: none; /* shown only when the cut-out is missing */
+  z-index: 1;
+  font-family: var(--font);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  color: #fff; opacity: 0.85; line-height: 1.1;
+  padding: 0 0.5rem;
+}
+.gear__art.is-missing ~ .gear__fallback { display: block; }
+.gear__cat {
+  display: block;
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--aqua); margin-bottom: 0.3rem;
+}
+.gear__name { font-size: 1.2rem; line-height: 1.2; }
+.gear__note { color: var(--ink-dim); font-size: 0.92rem; margin-top: 0.5rem; }
+
+/* =========================================================
    Album popup — the sleeve flips to reveal details + player
    ========================================================= */
 .popup {

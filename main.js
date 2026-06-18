@@ -268,6 +268,19 @@
   }
 
   /* -------------------------------------------------------
+     Tools page: reveal a labelled placeholder if a gear image
+     is missing (mirrors the album-cover fallback).
+  ------------------------------------------------------- */
+  function setupGearFallbacks() {
+    const images = document.querySelectorAll(".gear__art, .gear-feature__shot");
+    images.forEach((img) => {
+      const flag = () => img.classList.add("is-missing");
+      if (img.complete && img.naturalWidth === 0) flag(); // already failed before this ran
+      img.addEventListener("error", flag);
+    });
+  }
+
+  /* -------------------------------------------------------
      Hero equaliser bars
   ------------------------------------------------------- */
   function buildBars() {
@@ -377,6 +390,7 @@
   function init() {
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
+    setupGearFallbacks();
     setupPopup();
     buildBars();
     setupReveal();
