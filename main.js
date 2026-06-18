@@ -61,6 +61,58 @@
   ];
 
   /* -------------------------------------------------------
+     What's on my turntable  ← 25 things currently on my mind.
+     Each tile shows the artwork and links straight out to where
+     you can listen. To edit one:
+       title:  album / track / artist name (shown on hover)
+       artist: the artist (omit for an artist-only entry)
+       art:    a square thumbnail in assets/turntable/ (≤300px webp)
+       url:    the page to open in a new tab (Spotify, Bandcamp, …)
+     Tiles with no art fall back to a coloured gradient + title.
+  ------------------------------------------------------- */
+  const TURNTABLE = [
+    { title: "Title 1",  artist: "Artist", art: "assets/turntable/01.webp", url: "#" },
+    { title: "Title 2",  artist: "Artist", art: "assets/turntable/02.webp", url: "#" },
+    { title: "Title 3",  artist: "Artist", art: "assets/turntable/03.webp", url: "#" },
+    { title: "Title 4",  artist: "Artist", art: "assets/turntable/04.webp", url: "#" },
+    { title: "Title 5",  artist: "Artist", art: "assets/turntable/05.webp", url: "#" },
+    { title: "Title 6",  artist: "Artist", art: "assets/turntable/06.webp", url: "#" },
+    { title: "Title 7",  artist: "Artist", art: "assets/turntable/07.webp", url: "#" },
+    { title: "Title 8",  artist: "Artist", art: "assets/turntable/08.webp", url: "#" },
+    { title: "Title 9",  artist: "Artist", art: "assets/turntable/09.webp", url: "#" },
+    { title: "Title 10", artist: "Artist", art: "assets/turntable/10.webp", url: "#" },
+    { title: "Title 11", artist: "Artist", art: "assets/turntable/11.webp", url: "#" },
+    { title: "Title 12", artist: "Artist", art: "assets/turntable/12.webp", url: "#" },
+    { title: "Title 13", artist: "Artist", art: "assets/turntable/13.webp", url: "#" },
+    { title: "Title 14", artist: "Artist", art: "assets/turntable/14.webp", url: "#" },
+    { title: "Title 15", artist: "Artist", art: "assets/turntable/15.webp", url: "#" },
+    { title: "Title 16", artist: "Artist", art: "assets/turntable/16.webp", url: "#" },
+    { title: "Title 17", artist: "Artist", art: "assets/turntable/17.webp", url: "#" },
+    { title: "Title 18", artist: "Artist", art: "assets/turntable/18.webp", url: "#" },
+    { title: "Title 19", artist: "Artist", art: "assets/turntable/19.webp", url: "#" },
+    { title: "Title 20", artist: "Artist", art: "assets/turntable/20.webp", url: "#" },
+    { title: "Title 21", artist: "Artist", art: "assets/turntable/21.webp", url: "#" },
+    { title: "Title 22", artist: "Artist", art: "assets/turntable/22.webp", url: "#" },
+    { title: "Title 23", artist: "Artist", art: "assets/turntable/23.webp", url: "#" },
+    { title: "Title 24", artist: "Artist", art: "assets/turntable/24.webp", url: "#" },
+    { title: "Title 25", artist: "Artist", art: "assets/turntable/25.webp", url: "#" },
+  ];
+
+  /* -------------------------------------------------------
+     The scenery filmstrip  ← photos behind the music and the
+     source of the album art. Drop wide (landscape) photos in
+     assets/gallery/ as ~1600px webp and give each a caption.
+  ------------------------------------------------------- */
+  const GALLERY = [
+    { src: "assets/gallery/01.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+    { src: "assets/gallery/02.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+    { src: "assets/gallery/03.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+    { src: "assets/gallery/04.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+    { src: "assets/gallery/05.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+    { src: "assets/gallery/06.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+  ];
+
+  /* -------------------------------------------------------
      Helpers
   ------------------------------------------------------- */
 
@@ -131,6 +183,69 @@
     });
 
     list.append(fragment);
+  }
+
+  /** Render the 5×5 "on my turntable" grid — numbered tiles that link out. */
+  function renderTurntable() {
+    const grid = document.getElementById("ttGrid");
+    if (!grid) return;
+
+    const palette = Object.values(ACCENTS);
+    const fragment = document.createDocumentFragment();
+
+    TURNTABLE.forEach((item, i) => {
+      const rank = String(i + 1).padStart(2, "0");
+      const label = item.artist ? `${item.title} by ${item.artist}` : item.title;
+
+      const art = el("img", { class: "tt__art", src: item.art, alt: "", loading: "lazy" });
+      art.addEventListener("error", () => art.classList.add("is-missing"));
+
+      const tile = el(
+        "a",
+        {
+          class: "tt",
+          href: item.url || "#",
+          target: "_blank",
+          rel: "noopener",
+          "aria-label": `${rank} — ${label}`,
+        },
+        el("span", { class: "tt__num", "aria-hidden": "true", text: rank }),
+        art,
+        el("span", { class: "tt__fallback", "aria-hidden": "true", text: item.title }),
+        el(
+          "span",
+          { class: "tt__meta", "aria-hidden": "true" },
+          el("span", { class: "tt__title", text: item.title }),
+          item.artist ? el("span", { class: "tt__artist", text: item.artist }) : null
+        )
+      );
+      tile.style.setProperty("--accent", palette[i % palette.length]);
+      fragment.append(tile);
+    });
+
+    grid.append(fragment);
+  }
+
+  /** Render the scenery filmstrip — a full-bleed horizontal scroller. */
+  function renderGallery() {
+    const strip = document.getElementById("filmstrip");
+    if (!strip) return;
+
+    const fragment = document.createDocumentFragment();
+
+    GALLERY.forEach((photo) => {
+      const img = el("img", { class: "frame__img", src: photo.src, alt: photo.alt || "", loading: "lazy" });
+      const frame = el(
+        "figure",
+        { class: "frame" },
+        img,
+        photo.caption ? el("figcaption", { class: "frame__cap", text: photo.caption }) : null
+      );
+      img.addEventListener("error", () => frame.classList.add("is-missing"));
+      fragment.append(frame);
+    });
+
+    strip.append(fragment);
   }
 
   function setupPopup() {
@@ -390,6 +505,8 @@
   function init() {
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
+    renderTurntable();
+    renderGallery();
     setupGearFallbacks();
     setupPopup();
     buildBars();

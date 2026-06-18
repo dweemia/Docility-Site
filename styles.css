@@ -156,7 +156,7 @@ h1, h2, h3 { font-family: var(--font); font-weight: 500; line-height: 1.05; }
   animation: spin 8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.nav__links { display: flex; gap: clamp(0.9rem, 2.5vw, 2rem); font-size: 0.95rem; }
+.nav__links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem clamp(0.8rem, 2.3vw, 1.9rem); font-size: 0.95rem; }
 .nav__links a { position: relative; color: var(--ink-dim); transition: color 0.25s; }
 .nav__links a::after {
   content: ""; position: absolute; left: 0; bottom: -4px;
@@ -412,6 +412,17 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .gear-feature__cap .gear__note { margin-top: 0.7rem; }
 
 /* Cut-out hardware grid — floating images with a colour halo (like the portrait) */
+/* Each role lives in its own labelled group (a row of 3, then a row of 2). */
+.gear-group { max-width: var(--maxw); margin: 0 auto; }
+.gear-group + .gear-group { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.gear-group__title {
+  text-align: center;
+  font-size: 0.9rem; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: clamp(1.4rem, 4vw, 2.4rem);
+}
+
 /* Flex (not grid) so an odd count wraps to a centred final row: 1 / 2 / 3 per
    row as the viewport grows — e.g. five items become a row of 3 then 2. */
 .gear-grid {
@@ -479,6 +490,119 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 .gear__name { font-size: 1.2rem; line-height: 1.2; }
 .gear__note { color: var(--ink-dim); font-size: 0.92rem; margin-top: 0.5rem; }
+
+/* =========================================================
+   On my turntable — 5×5 numbered grid of link-out covers
+   ========================================================= */
+.tt-grid {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(0.6rem, 1.6vw, 1rem);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 560px) { .tt-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 860px) { .tt-grid { grid-template-columns: repeat(5, 1fr); } }
+
+.tt {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--accent, var(--sky)), #0a0e1c 80%);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  isolation: isolate;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.tt:hover, .tt:focus-visible {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: var(--shadow), 0 10px 28px -10px color-mix(in srgb, var(--accent) 55%, transparent);
+  outline: none;
+}
+.tt__art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s var(--ease);
+}
+.tt:hover .tt__art, .tt:focus-visible .tt__art { transform: scale(1.05); }
+.tt__art.is-missing { display: none; }
+.tt__fallback {
+  position: absolute; inset: 0;
+  display: none; place-items: center;
+  padding: 0.6rem; text-align: center;
+  font-size: clamp(0.8rem, 2.4vw, 1rem); color: #fff; opacity: 0.92; line-height: 1.15;
+}
+.tt__art.is-missing ~ .tt__fallback { display: grid; }
+.tt__num {
+  position: absolute; top: 6px; left: 9px; z-index: 2;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.65);
+}
+.tt__meta {
+  position: absolute; inset: auto 0 0 0; z-index: 2;
+  display: flex; flex-direction: column; gap: 0.1rem;
+  padding: 1.6rem 0.7rem 0.6rem;
+  background: linear-gradient(to top, rgba(4, 6, 12, 0.92), transparent);
+  transform: translateY(101%);
+  transition: transform 0.35s var(--ease);
+}
+.tt:hover .tt__meta, .tt:focus-visible .tt__meta { transform: translateY(0); }
+.tt__title { font-size: 0.82rem; font-weight: 500; line-height: 1.15; color: var(--ink); }
+.tt__artist { font-size: 0.72rem; color: var(--ink-dim); }
+/* Touch devices can't hover — keep the caption visible instead. */
+@media (hover: none) {
+  .tt__meta { transform: none; background: linear-gradient(to top, rgba(4, 6, 12, 0.9), transparent 92%); }
+}
+
+/* =========================================================
+   The scenery — full-bleed horizontal filmstrip
+   ========================================================= */
+.filmstrip {
+  display: flex;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  /* break out of the section padding to span the full viewport width */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding: 0.5rem clamp(1.1rem, 5vw, 3rem) 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--sky) 50%, transparent) transparent;
+}
+.frame {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(240px, 70vw, 460px);
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  scroll-snap-align: center;
+  background: #0a0e1c;
+}
+.frame__img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.04);
+  transition: transform 6s var(--ease);
+}
+.frame:hover .frame__img { transform: scale(1.12); } /* gentle ken-burns drift */
+.frame__cap {
+  position: absolute; inset: auto 0 0 0;
+  padding: 1.6rem 1rem 0.8rem;
+  font-size: 0.85rem; color: var(--ink);
+  background: linear-gradient(to top, rgba(4, 6, 12, 0.88), transparent);
+}
+.frame.is-missing { display: grid; place-items: center; }
+.frame.is-missing .frame__img, .frame.is-missing .frame__cap { display: none; }
+.frame.is-missing::after {
+  content: "Add a photo to assets/gallery/";
+  color: var(--ink-dim); font-size: 0.85rem; padding: 1rem; text-align: center;
+}
 
 /* =========================================================
    Album popup — the sleeve flips to reveal details + player
