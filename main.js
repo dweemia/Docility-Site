@@ -99,17 +99,40 @@
   ];
 
   /* -------------------------------------------------------
-     The scenery filmstrip  ← photos behind the music and the
-     source of the album art. Drop wide (landscape) photos in
-     assets/gallery/ as ~1600px webp and give each a caption.
+     The scenery gallery  ← photos behind the music and the
+     source of the album art. Drop photos (any orientation) in
+     assets/gallery/ as ~1600px webp; run tools/optimize-photos.py.
+     Fill in `alt` (accessibility) and `caption` (location + the
+     track/album it inspired). See _raw/_map.txt for which number
+     is which source photo.
   ------------------------------------------------------- */
   const GALLERY = [
-    { src: "assets/gallery/01.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
-    { src: "assets/gallery/02.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
-    { src: "assets/gallery/03.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
-    { src: "assets/gallery/04.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
-    { src: "assets/gallery/05.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
-    { src: "assets/gallery/06.webp", alt: "Describe the scene", caption: "Where it was taken — and what it inspired" },
+    { src: "assets/gallery/01.webp", alt: "", caption: "" },
+    { src: "assets/gallery/02.webp", alt: "", caption: "" },
+    { src: "assets/gallery/03.webp", alt: "", caption: "" },
+    { src: "assets/gallery/04.webp", alt: "", caption: "" },
+    { src: "assets/gallery/05.webp", alt: "", caption: "" },
+    { src: "assets/gallery/06.webp", alt: "", caption: "" },
+    { src: "assets/gallery/07.webp", alt: "", caption: "" },
+    { src: "assets/gallery/08.webp", alt: "", caption: "" },
+    { src: "assets/gallery/09.webp", alt: "", caption: "" },
+    { src: "assets/gallery/10.webp", alt: "", caption: "" },
+    { src: "assets/gallery/11.webp", alt: "", caption: "" },
+    { src: "assets/gallery/12.webp", alt: "", caption: "" },
+    { src: "assets/gallery/13.webp", alt: "", caption: "" },
+    { src: "assets/gallery/14.webp", alt: "", caption: "" },
+    { src: "assets/gallery/15.webp", alt: "", caption: "" },
+    { src: "assets/gallery/16.webp", alt: "", caption: "" },
+    { src: "assets/gallery/17.webp", alt: "", caption: "" },
+    { src: "assets/gallery/18.webp", alt: "", caption: "" },
+    { src: "assets/gallery/19.webp", alt: "", caption: "" },
+    { src: "assets/gallery/20.webp", alt: "", caption: "" },
+    { src: "assets/gallery/21.webp", alt: "", caption: "" },
+    { src: "assets/gallery/22.webp", alt: "", caption: "" },
+    { src: "assets/gallery/23.webp", alt: "", caption: "" },
+    { src: "assets/gallery/24.webp", alt: "", caption: "" },
+    { src: "assets/gallery/25.webp", alt: "", caption: "" },
+    { src: "assets/gallery/26.webp", alt: "", caption: "" },
   ];
 
   /* -------------------------------------------------------
@@ -226,26 +249,92 @@
     grid.append(fragment);
   }
 
-  /** Render the scenery filmstrip — a full-bleed horizontal scroller. */
+  /* -------------------------------------------------------
+  /** Render the scenery gallery — an aspect-aware masonry of photos that
+      open a full-screen lightbox. Portrait, landscape and panorama all keep
+      their natural shape (no cropping). */
   function renderGallery() {
-    const strip = document.getElementById("filmstrip");
-    if (!strip) return;
+    const grid = document.getElementById("galleryGrid");
+    if (!grid) return;
 
     const fragment = document.createDocumentFragment();
 
-    GALLERY.forEach((photo) => {
-      const img = el("img", { class: "frame__img", src: photo.src, alt: photo.alt || "", loading: "lazy" });
-      const frame = el(
-        "figure",
-        { class: "frame" },
+    GALLERY.forEach((photo, i) => {
+      const img = el("img", { class: "shot__img", src: photo.src, alt: photo.alt || "", loading: "lazy" });
+      const shot = el(
+        "button",
+        {
+          class: "shot",
+          type: "button",
+          "aria-label": photo.caption || photo.alt || `Scenery photo ${i + 1}`,
+        },
         img,
-        photo.caption ? el("figcaption", { class: "frame__cap", text: photo.caption }) : null
+        photo.caption ? el("span", { class: "shot__cap", "aria-hidden": "true", text: photo.caption }) : null
       );
-      img.addEventListener("error", () => frame.classList.add("is-missing"));
-      fragment.append(frame);
+      img.addEventListener("error", () => shot.classList.add("is-missing"));
+      shot.addEventListener("click", () => openLightbox(i));
+      fragment.append(shot);
     });
 
-    strip.append(fragment);
+    grid.append(fragment);
+  }
+
+  /* -------------------------------------------------------
+     Lightbox — full-screen photo viewer with prev/next
+  ------------------------------------------------------- */
+  let lightboxIndex = 0;
+  let lightboxOpener = null; // element to restore focus to on close
+
+  function setupLightbox() {
+    const box = document.getElementById("lightbox");
+    if (!box) return;
+
+    document.getElementById("lbClose").addEventListener("click", closeLightbox);
+    document.getElementById("lbBackdrop").addEventListener("click", closeLightbox);
+    document.getElementById("lbPrev").addEventListener("click", () => stepLightbox(-1));
+    document.getElementById("lbNext").addEventListener("click", () => stepLightbox(1));
+
+    document.addEventListener("keydown", (event) => {
+      if (box.hidden) return;
+      if (event.key === "Escape") closeLightbox();
+      else if (event.key === "ArrowLeft") stepLightbox(-1);
+      else if (event.key === "ArrowRight") stepLightbox(1);
+      else if (event.key === "Tab") trapFocus(event, box);
+    });
+  }
+
+  function openLightbox(index) {
+    const box = document.getElementById("lightbox");
+    if (!box) return;
+    lightboxOpener = document.activeElement;
+    showShot(index);
+    box.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    document.getElementById("lbClose").focus({ preventScroll: true });
+  }
+
+  function stepLightbox(dir) {
+    showShot((lightboxIndex + dir + GALLERY.length) % GALLERY.length);
+  }
+
+  function showShot(index) {
+    lightboxIndex = index;
+    const photo = GALLERY[index];
+    const img = document.getElementById("lbImg");
+    img.src = photo.src;
+    img.alt = photo.alt || "";
+    document.getElementById("lbCap").textContent = photo.caption || "";
+    document.getElementById("lbCount").textContent = `${index + 1} / ${GALLERY.length}`;
+  }
+
+  function closeLightbox() {
+    const box = document.getElementById("lightbox");
+    box.hidden = true;
+    document.documentElement.style.overflow = "";
+    document.getElementById("lbImg").src = "";
+    if (lightboxOpener && typeof lightboxOpener.focus === "function") {
+      lightboxOpener.focus({ preventScroll: true });
+    }
   }
 
   function setupPopup() {
@@ -509,6 +598,7 @@
     renderGallery();
     setupGearFallbacks();
     setupPopup();
+    setupLightbox();
     buildBars();
     setupReveal();
     setupNav();
