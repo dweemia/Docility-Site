@@ -677,9 +677,57 @@
   }
 
   /* -------------------------------------------------------
+     Colourful scroll progress bar across the top
+  ------------------------------------------------------- */
+  function setupScrollProgress() {
+    const bar = document.getElementById("progress");
+    if (!bar) return;
+    const root = document.documentElement;
+    let ticking = false;
+    const update = () => {
+      const max = root.scrollHeight - root.clientHeight;
+      const ratio = max > 0 ? Math.min(1, root.scrollTop / max) : 0;
+      bar.style.transform = `scaleX(${ratio})`;
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+  }
+
+  /* -------------------------------------------------------
+     Soft colour glow that follows the pointer. Mouse-only,
+     and disabled entirely for reduced-motion visitors.
+  ------------------------------------------------------- */
+  function setupSpotlight() {
+    const glow = document.getElementById("spotlight");
+    if (!glow) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    let x = 0, y = 0, raf = null;
+    const apply = () => {
+      glow.style.setProperty("--mx", `${x}px`);
+      glow.style.setProperty("--my", `${y}px`);
+      raf = null;
+    };
+    window.addEventListener("pointermove", (event) => {
+      x = event.clientX; y = event.clientY;
+      glow.classList.add("is-on");
+      if (raf == null) raf = requestAnimationFrame(apply);
+    }, { passive: true });
+    document.addEventListener("pointerleave", () => glow.classList.remove("is-on"));
+  }
+
+  /* -------------------------------------------------------
      Init (the script is deferred, so the DOM is ready)
   ------------------------------------------------------- */
   function init() {
+    setupScrollProgress();
+    setupSpotlight();
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
     renderTurntable();

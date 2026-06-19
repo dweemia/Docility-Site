@@ -881,6 +881,83 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 /* =========================================================
+   Design flourishes — colourful, a little less minimal
+   ========================================================= */
+
+/* Scroll progress bar across the very top of the viewport */
+.progress {
+  position: fixed; top: 0; left: 0; z-index: 60;
+  width: 100%; height: 3px;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--sky) 60%, transparent);
+  will-change: transform;
+}
+
+/* Soft colour glow that trails the pointer (enabled via JS on fine pointers) */
+.spotlight {
+  position: fixed; top: 0; left: 0; z-index: -2;
+  width: 56vmax; height: 56vmax; border-radius: 50%;
+  pointer-events: none; opacity: 0;
+  background: radial-gradient(circle, color-mix(in srgb, var(--sky) 55%, transparent), transparent 60%);
+  mix-blend-mode: screen;
+  filter: blur(50px);
+  transform: translate(calc(var(--mx, 50vw) - 50%), calc(var(--my, 50vh) - 50%));
+  transition: opacity 0.6s ease;
+}
+.spotlight.is-on { opacity: 0.45; }
+
+/* Gradient accent bar beneath every section heading */
+.section-head h2 { position: relative; }
+.section-head h2::after {
+  content: ""; display: block;
+  width: 58px; height: 4px; margin-top: 0.9rem; border-radius: 4px;
+  background: linear-gradient(90deg, var(--aqua), var(--sky), var(--violet));
+  background-size: 200% 100%;
+  animation: hue 8s ease infinite;
+}
+
+/* Animated colour ring that lights up on card hover/focus */
+.sleeve::after, .tt::after, .shot::after {
+  content: ""; position: absolute; inset: 0; z-index: 3;
+  border-radius: inherit;
+  padding: 1.6px;                 /* ring thickness */
+  background: conic-gradient(from 180deg, var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;     mask-composite: exclude;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.sleeve:hover::after, .sleeve:focus-visible::after,
+.tt:hover::after,     .tt:focus-visible::after,
+.shot:hover::after,   .shot:focus-visible::after { opacity: 1; }
+
+/* Spinning colour-wheel glow behind the hero title */
+.hero__halo {
+  position: absolute; top: 44%; left: 50%; z-index: 0;
+  width: min(74vw, 640px); aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+  filter: blur(72px); opacity: 0.26;
+  pointer-events: none;
+  animation: spin 30s linear infinite;
+}
+.hero__inner, .hero__wave, .hero__scroll { position: relative; z-index: 1; }
+
+/* Textured backdrop — a faint two-tone dot weave over the colour wash */
+.texture {
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none; opacity: 0.6;
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--sky) 10%, transparent) 1px, transparent 1.6px),
+    radial-gradient(color-mix(in srgb, var(--violet) 8%, transparent) 1px, transparent 1.6px);
+  background-position: 0 0, 13px 13px;
+  background-size: 26px 26px, 26px 26px;
+}
+
+/* =========================================================
    Scroll reveal
    ========================================================= */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); transition-delay: var(--delay, 0s); }
