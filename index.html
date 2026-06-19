@@ -131,8 +131,12 @@
           Music that is currently inspiring me.
         </p>
       </div>
-      <div class="tt-grid reveal" id="ttGrid">
-        <!-- Numbered tiles injected by main.js -->
+      <div class="tt-carousel reveal" id="ttCarousel">
+        <button class="tt-carousel__nav tt-carousel__nav--prev" id="ttPrev" type="button" aria-label="Previous album">&#8249;</button>
+        <div class="tt-carousel__stage" id="ttGrid" aria-live="polite">
+          <!-- Rotating cover cards injected by main.js -->
+        </div>
+        <button class="tt-carousel__nav tt-carousel__nav--next" id="ttNext" type="button" aria-label="Next album">&#8250;</button>
       </div>
     </section>
 
