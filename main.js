@@ -61,6 +61,59 @@
   ];
 
   /* -------------------------------------------------------
+     What's on my turntable  ← 25 things currently on my mind.
+     Each tile shows the artwork and links straight out to where
+     you can listen. To edit one:
+       title:  album / track / artist name (shown on hover)
+       artist: the artist (omit for an artist-only entry)
+       art:    a square thumbnail in assets/turntable/ (≤300px webp)
+       url:    the page to open in a new tab (Spotify, Bandcamp, …)
+     Tiles with no art fall back to a coloured gradient + title.
+  ------------------------------------------------------- */
+  /* The "On my turntable" grid is data-driven from a Discogs List.
+     Curate the list on Discogs, then run  python tools/build-turntable.py
+     to cache covers + metadata into assets/turntable/turntable.json, which is
+     loaded at runtime below. Nothing here to edit by hand. */
+  let TURNTABLE = []; // populated by renderTurntable() from turntable.json
+
+  /* -------------------------------------------------------
+     The scenery gallery  ← photos behind the music and the
+     source of the album art. Drop photos (any orientation) in
+     assets/gallery/ as ~1600px webp; run tools/optimize-photos.py.
+     Fill in `alt` (accessibility) and `caption` (location + the
+     track/album it inspired). See _raw/_map.txt for which number
+     is which source photo.
+  ------------------------------------------------------- */
+  const GALLERY = [
+    { src: "assets/gallery/01.webp", alt: "", caption: "" },
+    { src: "assets/gallery/02.webp", alt: "", caption: "" },
+    { src: "assets/gallery/03.webp", alt: "", caption: "" },
+    { src: "assets/gallery/04.webp", alt: "", caption: "" },
+    { src: "assets/gallery/05.webp", alt: "", caption: "" },
+    { src: "assets/gallery/06.webp", alt: "", caption: "" },
+    { src: "assets/gallery/07.webp", alt: "", caption: "" },
+    { src: "assets/gallery/08.webp", alt: "", caption: "" },
+    { src: "assets/gallery/09.webp", alt: "", caption: "" },
+    { src: "assets/gallery/10.webp", alt: "", caption: "" },
+    { src: "assets/gallery/11.webp", alt: "", caption: "" },
+    { src: "assets/gallery/12.webp", alt: "", caption: "" },
+    { src: "assets/gallery/13.webp", alt: "", caption: "" },
+    { src: "assets/gallery/14.webp", alt: "", caption: "" },
+    { src: "assets/gallery/15.webp", alt: "", caption: "" },
+    { src: "assets/gallery/16.webp", alt: "", caption: "" },
+    { src: "assets/gallery/17.webp", alt: "", caption: "" },
+    { src: "assets/gallery/18.webp", alt: "", caption: "" },
+    { src: "assets/gallery/19.webp", alt: "", caption: "" },
+    { src: "assets/gallery/20.webp", alt: "", caption: "" },
+    { src: "assets/gallery/21.webp", alt: "", caption: "" },
+    { src: "assets/gallery/22.webp", alt: "", caption: "" },
+    { src: "assets/gallery/23.webp", alt: "", caption: "" },
+    { src: "assets/gallery/24.webp", alt: "", caption: "" },
+    { src: "assets/gallery/25.webp", alt: "", caption: "" },
+    { src: "assets/gallery/26.webp", alt: "", caption: "" },
+  ];
+
+  /* -------------------------------------------------------
      Helpers
   ------------------------------------------------------- */
 
@@ -131,6 +184,245 @@
     });
 
     list.append(fragment);
+  }
+
+  /** Render the "on my turntable" grid — numbered tiles that open a popup.
+      Data comes from assets/turntable/turntable.json (built from a Discogs List). */
+  async function renderTurntable() {
+    const grid = document.getElementById("ttGrid");
+    if (!grid) return;
+
+    try {
+      const res = await fetch("assets/turntable/turntable.json", { cache: "no-cache" });
+      if (!res.ok) throw new Error(res.status);
+      TURNTABLE = await res.json();
+    } catch {
+      grid.closest(".turntable")?.classList.add("is-empty");
+      return; // section quietly collapses until the list is built
+    }
+
+    const palette = Object.values(ACCENTS);
+    const fragment = document.createDocumentFragment();
+
+    TURNTABLE.forEach((item, i) => {
+      const rank = String(i + 1).padStart(2, "0");
+      const label = item.artist ? `${item.title} by ${item.artist}` : item.title;
+
+      const art = el("img", { class: "tt__art", src: item.art || "", alt: "", loading: "lazy" });
+      if (!item.art) art.classList.add("is-missing");
+      art.addEventListener("error", () => art.classList.add("is-missing"));
+
+      const tile = el(
+        "button",
+        { class: "tt", type: "button", "aria-label": `${rank} — ${label} — open details` },
+        el("span", { class: "tt__num", "aria-hidden": "true", text: rank }),
+        art,
+        el("span", { class: "tt__fallback", "aria-hidden": "true", text: item.title }),
+        el(
+          "span",
+          { class: "tt__meta", "aria-hidden": "true" },
+          el("span", { class: "tt__title", text: item.title }),
+          item.artist ? el("span", { class: "tt__artist", text: item.artist }) : null
+        )
+      );
+      tile.style.setProperty("--accent", palette[i % palette.length]);
+      tile.addEventListener("click", () => openTurntable(i, tile));
+      fragment.append(tile);
+    });
+
+    grid.append(fragment);
+  }
+
+  /* -------------------------------------------------------
+     Turntable popup — Discogs info + embedded YouTube player
+  ------------------------------------------------------- */
+  let ttOpener = null;
+
+  function ytEmbed(id, autoplay) {
+    const p = new URLSearchParams({ rel: "0", modestbranding: "1", autoplay: autoplay ? "1" : "0" });
+    return `https://www.youtube.com/embed/${id}?${p}`;
+  }
+
+  function setupTurntablePopup() {
+    const pop = document.getElementById("ttPopup");
+    if (!pop) return;
+    document.getElementById("ttClose").addEventListener("click", closeTurntable);
+    document.getElementById("ttBackdrop").addEventListener("click", closeTurntable);
+    document.addEventListener("keydown", (event) => {
+      if (pop.hidden) return;
+      if (event.key === "Escape") closeTurntable();
+      else if (event.key === "Tab") trapFocus(event, pop);
+    });
+  }
+
+  function loadVideo(id, autoplay) {
+    const player = document.getElementById("ttPlayer");
+    const frame = el("iframe", {
+      src: ytEmbed(id, autoplay),
+      title: "YouTube video player",
+      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+      allowfullscreen: "",
+      loading: "lazy",
+    });
+    player.replaceChildren(frame);
+    document.querySelectorAll("#ttVideos .ttpop__vid").forEach((b) =>
+      b.setAttribute("aria-current", b.dataset.id === id ? "true" : "false")
+    );
+  }
+
+  function openTurntable(index, opener) {
+    const pop = document.getElementById("ttPopup");
+    const item = TURNTABLE[index];
+    if (!pop || !item) return;
+    ttOpener = opener || document.activeElement;
+
+    const cover = document.getElementById("ttCover");
+    cover.src = item.art || "";
+    cover.style.visibility = item.art ? "visible" : "hidden";
+    document.getElementById("ttTitle").textContent = item.title;
+    document.getElementById("ttArtist").textContent = item.artist || "";
+    const meta = [item.year, item.format].filter(Boolean).join(" · ");
+    document.getElementById("ttMeta").textContent = meta;
+    document.getElementById("ttGenres").textContent = (item.genres || []).join(" · ");
+    const note = document.getElementById("ttComment");
+    note.textContent = item.comment || "";
+    note.hidden = !item.comment;
+    const link = document.getElementById("ttDiscogs");
+    if (item.discogsUrl) { link.href = item.discogsUrl; link.hidden = false; } else { link.hidden = true; }
+
+    // Tracklist
+    const tracks = document.getElementById("ttTracks");
+    tracks.replaceChildren(
+      ...(item.tracklist || []).map((t) =>
+        el("li", { class: "ttpop__track" },
+          el("span", { class: "ttpop__pos", text: t.position || "" }),
+          el("span", { class: "ttpop__tname", text: t.title || "" }),
+          el("span", { class: "ttpop__dur", text: t.duration || "" })
+        )
+      )
+    );
+    document.getElementById("ttTracksWrap").hidden = !(item.tracklist || []).length;
+
+    // YouTube videos
+    const vids = item.videos || [];
+    const list = document.getElementById("ttVideos");
+    list.replaceChildren(
+      ...vids.map((v) =>
+        el("li", {},
+          el("button", { class: "ttpop__vid", type: "button", "data-id": v.id, text: v.title || "Video" })
+        )
+      )
+    );
+    list.querySelectorAll(".ttpop__vid").forEach((b) =>
+      b.addEventListener("click", () => loadVideo(b.dataset.id, true))
+    );
+    const body = document.getElementById("ttBody");
+    if (vids.length) {
+      body.classList.remove("is-empty");
+      loadVideo(vids[0].id, false);
+    } else {
+      body.classList.add("is-empty");
+      document.getElementById("ttPlayer").replaceChildren();
+    }
+
+    pop.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    document.getElementById("ttClose").focus({ preventScroll: true });
+  }
+
+  function closeTurntable() {
+    const pop = document.getElementById("ttPopup");
+    pop.hidden = true;
+    document.documentElement.style.overflow = "";
+    document.getElementById("ttPlayer").replaceChildren(); // stop playback
+    if (ttOpener && typeof ttOpener.focus === "function") ttOpener.focus({ preventScroll: true });
+  }
+
+  /** Render the scenery gallery — an aspect-aware masonry of photos that
+      open a full-screen lightbox. Portrait, landscape and panorama all keep
+      their natural shape (no cropping). */
+  function renderGallery() {
+    const grid = document.getElementById("galleryGrid");
+    if (!grid) return;
+
+    const fragment = document.createDocumentFragment();
+
+    GALLERY.forEach((photo, i) => {
+      const img = el("img", { class: "shot__img", src: photo.src, alt: photo.alt || "", loading: "lazy" });
+      const shot = el(
+        "button",
+        {
+          class: "shot",
+          type: "button",
+          "aria-label": photo.caption || photo.alt || `Scenery photo ${i + 1}`,
+        },
+        img,
+        photo.caption ? el("span", { class: "shot__cap", "aria-hidden": "true", text: photo.caption }) : null
+      );
+      img.addEventListener("error", () => shot.classList.add("is-missing"));
+      shot.addEventListener("click", () => openLightbox(i));
+      fragment.append(shot);
+    });
+
+    grid.append(fragment);
+  }
+
+  /* -------------------------------------------------------
+     Lightbox — full-screen photo viewer with prev/next
+  ------------------------------------------------------- */
+  let lightboxIndex = 0;
+  let lightboxOpener = null; // element to restore focus to on close
+
+  function setupLightbox() {
+    const box = document.getElementById("lightbox");
+    if (!box) return;
+
+    document.getElementById("lbClose").addEventListener("click", closeLightbox);
+    document.getElementById("lbBackdrop").addEventListener("click", closeLightbox);
+    document.getElementById("lbPrev").addEventListener("click", () => stepLightbox(-1));
+    document.getElementById("lbNext").addEventListener("click", () => stepLightbox(1));
+
+    document.addEventListener("keydown", (event) => {
+      if (box.hidden) return;
+      if (event.key === "Escape") closeLightbox();
+      else if (event.key === "ArrowLeft") stepLightbox(-1);
+      else if (event.key === "ArrowRight") stepLightbox(1);
+      else if (event.key === "Tab") trapFocus(event, box);
+    });
+  }
+
+  function openLightbox(index) {
+    const box = document.getElementById("lightbox");
+    if (!box) return;
+    lightboxOpener = document.activeElement;
+    showShot(index);
+    box.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    document.getElementById("lbClose").focus({ preventScroll: true });
+  }
+
+  function stepLightbox(dir) {
+    showShot((lightboxIndex + dir + GALLERY.length) % GALLERY.length);
+  }
+
+  function showShot(index) {
+    lightboxIndex = index;
+    const photo = GALLERY[index];
+    const img = document.getElementById("lbImg");
+    img.src = photo.src;
+    img.alt = photo.alt || "";
+    document.getElementById("lbCap").textContent = photo.caption || "";
+    document.getElementById("lbCount").textContent = `${index + 1} / ${GALLERY.length}`;
+  }
+
+  function closeLightbox() {
+    const box = document.getElementById("lightbox");
+    box.hidden = true;
+    document.documentElement.style.overflow = "";
+    document.getElementById("lbImg").src = "";
+    if (lightboxOpener && typeof lightboxOpener.focus === "function") {
+      lightboxOpener.focus({ preventScroll: true });
+    }
   }
 
   function setupPopup() {
@@ -390,8 +682,12 @@
   function init() {
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
+    renderTurntable();
+    renderGallery();
     setupGearFallbacks();
     setupPopup();
+    setupTurntablePopup();
+    setupLightbox();
     buildBars();
     setupReveal();
     setupNav();

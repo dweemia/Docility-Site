@@ -1,0 +1,2874 @@
+[
+  {
+    "title": "Rigning",
+    "artist": "Yagya",
+    "year": 2009,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Dub Techno",
+      "Ambient"
+    ],
+    "art": "assets/turntable/01.webp",
+    "discogsUrl": "https://www.discogs.com/release/1620967-Yagya-Rigning",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Rigning Tvö",
+        "duration": "6:39"
+      },
+      {
+        "position": "A2",
+        "title": "Rigning Þrjú",
+        "duration": "7:02"
+      },
+      {
+        "position": "B1",
+        "title": "Rigning Fimm",
+        "duration": "6:40"
+      },
+      {
+        "position": "B2",
+        "title": "Rigning Sex",
+        "duration": "6:52"
+      },
+      {
+        "position": "C1",
+        "title": "Rigning Sjö",
+        "duration": "6:39"
+      },
+      {
+        "position": "C2",
+        "title": "Rigning Átta",
+        "duration": "5:30"
+      },
+      {
+        "position": "D1",
+        "title": "Rigning Níu",
+        "duration": "6:29"
+      },
+      {
+        "position": "D2",
+        "title": "Rigning Tíu",
+        "duration": "7:43"
+      }
+    ],
+    "videos": [
+      {
+        "id": "0E6U4ga9quI",
+        "title": "Yagya - Rigning Einn",
+        "duration": 363
+      },
+      {
+        "id": "02ge0clI83w",
+        "title": "Yagya - Rigning Tvo (HD)",
+        "duration": 397
+      },
+      {
+        "id": "YaIqCPbwTcA",
+        "title": "Yagya - Rigning Þrjú",
+        "duration": 423
+      },
+      {
+        "id": "yUWm0ftIi8M",
+        "title": "Yagya - Fjórir",
+        "duration": 193
+      },
+      {
+        "id": "K_JFzNfeCnc",
+        "title": "yagya　「rigning fimm」",
+        "duration": 399
+      },
+      {
+        "id": "uIT2X34fnVU",
+        "title": "Yagya - Rigning Sex",
+        "duration": 412
+      },
+      {
+        "id": "VYGyRfPLes0",
+        "title": "Yagya - Rigning Sjö",
+        "duration": 400
+      },
+      {
+        "id": "K_P--xFbnTo",
+        "title": "Yagya - Rigning Atta [Unofficial]",
+        "duration": 325
+      },
+      {
+        "id": "G4FVWbkG0PU",
+        "title": "Yagya - Rigning Níu",
+        "duration": 397
+      },
+      {
+        "id": "YrXdF2BrBqA",
+        "title": "Yagya-Rigning Tíu",
+        "duration": 463
+      }
+    ]
+  },
+  {
+    "title": "Inferno",
+    "artist": "Boards Of Canada",
+    "year": 2026,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Downtempo",
+      "Ambient",
+      "IDM",
+      "Experimental"
+    ],
+    "art": "assets/turntable/02.webp",
+    "discogsUrl": "https://www.discogs.com/release/37423158-Boards-Of-Canada-Inferno",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Introit",
+        "duration": "0:37"
+      },
+      {
+        "position": "A2",
+        "title": "Prophecy At 1420 MHz",
+        "duration": "5:03"
+      },
+      {
+        "position": "A3",
+        "title": "Hydrogen Helium Lithium Leviathan",
+        "duration": "4:44"
+      },
+      {
+        "position": "A4",
+        "title": "Age Of Capricorn",
+        "duration": "3:52"
+      },
+      {
+        "position": "A5",
+        "title": "Father And Son",
+        "duration": "3:22"
+      },
+      {
+        "position": "B1",
+        "title": "Somewhere Right Now In The Future",
+        "duration": "2:25"
+      },
+      {
+        "position": "B2",
+        "title": "Naraka",
+        "duration": "5:00"
+      },
+      {
+        "position": "B3",
+        "title": "Acts Of Magic",
+        "duration": "1:20"
+      },
+      {
+        "position": "B4",
+        "title": "Memory Death",
+        "duration": "2:36"
+      },
+      {
+        "position": "B5",
+        "title": "The Word Becomes Flesh",
+        "duration": "5:20"
+      },
+      {
+        "position": "C1",
+        "title": "Into The Magic Land",
+        "duration": "4:32"
+      },
+      {
+        "position": "C2",
+        "title": "Blood In The Labyrinth",
+        "duration": "4:55"
+      },
+      {
+        "position": "C3",
+        "title": "Deep Time",
+        "duration": "3:19"
+      },
+      {
+        "position": "C4",
+        "title": "All Reason Departs",
+        "duration": "6:01"
+      },
+      {
+        "position": "D1",
+        "title": "Arena Americanada",
+        "duration": "5:22"
+      },
+      {
+        "position": "D2",
+        "title": "The Process",
+        "duration": "3:00"
+      },
+      {
+        "position": "D3",
+        "title": "You Retreat In Time And Space",
+        "duration": "5:22"
+      },
+      {
+        "position": "D4",
+        "title": "I Saw Through Platonia",
+        "duration": "2:30"
+      },
+      {
+        "position": "E",
+        "title": "Vol.4 - P. Primers - 177 Giraud's Mirror",
+        "duration": "3:30"
+      }
+    ],
+    "videos": [
+      {
+        "id": "v7cF08oK8lo",
+        "title": "Introit",
+        "duration": 36
+      },
+      {
+        "id": "oVLbPMFr1cE",
+        "title": "Prophecy At 1420 MHz",
+        "duration": 305
+      },
+      {
+        "id": "AYjxRnBGWuc",
+        "title": "Hydrogen Helium Lithium Leviathan",
+        "duration": 285
+      },
+      {
+        "id": "8X0aPAMltvI",
+        "title": "Age Of Capricorn",
+        "duration": 233
+      },
+      {
+        "id": "0gVuRo5kicY",
+        "title": "Father And Son",
+        "duration": 205
+      },
+      {
+        "id": "tYr-jKtX3BM",
+        "title": "Somewhere Right Now In The Future",
+        "duration": 147
+      },
+      {
+        "id": "-6tE7iqZ1c0",
+        "title": "Naraka",
+        "duration": 302
+      },
+      {
+        "id": "iXrwsu_3r6c",
+        "title": "Acts Of Magic",
+        "duration": 79
+      },
+      {
+        "id": "EjpIdQ83CIQ",
+        "title": "Memory Death",
+        "duration": 158
+      },
+      {
+        "id": "cDCIdAGzhG0",
+        "title": "The Word Becomes Flesh",
+        "duration": 321
+      },
+      {
+        "id": "nTd40nOP1fo",
+        "title": "Into The Magic Land",
+        "duration": 276
+      },
+      {
+        "id": "7WMQC3-nMX8",
+        "title": "Blood In The Labyrinth",
+        "duration": 296
+      },
+      {
+        "id": "FL_9eOgwJE8",
+        "title": "Deep Time",
+        "duration": 199
+      },
+      {
+        "id": "3-PDZg8cYCk",
+        "title": "All Reason Departs",
+        "duration": 375
+      },
+      {
+        "id": "r43bw4IRRpY",
+        "title": "Arena Americanada",
+        "duration": 323
+      },
+      {
+        "id": "XkLwQCNODC4",
+        "title": "The Process",
+        "duration": 182
+      },
+      {
+        "id": "LjXF3FujXA8",
+        "title": "You Retreat In Time And Space",
+        "duration": 326
+      },
+      {
+        "id": "RqGDQlWSGoE",
+        "title": "I Saw Through Platonia",
+        "duration": 160
+      },
+      {
+        "id": "6dj0XDkPNMg",
+        "title": "Boards of Canada - Flexi/Hexi disc - 177 Giraud's Mirror (Bonus track Inferno)",
+        "duration": 205
+      }
+    ]
+  },
+  {
+    "title": "Cloud Suites",
+    "artist": "Nico Georis",
+    "year": 2023,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "Experimental"
+    ],
+    "art": "assets/turntable/03.webp",
+    "discogsUrl": "https://www.discogs.com/release/27317673-Nico-Georis-Cloud-Suites",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Bent Violet",
+        "duration": ""
+      },
+      {
+        "position": "A2",
+        "title": "Flight",
+        "duration": ""
+      },
+      {
+        "position": "A3",
+        "title": "Cumuloids",
+        "duration": ""
+      },
+      {
+        "position": "A4",
+        "title": "Thermals",
+        "duration": ""
+      },
+      {
+        "position": "A5",
+        "title": "Soft Purple Gazers",
+        "duration": ""
+      },
+      {
+        "position": "B1",
+        "title": "Ice Crystals",
+        "duration": ""
+      },
+      {
+        "position": "B2",
+        "title": "Sundog",
+        "duration": ""
+      },
+      {
+        "position": "B3",
+        "title": "Breeze",
+        "duration": ""
+      },
+      {
+        "position": "B4",
+        "title": "Raindrops",
+        "duration": ""
+      },
+      {
+        "position": "B5",
+        "title": "Soft Yellow Gazers",
+        "duration": ""
+      },
+      {
+        "position": "B6",
+        "title": "Daydreams",
+        "duration": ""
+      }
+    ],
+    "videos": [
+      {
+        "id": "bdvbEH0IWTk",
+        "title": "Nico Georis - Ice Crystals",
+        "duration": 328
+      },
+      {
+        "id": "w9kqFeW34A4",
+        "title": "Nico Georis - Flight",
+        "duration": 298
+      },
+      {
+        "id": "krXdgRA7OSA",
+        "title": "Curtain of Raindrops",
+        "duration": 225
+      },
+      {
+        "id": "LffEQ0Tt1FA",
+        "title": "Bent Violet",
+        "duration": 322
+      },
+      {
+        "id": "cS-jXIXnNCc",
+        "title": "Thermals",
+        "duration": 399
+      },
+      {
+        "id": "AWA4X6QaMy4",
+        "title": "Daydreams",
+        "duration": 420
+      },
+      {
+        "id": "rSHJVNiiGik",
+        "title": "Sundog",
+        "duration": 248
+      },
+      {
+        "id": "bdvbEH0IWTk",
+        "title": "Nico Georis - Ice Crystals",
+        "duration": 328
+      },
+      {
+        "id": "w9kqFeW34A4",
+        "title": "Nico Georis - Flight",
+        "duration": 298
+      },
+      {
+        "id": "krXdgRA7OSA",
+        "title": "Curtain of Raindrops",
+        "duration": 225
+      },
+      {
+        "id": "LffEQ0Tt1FA",
+        "title": "Bent Violet",
+        "duration": 322
+      },
+      {
+        "id": "cS-jXIXnNCc",
+        "title": "Thermals",
+        "duration": 399
+      },
+      {
+        "id": "AWA4X6QaMy4",
+        "title": "Daydreams",
+        "duration": 420
+      },
+      {
+        "id": "rSHJVNiiGik",
+        "title": "Sundog",
+        "duration": 248
+      }
+    ]
+  },
+  {
+    "title": "Hope Is The Sister Of Despair",
+    "artist": "Niko Tzoukmanis",
+    "year": 2021,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Techno",
+      "Abstract",
+      "Ambient"
+    ],
+    "art": "assets/turntable/04.webp",
+    "discogsUrl": "https://www.discogs.com/release/18182086-Niko-Tzoukmanis-Hope-Is-The-Sister-Of-Despair",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Blue Valentine",
+        "duration": ""
+      },
+      {
+        "position": "A2",
+        "title": "Raindrops",
+        "duration": ""
+      },
+      {
+        "position": "A3",
+        "title": "Disorder",
+        "duration": ""
+      },
+      {
+        "position": "B1",
+        "title": "Green Belt",
+        "duration": ""
+      },
+      {
+        "position": "B2",
+        "title": "Floating Free",
+        "duration": ""
+      },
+      {
+        "position": "B3",
+        "title": "Free Hugs",
+        "duration": ""
+      },
+      {
+        "position": "C1",
+        "title": "Twinkle",
+        "duration": ""
+      },
+      {
+        "position": "C2",
+        "title": "Relief",
+        "duration": ""
+      },
+      {
+        "position": "C3",
+        "title": "Eastern Mantra",
+        "duration": ""
+      },
+      {
+        "position": "D1",
+        "title": "24 Hours",
+        "duration": ""
+      },
+      {
+        "position": "D2",
+        "title": "The End",
+        "duration": ""
+      }
+    ],
+    "videos": [
+      {
+        "id": "8coMrVASNTU",
+        "title": "Blue Valentine",
+        "duration": 292
+      },
+      {
+        "id": "7olp0z1EzPA",
+        "title": "Raindrops",
+        "duration": 419
+      },
+      {
+        "id": "81QGn5Fj37s",
+        "title": "Disorder",
+        "duration": 414
+      },
+      {
+        "id": "rOoWmNFR82g",
+        "title": "Green Belt",
+        "duration": 373
+      },
+      {
+        "id": "yR2TOYIiV24",
+        "title": "Floating Free",
+        "duration": 451
+      },
+      {
+        "id": "hpjG55UaHLk",
+        "title": "Free Hugs",
+        "duration": 374
+      },
+      {
+        "id": "riRt4RvSRPE",
+        "title": "Twinkle",
+        "duration": 387
+      },
+      {
+        "id": "OlGu-4Bn2SM",
+        "title": "Relief",
+        "duration": 471
+      },
+      {
+        "id": "2RI_o0_YxBU",
+        "title": "Eastern Mantra",
+        "duration": 332
+      },
+      {
+        "id": "ymjTve1BJWs",
+        "title": "24 Hours",
+        "duration": 587
+      },
+      {
+        "id": "3rl1cNJoFYc",
+        "title": "The End",
+        "duration": 488
+      },
+      {
+        "id": "8coMrVASNTU",
+        "title": "Blue Valentine",
+        "duration": 292
+      },
+      {
+        "id": "7olp0z1EzPA",
+        "title": "Raindrops",
+        "duration": 419
+      },
+      {
+        "id": "81QGn5Fj37s",
+        "title": "Disorder",
+        "duration": 414
+      },
+      {
+        "id": "rOoWmNFR82g",
+        "title": "Green Belt",
+        "duration": 373
+      },
+      {
+        "id": "yR2TOYIiV24",
+        "title": "Floating Free",
+        "duration": 451
+      },
+      {
+        "id": "hpjG55UaHLk",
+        "title": "Free Hugs",
+        "duration": 374
+      },
+      {
+        "id": "riRt4RvSRPE",
+        "title": "Twinkle",
+        "duration": 387
+      },
+      {
+        "id": "OlGu-4Bn2SM",
+        "title": "Relief",
+        "duration": 471
+      },
+      {
+        "id": "2RI_o0_YxBU",
+        "title": "Eastern Mantra",
+        "duration": 332
+      },
+      {
+        "id": "ymjTve1BJWs",
+        "title": "24 Hours",
+        "duration": 587
+      },
+      {
+        "id": "3rl1cNJoFYc",
+        "title": "The End",
+        "duration": 488
+      }
+    ]
+  },
+  {
+    "title": "Everyone’s Children",
+    "artist": "Surya Botofasina",
+    "year": 2022,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Jazz",
+      "Ambient",
+      "Modal"
+    ],
+    "art": "assets/turntable/05.webp",
+    "discogsUrl": "https://www.discogs.com/release/25208002-Surya-Botofasina-Everyones-Children",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "1",
+        "title": "Surya Meditation",
+        "duration": ""
+      },
+      {
+        "position": "2",
+        "title": "I Love Dew, Sophie",
+        "duration": ""
+      },
+      {
+        "position": "3",
+        "title": "Beloved California Temple",
+        "duration": ""
+      },
+      {
+        "position": "4",
+        "title": "Everyone's Children",
+        "duration": ""
+      },
+      {
+        "position": "5",
+        "title": "Sun of Keshava",
+        "duration": ""
+      },
+      {
+        "position": "6",
+        "title": "Waves For Margie",
+        "duration": ""
+      },
+      {
+        "position": "7",
+        "title": "Surya Meditation (Reprise)",
+        "duration": ""
+      },
+      {
+        "position": "8",
+        "title": "Surya Meditation Excerpt",
+        "duration": ""
+      }
+    ],
+    "videos": [
+      {
+        "id": "PmF5Fmm6t4g",
+        "title": "Everyone's Children",
+        "duration": 291
+      },
+      {
+        "id": "2DcPpdnedI0",
+        "title": "Surya Botofasina 'Beloved California Temple'",
+        "duration": 351
+      },
+      {
+        "id": "6Z8f5Wjy4KA",
+        "title": "Surya Meditation",
+        "duration": 0
+      },
+      {
+        "id": "gjcULb6PO10",
+        "title": "Beloved California Temple",
+        "duration": 280
+      },
+      {
+        "id": "Xvyv8DtGby4",
+        "title": "Sun Of Keshava",
+        "duration": 0
+      },
+      {
+        "id": "L2bWhutwFG0",
+        "title": "Surya's Meditation",
+        "duration": 0
+      },
+      {
+        "id": "OVjXifHbzxU",
+        "title": "Waves For Margie",
+        "duration": 287
+      },
+      {
+        "id": "JAdtXS3JKCM",
+        "title": "I Love Dew, Sophie",
+        "duration": 598
+      },
+      {
+        "id": "Dqjg9pHZM9w",
+        "title": "Meghan Jahnavi",
+        "duration": 0
+      },
+      {
+        "id": "KEJXUbwjqCI",
+        "title": "Surya Meditation (Reprise (Radio Edit))",
+        "duration": 297
+      },
+      {
+        "id": "PmF5Fmm6t4g",
+        "title": "Everyone's Children",
+        "duration": 291
+      },
+      {
+        "id": "2DcPpdnedI0",
+        "title": "Surya Botofasina 'Beloved California Temple'",
+        "duration": 351
+      },
+      {
+        "id": "6Z8f5Wjy4KA",
+        "title": "Surya Meditation",
+        "duration": 0
+      },
+      {
+        "id": "gjcULb6PO10",
+        "title": "Beloved California Temple",
+        "duration": 280
+      },
+      {
+        "id": "Xvyv8DtGby4",
+        "title": "Sun Of Keshava",
+        "duration": 0
+      },
+      {
+        "id": "L2bWhutwFG0",
+        "title": "Surya's Meditation",
+        "duration": 0
+      },
+      {
+        "id": "OVjXifHbzxU",
+        "title": "Waves For Margie",
+        "duration": 287
+      },
+      {
+        "id": "JAdtXS3JKCM",
+        "title": "I Love Dew, Sophie",
+        "duration": 598
+      },
+      {
+        "id": "Dqjg9pHZM9w",
+        "title": "Meghan Jahnavi",
+        "duration": 0
+      },
+      {
+        "id": "KEJXUbwjqCI",
+        "title": "Surya Meditation (Reprise (Radio Edit))",
+        "duration": 297
+      }
+    ]
+  },
+  {
+    "title": "Blue Moon Safari",
+    "artist": "Vegyn",
+    "year": 2025,
+    "format": "Vinyl, LP, Album, Repress",
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Downtempo",
+      "Synth-pop"
+    ],
+    "art": "assets/turntable/06.webp",
+    "discogsUrl": "https://www.discogs.com/release/34169881-Vegyn-Blue-Moon-Safari",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "New Star In The Sky (Vegyn Remix)",
+        "duration": "4:06"
+      },
+      {
+        "position": "A2",
+        "title": "Sexy Boy (Vegyn Remix)",
+        "duration": "4:59"
+      },
+      {
+        "position": "A3",
+        "title": "All I Need (Vegyn Remix)",
+        "duration": "5:12"
+      },
+      {
+        "position": "A4",
+        "title": "Kelly Watch The Stars (Vegyn Remix)",
+        "duration": "3:36"
+      },
+      {
+        "position": "A5",
+        "title": "Ce Matin Là (Vegyn Remix)",
+        "duration": "3:52"
+      },
+      {
+        "position": "B1",
+        "title": "La Femme D'argent (Vegyn Remix)",
+        "duration": "4:21"
+      },
+      {
+        "position": "B2",
+        "title": "Remember (Vegyn Remix)",
+        "duration": "2:56"
+      },
+      {
+        "position": "B3",
+        "title": "You Make It Easy (Vegyn Remix)",
+        "duration": "4:26"
+      },
+      {
+        "position": "B4",
+        "title": "Talisman (Vegyn Remix)",
+        "duration": "3:47"
+      },
+      {
+        "position": "B5",
+        "title": "Le Voyage De Penelope (Vegyn Remix)",
+        "duration": "3:07"
+      }
+    ],
+    "videos": [
+      {
+        "id": "uivz46Qg3nA",
+        "title": "New Star in the Sky (Vegyn Version)",
+        "duration": 245
+      },
+      {
+        "id": "u0OPKekQ0bM",
+        "title": "Sexy Boy (Vegyn Version)",
+        "duration": 300
+      },
+      {
+        "id": "HmQLHUgkcX4",
+        "title": "All I Need (feat. Beth Hirsch) (Vegyn Version)",
+        "duration": 313
+      },
+      {
+        "id": "VtsncYTY3_0",
+        "title": "Kelly Watch the Stars (Vegyn Version)",
+        "duration": 216
+      },
+      {
+        "id": "A_K9cFRGxjM",
+        "title": "Ce matin-là (Vegyn Version)",
+        "duration": 232
+      },
+      {
+        "id": "fh2E1I-cW0w",
+        "title": "La femme d'argent (Vegyn Version)",
+        "duration": 261
+      },
+      {
+        "id": "69kgI8c8qsI",
+        "title": "Remember (Vegyn Version)",
+        "duration": 177
+      },
+      {
+        "id": "FNBqOLEyDU8",
+        "title": "You Make It Easy (feat. Beth Hirsch) (Vegyn Version)",
+        "duration": 267
+      },
+      {
+        "id": "lbr7ezIOw6Y",
+        "title": "Talisman (Vegyn Version)",
+        "duration": 228
+      },
+      {
+        "id": "UHiwhFhg-XQ",
+        "title": "Le voyage de Pénélope (Vegyn Version)",
+        "duration": 185
+      }
+    ]
+  },
+  {
+    "title": "A New Beat",
+    "artist": "Ulysses Owens Jr. And Generation Y",
+    "year": 2024,
+    "format": "File, AAC, Album",
+    "genres": [
+      "Jazz",
+      "Contemporary Jazz"
+    ],
+    "art": "assets/turntable/07.webp",
+    "discogsUrl": "https://www.discogs.com/release/29930044-Ulysses-Owens-Jr-And-Generation-Y-A-New-Beat",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "1",
+        "title": "Sticks",
+        "duration": "7:36"
+      },
+      {
+        "position": "2",
+        "title": "Better Days",
+        "duration": "7:15"
+      },
+      {
+        "position": "3",
+        "title": "London Towne",
+        "duration": "7:06"
+      },
+      {
+        "position": "4",
+        "title": "Until I See You Again",
+        "duration": "6:03"
+      },
+      {
+        "position": "5",
+        "title": "Soulful",
+        "duration": "8:13"
+      },
+      {
+        "position": "6",
+        "title": "Heart Full Of Rhythm",
+        "duration": "5:19"
+      },
+      {
+        "position": "7",
+        "title": "Bird Lives",
+        "duration": "8:32"
+      },
+      {
+        "position": "8",
+        "title": "Helen's Song",
+        "duration": "5:11"
+      },
+      {
+        "position": "9",
+        "title": "Chicken An' Dumplins",
+        "duration": "5:41"
+      }
+    ],
+    "videos": []
+  },
+  {
+    "title": "Elaenia",
+    "artist": "Floating Points",
+    "year": 2015,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Jazz",
+      "Future Jazz",
+      "Space-Age"
+    ],
+    "art": "assets/turntable/08.webp",
+    "discogsUrl": "https://www.discogs.com/release/7650524-Floating-Points-Elaenia",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Nespole",
+        "duration": ""
+      },
+      {
+        "position": "A2",
+        "title": "Silhouettes (I, II & III)",
+        "duration": ""
+      },
+      {
+        "position": "A3",
+        "title": "Elaenia",
+        "duration": ""
+      },
+      {
+        "position": "B1",
+        "title": "Argenté",
+        "duration": ""
+      },
+      {
+        "position": "B2",
+        "title": "Thin Air",
+        "duration": ""
+      },
+      {
+        "position": "B3",
+        "title": "For Marmish",
+        "duration": ""
+      },
+      {
+        "position": "B4",
+        "title": "Peroration Six",
+        "duration": ""
+      }
+    ],
+    "videos": [
+      {
+        "id": "xiVNoKARAQc",
+        "title": "Floating Points - Nespole",
+        "duration": 315
+      },
+      {
+        "id": "BG0XBnMyXcQ",
+        "title": "Floating Points - Silhouettes I, II and III",
+        "duration": 646
+      },
+      {
+        "id": "4g_N_k1rcD8",
+        "title": "Floating Points - Elaenia",
+        "duration": 440
+      },
+      {
+        "id": "_LjWlhvKZrY",
+        "title": "Floating Points - Argente",
+        "duration": 281
+      },
+      {
+        "id": "sW71Jyld5Ic",
+        "title": "Floating Points - Thin Air",
+        "duration": 245
+      },
+      {
+        "id": "9crzuLwn2-w",
+        "title": "Floating Points - For Marmish",
+        "duration": 351
+      },
+      {
+        "id": "W7nC_93J-fs",
+        "title": "Floating Points - Peroration Six",
+        "duration": 321
+      }
+    ]
+  },
+  {
+    "title": "The Shimmering Land",
+    "artist": "Meg Bowles",
+    "year": 2013,
+    "format": "CD, Album",
+    "genres": [
+      "Electronic",
+      "Ambient"
+    ],
+    "art": "assets/turntable/09.webp",
+    "discogsUrl": "https://www.discogs.com/release/4687626-Meg-Bowles-The-Shimmering-Land",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "1",
+        "title": "Undulant Sea",
+        "duration": "7:01"
+      },
+      {
+        "position": "2",
+        "title": "The Sweetness Of Mist",
+        "duration": "8:50"
+      },
+      {
+        "position": "3",
+        "title": "Venus Rising",
+        "duration": "14:22"
+      },
+      {
+        "position": "4",
+        "title": "Into The Gloaming",
+        "duration": "9:16"
+      },
+      {
+        "position": "5",
+        "title": "Beneath The Radiant Stars",
+        "duration": "10:50"
+      },
+      {
+        "position": "6",
+        "title": "Nightwalk Across The Isle Of Dream",
+        "duration": "9:48"
+      }
+    ],
+    "videos": []
+  },
+  {
+    "title": "Melody A.M.",
+    "artist": "Röyksopp",
+    "year": 2001,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "House",
+      "Downtempo"
+    ],
+    "art": "assets/turntable/10.webp",
+    "discogsUrl": "https://www.discogs.com/release/23739-R%C3%B6yksopp-Melody-AM",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "So Easy",
+        "duration": "3:44"
+      },
+      {
+        "position": "A2",
+        "title": "Poor Leno",
+        "duration": "3:57"
+      },
+      {
+        "position": "B1",
+        "title": "Eple",
+        "duration": "3:36"
+      },
+      {
+        "position": "B2",
+        "title": "In Space",
+        "duration": "3:30"
+      },
+      {
+        "position": "C1",
+        "title": "A Higher Place",
+        "duration": "4:31"
+      },
+      {
+        "position": "C2",
+        "title": "Röyksopp's Night Out",
+        "duration": "7:30"
+      },
+      {
+        "position": "D1",
+        "title": "Remind Me",
+        "duration": "3:39"
+      },
+      {
+        "position": "D2",
+        "title": "She's So",
+        "duration": "5:23"
+      },
+      {
+        "position": "D3",
+        "title": "Sparks",
+        "duration": "5:23"
+      }
+    ],
+    "videos": [
+      {
+        "id": "ebAb5RBHEY0",
+        "title": "R̲ö̲y̲k̲s̲o̲p̲p̲ | M̲e̲l̲o̲d̲y̲ ̲A̲.̲M̲.̲ [2K HD]",
+        "duration": 0
+      },
+      {
+        "id": "5Mcj_YtQhbQ",
+        "title": "So Easy",
+        "duration": 250
+      },
+      {
+        "id": "NXa6TtAEfpA",
+        "title": "Röyksopp - \"Eple\" (US Vinyl Issue) 2001 / 2002",
+        "duration": 239
+      },
+      {
+        "id": "yklKIPb38PE",
+        "title": "Remind Me",
+        "duration": 220
+      }
+    ]
+  },
+  {
+    "title": "Promises",
+    "artist": "Floating Points, Pharoah Sanders, London Symphony Orchestra",
+    "year": 2021,
+    "format": "Vinyl, LP, Album, Limited Edition",
+    "genres": [
+      "Electronic",
+      "Jazz",
+      "Soul-Jazz",
+      "Modal"
+    ],
+    "art": "assets/turntable/11.webp",
+    "discogsUrl": "https://www.discogs.com/release/17985154-Floating-Points-Pharoah-Sanders-The-London-Symphony-Orchestra-Promises",
+    "comment": "",
+    "tracklist": [],
+    "videos": [
+      {
+        "id": "ucdYt46DpX8",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises (Full Album)",
+        "duration": 0
+      },
+      {
+        "id": "FvlyttLEQlk",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 1]",
+        "duration": 385
+      },
+      {
+        "id": "DtyMcq4jYlw",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 2]",
+        "duration": 152
+      },
+      {
+        "id": "gjjafth4b4Y",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 3]",
+        "duration": 153
+      },
+      {
+        "id": "TknN3XunrCk",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 4]",
+        "duration": 153
+      },
+      {
+        "id": "K7lAS9rKMEk",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 5]",
+        "duration": 266
+      },
+      {
+        "id": "FQdLWlvgHOg",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 6]",
+        "duration": 532
+      },
+      {
+        "id": "2-q18UOLxi0",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 7]",
+        "duration": 570
+      },
+      {
+        "id": "R0c0549i-CI",
+        "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 8]",
+        "duration": 444
+      }
+    ]
+  },
+  {
+    "title": "Aguas Da Amazonia",
+    "artist": "Philip Glass, Uakti",
+    "year": 1999,
+    "format": "CD, Album",
+    "genres": [
+      "Classical",
+      "Modern Classical",
+      "Minimal"
+    ],
+    "art": "assets/turntable/12.webp",
+    "discogsUrl": "https://www.discogs.com/release/8332018-Philip-Glass-Uakti-Aguas-Da-Amazonia",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "10",
+        "title": "Metamorphosis I",
+        "duration": "12:32"
+      }
+    ],
+    "videos": [
+      {
+        "id": "gT839CheCow",
+        "title": "Glass: Aguas da Amazonia - Metamorphosis I",
+        "duration": 756
+      },
+      {
+        "id": "VNScRm1n8js",
+        "title": "Philip Glass - Japura River",
+        "duration": 289
+      },
+      {
+        "id": "gnKkxzd5aYs",
+        "title": "Glass: Aguas da Amazonia - Amazon River",
+        "duration": 446
+      },
+      {
+        "id": "oZVEsY10ZE4",
+        "title": "Glass: Aguas da Amazonia - Madeira River",
+        "duration": 240
+      },
+      {
+        "id": "N0b5-D2YliQ",
+        "title": "Glass: Aguas da Amazonia - Japurá River",
+        "duration": 285
+      },
+      {
+        "id": "hdTQ9jVlnAY",
+        "title": "Glass: Aguas da Amazonia - Negro River",
+        "duration": 263
+      },
+      {
+        "id": "gT839CheCow",
+        "title": "Glass: Aguas da Amazonia - Metamorphosis I",
+        "duration": 756
+      },
+      {
+        "id": "VNScRm1n8js",
+        "title": "Philip Glass - Japura River",
+        "duration": 289
+      },
+      {
+        "id": "gnKkxzd5aYs",
+        "title": "Glass: Aguas da Amazonia - Amazon River",
+        "duration": 446
+      },
+      {
+        "id": "oZVEsY10ZE4",
+        "title": "Glass: Aguas da Amazonia - Madeira River",
+        "duration": 240
+      },
+      {
+        "id": "N0b5-D2YliQ",
+        "title": "Glass: Aguas da Amazonia - Japurá River",
+        "duration": 285
+      },
+      {
+        "id": "hdTQ9jVlnAY",
+        "title": "Glass: Aguas da Amazonia - Negro River",
+        "duration": 263
+      },
+      {
+        "id": "phsLu8oxDZ4",
+        "title": "Uakti and Philip Glass - Aguas da Amazonia (HQ)",
+        "duration": 3290
+      }
+    ]
+  },
+  {
+    "title": "Fatou",
+    "artist": "Fatoumata Diawara",
+    "year": 2011,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Folk, World, & Country",
+      "African"
+    ],
+    "art": "assets/turntable/13.webp",
+    "discogsUrl": "https://www.discogs.com/release/3383402-Fatoumata-Diawara-Fatou",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Kanou",
+        "duration": ""
+      },
+      {
+        "position": "A2",
+        "title": "Sowa",
+        "duration": ""
+      },
+      {
+        "position": "A3",
+        "title": "Bakonoba",
+        "duration": ""
+      },
+      {
+        "position": "A4",
+        "title": "Kèlè",
+        "duration": ""
+      },
+      {
+        "position": "A5",
+        "title": "Makoun Oumou",
+        "duration": ""
+      },
+      {
+        "position": "A6",
+        "title": "Sonkolon",
+        "duration": ""
+      },
+      {
+        "position": "B1",
+        "title": "Alama",
+        "duration": ""
+      },
+      {
+        "position": "B2",
+        "title": "Bissa",
+        "duration": ""
+      },
+      {
+        "position": "B3",
+        "title": "Mousso",
+        "duration": ""
+      },
+      {
+        "position": "B4",
+        "title": "Wililé",
+        "duration": ""
+      },
+      {
+        "position": "B5",
+        "title": "Boloko",
+        "duration": ""
+      },
+      {
+        "position": "B6",
+        "title": "Clandestin",
+        "duration": ""
+      }
+    ],
+    "videos": [
+      {
+        "id": "W2-HpH__kno",
+        "title": "Fatoumata Diawara - Kanou (Official Audio)",
+        "duration": 237
+      },
+      {
+        "id": "esLp4HfcBSE",
+        "title": "Fatoumata Diawara - Wililé - feat. Toumani Diabaté (Official Audio)",
+        "duration": 293
+      },
+      {
+        "id": "Ct6qL0M21ps",
+        "title": "Fatoumata Diawara - Sonkolon (Official Audio)",
+        "duration": 214
+      },
+      {
+        "id": "Bf2_4sx09BI",
+        "title": "Fatoumata Diawara - Boloko (Official Audio)",
+        "duration": 218
+      },
+      {
+        "id": "bpWdEPqHg1w",
+        "title": "Fatoumata Diawara - Alama (Official Audio)",
+        "duration": 218
+      },
+      {
+        "id": "xfmHKGPpA8s",
+        "title": "Fatoumata Diawara - Bakonoba (Official Audio)",
+        "duration": 198
+      },
+      {
+        "id": "kiannf3ZQt0",
+        "title": "Fatoumata Diawara - Sowa (Official Audio)",
+        "duration": 191
+      },
+      {
+        "id": "wnIuewiR-1Q",
+        "title": "Fatoumata Diawara - Bissa (Official Audio)",
+        "duration": 188
+      },
+      {
+        "id": "IXznrnQcOvg",
+        "title": "Fatoumata Diawara - Mousso (Official Audio)",
+        "duration": 202
+      },
+      {
+        "id": "B1Qj5uqNBLQ",
+        "title": "Fatoumata Diawara - Makoun Oumou (Official Audio)",
+        "duration": 279
+      },
+      {
+        "id": "eWvsi-KW6cI",
+        "title": "Fatoumata Diawara - Clandestin (Official Audio)",
+        "duration": 242
+      },
+      {
+        "id": "jp9jUPhmnt0",
+        "title": "Fatoumata Diawara - Kele (Official Audio)",
+        "duration": 191
+      }
+    ]
+  },
+  {
+    "title": "Derelicts",
+    "artist": "Carbon Based Lifeforms",
+    "year": 2017,
+    "format": "Vinyl, LP, Album, Remastered",
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "Downtempo",
+      "Acid"
+    ],
+    "art": "assets/turntable/14.webp",
+    "discogsUrl": "https://www.discogs.com/release/10949245-Carbon-Based-Lifeforms-Derelicts",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Accede",
+        "duration": "5:44"
+      },
+      {
+        "position": "A2",
+        "title": "Derelicts",
+        "duration": "6:12"
+      },
+      {
+        "position": "A3",
+        "title": "Clouds",
+        "duration": "4:31"
+      },
+      {
+        "position": "A4",
+        "title": "Nattväsen",
+        "duration": "5:38"
+      },
+      {
+        "position": "B1",
+        "title": "Equilibrium",
+        "duration": "8:57"
+      },
+      {
+        "position": "B2",
+        "title": "Path Of Least Resistance",
+        "duration": "6:40"
+      },
+      {
+        "position": "B3",
+        "title": "780 Days",
+        "duration": "6:16"
+      },
+      {
+        "position": "C1",
+        "title": "~42°",
+        "duration": "4:55"
+      },
+      {
+        "position": "C2",
+        "title": "Rayleigh Scatterers",
+        "duration": "5:12"
+      },
+      {
+        "position": "C3",
+        "title": "Dodecahedron",
+        "duration": "8:43"
+      },
+      {
+        "position": "D1",
+        "title": "Loss Aversion",
+        "duration": "5:12"
+      },
+      {
+        "position": "D2",
+        "title": "Everwave",
+        "duration": "14:22"
+      }
+    ],
+    "videos": [
+      {
+        "id": "3DYfcVdbRRc",
+        "title": "CARBON BASED LIFEFORMS - Everwave",
+        "duration": 852
+      },
+      {
+        "id": "p2rIOTby0gk",
+        "title": "Carbon Based Lifeforms \"Derelicts\" [Full Album - 2017]",
+        "duration": 4943
+      },
+      {
+        "id": "3DYfcVdbRRc",
+        "title": "CARBON BASED LIFEFORMS - Everwave",
+        "duration": 852
+      },
+      {
+        "id": "AOVDWE0xI7g",
+        "title": "Carbon Based Lifeforms - Derelicts on 12\" Splatter Vinyl Full Recording",
+        "duration": 5153
+      },
+      {
+        "id": "pS-paSTSvgo",
+        "title": "Carbon Based Lifeforms – Derelicts 2LP Album Re 2026 Leftfield VINYL Unboxing",
+        "duration": 286
+      }
+    ]
+  },
+  {
+    "title": "Zebra",
+    "artist": "Arp",
+    "year": 2018,
+    "format": "Vinyl, LP, 45 RPM",
+    "genres": [
+      "Electronic",
+      "Jazz",
+      "Folk, World, & Country",
+      "Ambient"
+    ],
+    "art": "assets/turntable/15.webp",
+    "discogsUrl": "https://www.discogs.com/release/12168883-Arp-Zebra",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Halflight Visions",
+        "duration": "4:55"
+      },
+      {
+        "position": "A2",
+        "title": "Nzuku",
+        "duration": "6:54"
+      },
+      {
+        "position": "B1",
+        "title": "Fluorescences ",
+        "duration": "5:50"
+      },
+      {
+        "position": "B2",
+        "title": "Folding Water",
+        "duration": "5:35"
+      },
+      {
+        "position": "B3",
+        "title": "Foam",
+        "duration": "0:22"
+      },
+      {
+        "position": "C1",
+        "title": "Parallelism",
+        "duration": "6:21"
+      },
+      {
+        "position": "C2",
+        "title": "Moving Target",
+        "duration": "4:46"
+      },
+      {
+        "position": "C3",
+        "title": "A Clearing",
+        "duration": "0:19"
+      },
+      {
+        "position": "C4",
+        "title": "Ozu",
+        "duration": "2:18"
+      },
+      {
+        "position": "D1",
+        "title": "Reading A Wave",
+        "duration": "8:45"
+      },
+      {
+        "position": "D2",
+        "title": "Fiji",
+        "duration": "6:57"
+      }
+    ],
+    "videos": [
+      {
+        "id": "4ymaQyKYlEk",
+        "title": "Arp - Nzuku [Official Audio]",
+        "duration": 415
+      },
+      {
+        "id": "i07c7uR9pMc",
+        "title": "Arp - Fluorescences [Official Video]",
+        "duration": 219
+      },
+      {
+        "id": "KCrEtEwmdP8",
+        "title": "Ozu",
+        "duration": 139
+      },
+      {
+        "id": "n8m3MOPtiWw",
+        "title": "Reading a Wave",
+        "duration": 526
+      },
+      {
+        "id": "pJMPZAlHcrI",
+        "title": "Fiji",
+        "duration": 418
+      },
+      {
+        "id": "96x8GlNP8gI",
+        "title": "Halflight Visions",
+        "duration": 296
+      },
+      {
+        "id": "hkum8npRIfw",
+        "title": "Nzuku",
+        "duration": 415
+      },
+      {
+        "id": "Ag2awNDO2MA",
+        "title": "Parallelism",
+        "duration": 382
+      },
+      {
+        "id": "lrAg3TefzCo",
+        "title": "Folding Water",
+        "duration": 336
+      },
+      {
+        "id": "NzDfi3xp4H4",
+        "title": "A Clearing",
+        "duration": 20
+      },
+      {
+        "id": "bhlq48BMnkc",
+        "title": "Foam",
+        "duration": 23
+      },
+      {
+        "id": "4ymaQyKYlEk",
+        "title": "Arp - Nzuku [Official Audio]",
+        "duration": 415
+      },
+      {
+        "id": "i07c7uR9pMc",
+        "title": "Arp - Fluorescences [Official Video]",
+        "duration": 219
+      },
+      {
+        "id": "KCrEtEwmdP8",
+        "title": "Ozu",
+        "duration": 139
+      },
+      {
+        "id": "n8m3MOPtiWw",
+        "title": "Reading a Wave",
+        "duration": 526
+      },
+      {
+        "id": "pJMPZAlHcrI",
+        "title": "Fiji",
+        "duration": 418
+      },
+      {
+        "id": "96x8GlNP8gI",
+        "title": "Halflight Visions",
+        "duration": 296
+      },
+      {
+        "id": "hkum8npRIfw",
+        "title": "Nzuku",
+        "duration": 415
+      },
+      {
+        "id": "Ag2awNDO2MA",
+        "title": "Parallelism",
+        "duration": 382
+      },
+      {
+        "id": "lrAg3TefzCo",
+        "title": "Folding Water",
+        "duration": 336
+      },
+      {
+        "id": "NzDfi3xp4H4",
+        "title": "A Clearing",
+        "duration": 20
+      },
+      {
+        "id": "bhlq48BMnkc",
+        "title": "Foam",
+        "duration": 23
+      },
+      {
+        "id": "xVVMI0co9OU",
+        "title": "Parallelism",
+        "duration": 382
+      }
+    ]
+  },
+  {
+    "title": "CZ-5000 Sounds & Sequences",
+    "artist": "Satoshi & Makoto",
+    "year": 2017,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "Experimental"
+    ],
+    "art": "assets/turntable/16.webp",
+    "discogsUrl": "https://www.discogs.com/release/10991872-Satoshi-Makoto-CZ-5000-Sounds-Sequences",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Flour",
+        "duration": "2:50"
+      },
+      {
+        "position": "A2",
+        "title": "Bamboo Grove",
+        "duration": "6:37"
+      },
+      {
+        "position": "A3",
+        "title": "Untitled",
+        "duration": "3:56"
+      },
+      {
+        "position": "A4",
+        "title": "Ar",
+        "duration": "8:07"
+      },
+      {
+        "position": "A5",
+        "title": "White Wall",
+        "duration": "3:54"
+      },
+      {
+        "position": "B1",
+        "title": "Time Lapse",
+        "duration": "2:31"
+      },
+      {
+        "position": "B2",
+        "title": "Lumiere",
+        "duration": "5:03"
+      },
+      {
+        "position": "B3",
+        "title": "Poincare",
+        "duration": "3:49"
+      },
+      {
+        "position": "B4",
+        "title": "Chuchotement",
+        "duration": "4:17"
+      },
+      {
+        "position": "B5",
+        "title": "Crepescule Leger",
+        "duration": "6:49"
+      },
+      {
+        "position": "B6",
+        "title": "That's All",
+        "duration": "3:31"
+      }
+    ],
+    "videos": [
+      {
+        "id": "aL_oKpdFseY",
+        "title": "Satoshi & Makoto - Flour",
+        "duration": 181
+      },
+      {
+        "id": "xgjz2vGp57E",
+        "title": "Satoshi & Makoto - Bamboo Grove",
+        "duration": 406
+      },
+      {
+        "id": "0W2sXBsFNk8",
+        "title": "Satoshi & Makoto - Untitled",
+        "duration": 246
+      },
+      {
+        "id": "n2QC4nkYtTI",
+        "title": "Satoshi & Makoto - AR",
+        "duration": 496
+      },
+      {
+        "id": "L7OaTRgYtE4",
+        "title": "Satoshi & Makoto - White Wall",
+        "duration": 241
+      },
+      {
+        "id": "aJ0x9Nj1mQA",
+        "title": "Satoshi & Makoto - Time Lapse",
+        "duration": 161
+      },
+      {
+        "id": "4vInQUHKjk8",
+        "title": "Satoshi & Makoto - Lumiere",
+        "duration": 311
+      },
+      {
+        "id": "dfxEgR9lLIc",
+        "title": "Satoshi & Makoto - Poincare",
+        "duration": 241
+      },
+      {
+        "id": "Su0Q322hUk8",
+        "title": "Satoshi & Makoto - Chuchotement",
+        "duration": 266
+      },
+      {
+        "id": "nuHsXcmd6gg",
+        "title": "Satoshi & Makoto - Crepuscule Leger",
+        "duration": 416
+      },
+      {
+        "id": "g4WvEkvVwpY",
+        "title": "Satoshi & Makoto - That's All",
+        "duration": 221
+      }
+    ]
+  },
+  {
+    "title": "Theory Of Colours",
+    "artist": "Dauwd",
+    "year": 2017,
+    "format": "Vinyl, LP, Album",
+    "genres": [
+      "Electronic",
+      "Deep House",
+      "Ambient",
+      "Abstract"
+    ],
+    "art": "assets/turntable/17.webp",
+    "discogsUrl": "https://www.discogs.com/release/10528795-Dauwd-Theory-Of-Colours",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Macadam Therapy",
+        "duration": "5:40"
+      },
+      {
+        "position": "A2",
+        "title": "Leitmotiv",
+        "duration": "5:52"
+      },
+      {
+        "position": "A3",
+        "title": "Murmure",
+        "duration": "4:47"
+      },
+      {
+        "position": "A4",
+        "title": "Glass Jelly",
+        "duration": "5:22"
+      },
+      {
+        "position": "B1",
+        "title": "Analogische Memories",
+        "duration": "6:01"
+      },
+      {
+        "position": "B2",
+        "title": "Unconscious",
+        "duration": "9:01"
+      },
+      {
+        "position": "B3",
+        "title": "Theory Of Colours",
+        "duration": "5:28"
+      }
+    ],
+    "videos": [
+      {
+        "id": "Kkhz-j-ol3I",
+        "title": "Dauwd - 'Macadam Therapy' (Official Audio)",
+        "duration": 341
+      },
+      {
+        "id": "Sv2hTn-rKAo",
+        "title": "Dauwd - 'Leitmotiv' (Official Audio)",
+        "duration": 353
+      },
+      {
+        "id": "iBH3xGIXQ3g",
+        "title": "Dauwd - 'Murmure' (Official Audio)",
+        "duration": 289
+      },
+      {
+        "id": "dkFBSSrVL-I",
+        "title": "Dauwd - 'Glass Jelly' (Official Audio)",
+        "duration": 324
+      },
+      {
+        "id": "K9ZiyKNNUzw",
+        "title": "Dauwd - 'Analogische Memories' (Official Audio)",
+        "duration": 363
+      },
+      {
+        "id": "Bi8G90nkmDA",
+        "title": "Dauwd - 'Theory of Colours' (Official Audio)",
+        "duration": 329
+      },
+      {
+        "id": "Kkhz-j-ol3I",
+        "title": "Dauwd - 'Macadam Therapy' (Official Audio)",
+        "duration": 341
+      },
+      {
+        "id": "Sv2hTn-rKAo",
+        "title": "Dauwd - 'Leitmotiv' (Official Audio)",
+        "duration": 353
+      },
+      {
+        "id": "iBH3xGIXQ3g",
+        "title": "Dauwd - 'Murmure' (Official Audio)",
+        "duration": 289
+      },
+      {
+        "id": "dkFBSSrVL-I",
+        "title": "Dauwd - 'Glass Jelly' (Official Audio)",
+        "duration": 324
+      },
+      {
+        "id": "K9ZiyKNNUzw",
+        "title": "Dauwd - 'Analogische Memories' (Official Audio)",
+        "duration": 363
+      },
+      {
+        "id": "Bi8G90nkmDA",
+        "title": "Dauwd - 'Theory of Colours' (Official Audio)",
+        "duration": 329
+      }
+    ]
+  },
+  {
+    "title": "Healesville",
+    "artist": "Albrecht La'Brooy",
+    "year": 2019,
+    "format": "",
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "Field Recording"
+    ],
+    "art": "assets/turntable/18.webp",
+    "discogsUrl": "https://www.discogs.com/master/1587700-Albrecht-LaBrooy-Healesville",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Afternoon Carafe ",
+        "duration": "8:19"
+      },
+      {
+        "position": "A2",
+        "title": "Tractor",
+        "duration": "12:14"
+      },
+      {
+        "position": "B1",
+        "title": "Alex's Lullaby",
+        "duration": "5:49"
+      },
+      {
+        "position": "B2",
+        "title": "Healesville",
+        "duration": "7:33"
+      },
+      {
+        "position": "B3",
+        "title": "Sean's Lullaby ",
+        "duration": "6:13"
+      }
+    ],
+    "videos": [
+      {
+        "id": "uteukZIS7zk",
+        "title": "Afternoon Carafe",
+        "duration": 500
+      },
+      {
+        "id": "qGkVClsAvv0",
+        "title": "Tractor (feat. Oliver Paterson)",
+        "duration": 735
+      },
+      {
+        "id": "e1rqnK3xJJA",
+        "title": "Alex's Lullaby",
+        "duration": 350
+      },
+      {
+        "id": "BjNrjeZTbPY",
+        "title": "Healesville (feat. Badskin, Joseph Batrouney)",
+        "duration": 454
+      },
+      {
+        "id": "LOC_rfARn0w",
+        "title": "Sean's Lullaby",
+        "duration": 374
+      },
+      {
+        "id": "uteukZIS7zk",
+        "title": "Afternoon Carafe",
+        "duration": 500
+      },
+      {
+        "id": "qGkVClsAvv0",
+        "title": "Tractor (feat. Oliver Paterson)",
+        "duration": 735
+      },
+      {
+        "id": "e1rqnK3xJJA",
+        "title": "Alex's Lullaby",
+        "duration": 350
+      },
+      {
+        "id": "BjNrjeZTbPY",
+        "title": "Healesville (feat. Badskin, Joseph Batrouney)",
+        "duration": 454
+      },
+      {
+        "id": "LOC_rfARn0w",
+        "title": "Sean's Lullaby",
+        "duration": 374
+      }
+    ]
+  },
+  {
+    "title": "Vapor",
+    "artist": "Yosi Horikawa",
+    "year": 2013,
+    "format": "",
+    "genres": [
+      "Electronic",
+      "Ambient",
+      "IDM",
+      "Leftfield",
+      "Musique Concrète"
+    ],
+    "art": "assets/turntable/19.webp",
+    "discogsUrl": "https://www.discogs.com/master/628505-Yosi-Horikawa-Vapor",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "1",
+        "title": "Intro",
+        "duration": "1:39"
+      },
+      {
+        "position": "2",
+        "title": "Bump",
+        "duration": "4:41"
+      },
+      {
+        "position": "3",
+        "title": "Maki",
+        "duration": "4:49"
+      },
+      {
+        "position": "4",
+        "title": "Splash",
+        "duration": "4:05"
+      },
+      {
+        "position": "5",
+        "title": "Beer",
+        "duration": "3:22"
+      },
+      {
+        "position": "6",
+        "title": "Wandering",
+        "duration": "4:03"
+      },
+      {
+        "position": "7",
+        "title": "Interlude",
+        "duration": "2:30"
+      },
+      {
+        "position": "8",
+        "title": "Summer In 1987",
+        "duration": "6:04"
+      },
+      {
+        "position": "9",
+        "title": "Kingdom Of Frogs",
+        "duration": "4:29"
+      },
+      {
+        "position": "10",
+        "title": "Rainbow",
+        "duration": "6:29"
+      },
+      {
+        "position": "11",
+        "title": "Cave",
+        "duration": "3:50"
+      },
+      {
+        "position": "12",
+        "title": "Starlings",
+        "duration": "4:53"
+      },
+      {
+        "position": "13",
+        "title": "Letter",
+        "duration": "4:24"
+      },
+      {
+        "position": "14",
+        "title": "Stars",
+        "duration": "6:19"
+      },
+      {
+        "position": "15",
+        "title": "Grandpa",
+        "duration": "6:02"
+      },
+      {
+        "position": "16",
+        "title": "Outro",
+        "duration": "2:21"
+      }
+    ],
+    "videos": [
+      {
+        "id": "_iEkGCoB_UE",
+        "title": "01 Yosi Horikawa - Intro [First Word Records]",
+        "duration": 102
+      },
+      {
+        "id": "DpYitYYWfNw",
+        "title": "02 Yosi Horikawa - Bump [First Word Records]",
+        "duration": 284
+      },
+      {
+        "id": "IwBlZL8-z90",
+        "title": "03 Yosi Horikawa - Maki [First Word Records]",
+        "duration": 292
+      },
+      {
+        "id": "5RCwvRknPB4",
+        "title": "04 Yosi Horikawa - Splash [First Word Records]",
+        "duration": 249
+      },
+      {
+        "id": "kE3mQOxTxdQ",
+        "title": "05 Yosi Horikawa - Beer [First Word Records]",
+        "duration": 205
+      },
+      {
+        "id": "lGps7d70GRM",
+        "title": "06 Yosi Horikawa - Wandering [First Word Records]",
+        "duration": 247
+      },
+      {
+        "id": "Hr92tRTUayM",
+        "title": "07 Yosi Horikawa - Interlude [First Word Records]",
+        "duration": 154
+      },
+      {
+        "id": "Mw_XRVkIc_8",
+        "title": "08 Yosi Horikawa - Summer in 1987 [First Word Records]",
+        "duration": 368
+      },
+      {
+        "id": "NGaaxIwsYVc",
+        "title": "09 Yosi Horikawa - Kingdom Of Frogs [First Word Records]",
+        "duration": 272
+      },
+      {
+        "id": "-rMW7uMyb50",
+        "title": "10 Yosi Horikawa - Rainbow [First Word Records]",
+        "duration": 392
+      },
+      {
+        "id": "f-ye0ueTZdI",
+        "title": "11 Yosi Horikawa - Cave [First Word Records]",
+        "duration": 233
+      },
+      {
+        "id": "omx5ZtLDwKs",
+        "title": "12 Yosi Horikawa - Starlings [First Word Records]",
+        "duration": 297
+      },
+      {
+        "id": "7vQc1ApB5Do",
+        "title": "13 Yosi Horikawa - Letter [First Word Records]",
+        "duration": 268
+      },
+      {
+        "id": "7oh4tPsfa40",
+        "title": "Yosi Horikawa - Stars (Official Video) directed by GAREN",
+        "duration": 343
+      },
+      {
+        "id": "CS4r8lz8So4",
+        "title": "15 Yosi Horikawa - Grandpa [First Word Records]",
+        "duration": 366
+      },
+      {
+        "id": "4a-hubMCNBo",
+        "title": "16 Yosi Horikawa - Outro [First Word Records]",
+        "duration": 145
+      }
+    ]
+  },
+  {
+    "title": "Silent Way",
+    "artist": "Shinichi Atobe",
+    "year": 2026,
+    "format": "Vinyl, LP",
+    "genres": [
+      "Electronic",
+      "Techno",
+      "House"
+    ],
+    "art": "assets/turntable/20.webp",
+    "discogsUrl": "https://www.discogs.com/release/37249212-Shinichi-Atobe-Silent-Way",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Intro 6.1",
+        "duration": "3:11"
+      },
+      {
+        "position": "A2",
+        "title": "Phase 2",
+        "duration": "8:59"
+      },
+      {
+        "position": "A3",
+        "title": "TRNS",
+        "duration": "8:56"
+      },
+      {
+        "position": "B1",
+        "title": "Blurred",
+        "duration": "7:31"
+      },
+      {
+        "position": "B2",
+        "title": "Aquarius",
+        "duration": "7:09"
+      },
+      {
+        "position": "B3",
+        "title": "Durability",
+        "duration": "3:27"
+      },
+      {
+        "position": "C1",
+        "title": "Rain 1",
+        "duration": "11:45"
+      },
+      {
+        "position": "C2",
+        "title": "Syndrom",
+        "duration": "2:25"
+      },
+      {
+        "position": "D1",
+        "title": "Fractal",
+        "duration": "8:01"
+      },
+      {
+        "position": "D2",
+        "title": "Defect",
+        "duration": "6:22"
+      }
+    ],
+    "videos": [
+      {
+        "id": "3B6tEr1P1hY",
+        "title": "Shinichi Atobe - Silent Way (Full Album) [P&S003]",
+        "duration": 4074
+      },
+      {
+        "id": "AbmhF4rPH-E",
+        "title": "intro 6.1",
+        "duration": 192
+      },
+      {
+        "id": "aeO9DC5r6Qw",
+        "title": "Phase 2",
+        "duration": 540
+      },
+      {
+        "id": "MSWmpab9wtU",
+        "title": "TRNS",
+        "duration": 537
+      },
+      {
+        "id": "ytyAquS8eN0",
+        "title": "Shinichi Atobe - TRNS (Official Music Video)",
+        "duration": 544
+      },
+      {
+        "id": "XE7rK8rBB3s",
+        "title": "Blurred",
+        "duration": 452
+      },
+      {
+        "id": "EP0qwmEGaR0",
+        "title": "Aquarius",
+        "duration": 430
+      },
+      {
+        "id": "L2DP7rYvvgI",
+        "title": "Durability",
+        "duration": 208
+      },
+      {
+        "id": "SBMw7CD9ZS4",
+        "title": "Rain 1",
+        "duration": 0
+      },
+      {
+        "id": "EAQyrT1gKXQ",
+        "title": "Syndrom",
+        "duration": 146
+      },
+      {
+        "id": "h0NflzkwQRM",
+        "title": "Fractal",
+        "duration": 482
+      },
+      {
+        "id": "S8CQC10RmPM",
+        "title": "Defect",
+        "duration": 383
+      }
+    ]
+  },
+  {
+    "title": "Eau",
+    "artist": "aus",
+    "year": 2025,
+    "format": "Vinyl, LP",
+    "genres": [
+      "Electronic",
+      "Folk, World, & Country",
+      "Ambient"
+    ],
+    "art": "assets/turntable/21.webp",
+    "discogsUrl": "https://www.discogs.com/release/36354754-aus-Eau",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Tsuyu",
+        "duration": ""
+      },
+      {
+        "position": "A2",
+        "title": "Uki",
+        "duration": ""
+      },
+      {
+        "position": "A3",
+        "title": "Variation I",
+        "duration": ""
+      },
+      {
+        "position": "A4",
+        "title": "Orientation",
+        "duration": ""
+      },
+      {
+        "position": "A5",
+        "title": "Variation II",
+        "duration": ""
+      },
+      {
+        "position": "B1",
+        "title": "Tsuzure",
+        "duration": ""
+      },
+      {
+        "position": "B2",
+        "title": "Shite",
+        "duration": ""
+      },
+      {
+        "position": "B3",
+        "title": "Minawa",
+        "duration": ""
+      },
+      {
+        "position": "B4",
+        "title": "Soko",
+        "duration": ""
+      },
+      {
+        "position": "B5",
+        "title": "Strand",
+        "duration": ""
+      }
+    ],
+    "videos": []
+  },
+  {
+    "title": "Butterfly Effect",
+    "artist": "Shinichi Atobe",
+    "year": 2014,
+    "format": "Vinyl, LP, Album, Limited Edition, Numbered",
+    "genres": [
+      "Electronic",
+      "Dub Techno",
+      "House",
+      "Experimental"
+    ],
+    "art": "assets/turntable/22.webp",
+    "discogsUrl": "https://www.discogs.com/release/6228084-Shinichi-Atobe-Butterfly-Effect",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Free Access Zone 1",
+        "duration": "3:28"
+      },
+      {
+        "position": "A2",
+        "title": "Free Access Zone 2",
+        "duration": "9:19"
+      },
+      {
+        "position": "B1",
+        "title": "Free Access Zone 4",
+        "duration": "1:27"
+      },
+      {
+        "position": "B2",
+        "title": "Free Access Zone 5",
+        "duration": "5:07"
+      },
+      {
+        "position": "B3",
+        "title": "Free Access Zone 7",
+        "duration": "4:53"
+      },
+      {
+        "position": "C1",
+        "title": "Waste Land 1",
+        "duration": "6:08"
+      },
+      {
+        "position": "C2",
+        "title": "Waste Land 2",
+        "duration": "3:21"
+      },
+      {
+        "position": "D1",
+        "title": "Butterfly Effect",
+        "duration": "11:53"
+      }
+    ],
+    "videos": [
+      {
+        "id": "mpphVRbFeyI",
+        "title": "Shinichi Atobe - Butterfly Effect (Full Album)",
+        "duration": 3501
+      }
+    ]
+  },
+  {
+    "title": "The Slipping Beauty",
+    "artist": "Vangelis Katsoulis",
+    "year": 1988,
+    "format": "Vinyl, LP",
+    "genres": [
+      "Electronic",
+      "New Age",
+      "Experimental",
+      "Ambient"
+    ],
+    "art": "assets/turntable/23.webp",
+    "discogsUrl": "https://www.discogs.com/release/2412764-Vangelis-Katsoulis-The-Slipping-Beauty",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "Inner City Dance",
+        "duration": "2:44"
+      },
+      {
+        "position": "A2",
+        "title": "Luminous Water",
+        "duration": "2:24"
+      },
+      {
+        "position": "A3",
+        "title": "The Slipping Beauty",
+        "duration": "3:02"
+      },
+      {
+        "position": "A4",
+        "title": "Picture Of An Other World",
+        "duration": "1:45"
+      },
+      {
+        "position": "A5",
+        "title": "First Confession",
+        "duration": "2:54"
+      },
+      {
+        "position": "A6",
+        "title": "After The Rain",
+        "duration": "1:50"
+      },
+      {
+        "position": "A7",
+        "title": "Flying Wings",
+        "duration": "2:07"
+      },
+      {
+        "position": "A8",
+        "title": "Overcast",
+        "duration": "2:30"
+      },
+      {
+        "position": "B1",
+        "title": "Improvisation",
+        "duration": "1:44"
+      },
+      {
+        "position": "B2",
+        "title": "The Sound Of The Stone",
+        "duration": "2:01"
+      },
+      {
+        "position": "B3",
+        "title": "Immaterial Gardens",
+        "duration": "1:42"
+      },
+      {
+        "position": "B4",
+        "title": "Thoughts Of A Young Girl",
+        "duration": "2:10"
+      },
+      {
+        "position": "B5",
+        "title": "Touch The Sun",
+        "duration": "1:50"
+      },
+      {
+        "position": "B6",
+        "title": "Earth Beat",
+        "duration": "1:55"
+      },
+      {
+        "position": "B7",
+        "title": "The Dream",
+        "duration": "3:33"
+      },
+      {
+        "position": "B8",
+        "title": "Overdrive",
+        "duration": "2:35"
+      }
+    ],
+    "videos": [
+      {
+        "id": "9omGGpy_YjU",
+        "title": "Vangelis Katsoulis - Improvisation (1987)",
+        "duration": 107
+      },
+      {
+        "id": "kE7FV_7czQY",
+        "title": "Vangelis Katsoulis - The Slipping Beauty",
+        "duration": 183
+      },
+      {
+        "id": "17hZebFM2fs",
+        "title": "Vangelis Katsoulis - Inner City Dance",
+        "duration": 168
+      },
+      {
+        "id": "9c9PrCI5PQo",
+        "title": "Luminous Water",
+        "duration": 148
+      },
+      {
+        "id": "d8qzpViJgjM",
+        "title": "The Dream",
+        "duration": 215
+      },
+      {
+        "id": "iigfFLAKwVs",
+        "title": "Thoughts of a Young Girl",
+        "duration": 134
+      },
+      {
+        "id": "raTGewpTvBI",
+        "title": "Touch the Sun",
+        "duration": 114
+      },
+      {
+        "id": "lslMV_n_h34",
+        "title": "First Confession",
+        "duration": 178
+      },
+      {
+        "id": "K2roEwgWdLE",
+        "title": "The Slipping Beauty",
+        "duration": 186
+      },
+      {
+        "id": "6zEX4BxHIr4",
+        "title": "Picture of an Other World",
+        "duration": 109
+      }
+    ]
+  },
+  {
+    "title": "A・I・R (Air In Resort)",
+    "artist": "Hiroshi Yoshimura",
+    "year": 1984,
+    "format": "Vinyl, LP, Album, Promo",
+    "genres": [
+      "Electronic",
+      "Ambient"
+    ],
+    "art": "assets/turntable/24.webp",
+    "discogsUrl": "https://www.discogs.com/release/819661-Hiroshi-Yoshimura-AIR-Air-In-Resort",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "森の夜明け",
+        "duration": "6:02"
+      },
+      {
+        "position": "A2",
+        "title": "小川にそって",
+        "duration": "5:42"
+      },
+      {
+        "position": "A3",
+        "title": "小鳥たちのカフェ",
+        "duration": "6:10"
+      },
+      {
+        "position": "B1",
+        "title": "きらめく海",
+        "duration": "6:15"
+      },
+      {
+        "position": "B2",
+        "title": "カモメの水平線",
+        "duration": "4:19"
+      },
+      {
+        "position": "B3",
+        "title": "砂の星",
+        "duration": "7:21"
+      }
+    ],
+    "videos": [
+      {
+        "id": "ProvVFrF6b8",
+        "title": "Hiroshi Yoshimura - A・I・R (Air In Resort) (full album)",
+        "duration": 2198
+      },
+      {
+        "id": "ProvVFrF6b8",
+        "title": "Hiroshi Yoshimura - A・I・R (Air In Resort) (full album)",
+        "duration": 2198
+      }
+    ]
+  },
+  {
+    "title": "He's Coming",
+    "artist": "Roy Ayers Ubiquity",
+    "year": 1993,
+    "format": "Vinyl, LP, Album, Reissue",
+    "genres": [
+      "Jazz",
+      "Funk / Soul",
+      "Soul-Jazz",
+      "Jazz-Funk"
+    ],
+    "art": "assets/turntable/25.webp",
+    "discogsUrl": "https://www.discogs.com/release/1431154-Roy-Ayers-Ubiquity-Hes-Coming",
+    "comment": "",
+    "tracklist": [
+      {
+        "position": "A1",
+        "title": "He's A Superstar",
+        "duration": "5:35"
+      },
+      {
+        "position": "A2",
+        "title": "He Ain't Heavy He's My Brother",
+        "duration": "4:04"
+      },
+      {
+        "position": "A3",
+        "title": "Ain't Got Time",
+        "duration": "2:53"
+      },
+      {
+        "position": "A4",
+        "title": "I Don't Know How To Love Him",
+        "duration": "4:02"
+      },
+      {
+        "position": "B1",
+        "title": "He's Coming",
+        "duration": "6:20"
+      },
+      {
+        "position": "B2",
+        "title": "We Live In Brooklyn Baby",
+        "duration": "3:43"
+      },
+      {
+        "position": "B3",
+        "title": "Sweet Butterfly Of Love",
+        "duration": "1:52"
+      },
+      {
+        "position": "B4",
+        "title": "Sweet Tears",
+        "duration": "3:32"
+      },
+      {
+        "position": "B5",
+        "title": "Fire Weaver",
+        "duration": "3:40"
+      }
+    ],
+    "videos": [
+      {
+        "id": "SO32Lu3E5NA",
+        "title": "He's A Superstar",
+        "duration": 338
+      },
+      {
+        "id": "InGrhBSILXY",
+        "title": "He Ain't Heavy He's My Brother",
+        "duration": 247
+      },
+      {
+        "id": "roKBAS83Cm8",
+        "title": "Ain't Got Time",
+        "duration": 175
+      },
+      {
+        "id": "8LhDC8tlrrg",
+        "title": "I Don't Know How To Love Him",
+        "duration": 243
+      },
+      {
+        "id": "6FOMnqmhieE",
+        "title": "He's Coming",
+        "duration": 378
+      },
+      {
+        "id": "qvn1ev1b6Q4",
+        "title": "We Live In Brooklyn, Baby",
+        "duration": 226
+      },
+      {
+        "id": "dMBkhak5NmQ",
+        "title": "Sweet Butterfly Of Love",
+        "duration": 114
+      },
+      {
+        "id": "qiIZxSJX4VM",
+        "title": "Sweet Tears",
+        "duration": 213
+      },
+      {
+        "id": "XYWnXSE2NTg",
+        "title": "Fire Weaver",
+        "duration": 221
+      }
+    ]
+  }
+]
