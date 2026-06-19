@@ -479,18 +479,40 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .gear__note { color: var(--ink-dim); font-size: 0.92rem; margin-top: 0.5rem; }
 
 /* =========================================================
-   On my turntable — 5×5 numbered grid of link-out covers
+   On my turntable — rotating coverflow carousel
    ========================================================= */
-.tt-grid {
+.tt-carousel {
   max-width: var(--maxw);
   margin: 0 auto;
-  display: grid;
-  gap: clamp(0.6rem, 1.6vw, 1rem);
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.3rem, 2vw, 1rem);
 }
-@media (min-width: 560px) { .tt-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 860px) { .tt-grid { grid-template-columns: repeat(5, 1fr); } }
+.tt-carousel__stage {
+  position: relative;
+  flex: 1 1 auto;
+  height: clamp(230px, 62vw, 360px);
+  perspective: 1500px;
+  transform-style: preserve-3d;
+}
+.tt-carousel__nav {
+  flex: none; z-index: 5;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 1.6rem; line-height: 1; color: var(--ink);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.tt-carousel__nav:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.08);
+}
 
+/* Base card (shared by carousel) */
 .tt {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -500,20 +522,28 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   isolation: isolate;
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
 }
-.tt:hover, .tt:focus-visible {
-  transform: translateY(-4px);
+
+/* Cards are stacked in the stage and positioned by JS (transform set inline). */
+.tt-carousel .tt {
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(180px, 56vw, 300px);
+  margin: 0;
+  cursor: pointer;
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease),
+              box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+  will-change: transform, opacity;
+}
+.tt-carousel .tt.is-active {
   border-color: color-mix(in srgb, var(--accent) 70%, transparent);
-  box-shadow: var(--shadow), 0 10px 28px -10px color-mix(in srgb, var(--accent) 55%, transparent);
-  outline: none;
+  box-shadow: var(--shadow), 0 20px 54px -16px color-mix(in srgb, var(--accent) 65%, transparent);
 }
+.tt-carousel .tt:focus-visible { outline: 2px solid var(--aqua); outline-offset: 4px; }
+
 .tt__art {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.5s var(--ease);
 }
-.tt:hover .tt__art, .tt:focus-visible .tt__art { transform: scale(1.05); }
 .tt__art.is-missing { display: none; }
 .tt__fallback {
   position: absolute; inset: 0;
@@ -522,26 +552,18 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   font-size: clamp(0.8rem, 2.4vw, 1rem); color: #fff; opacity: 0.92; line-height: 1.15;
 }
 .tt__art.is-missing ~ .tt__fallback { display: grid; }
-.tt__num {
-  position: absolute; top: 6px; left: 9px; z-index: 2;
-  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; color: #fff;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.65);
-}
 .tt__meta {
   position: absolute; inset: auto 0 0 0; z-index: 2;
   display: flex; flex-direction: column; gap: 0.1rem;
-  padding: 1.6rem 0.7rem 0.6rem;
+  padding: 1.8rem 0.8rem 0.7rem;
   background: linear-gradient(to top, rgba(4, 6, 12, 0.92), transparent);
   transform: translateY(101%);
-  transition: transform 0.35s var(--ease);
+  transition: transform 0.45s var(--ease);
 }
-.tt:hover .tt__meta, .tt:focus-visible .tt__meta { transform: translateY(0); }
-.tt__title { font-size: 0.82rem; font-weight: 500; line-height: 1.15; color: var(--ink); }
-.tt__artist { font-size: 0.72rem; color: var(--ink-dim); }
-/* Touch devices can't hover — keep the caption visible instead. */
-@media (hover: none) {
-  .tt__meta { transform: none; background: linear-gradient(to top, rgba(4, 6, 12, 0.9), transparent 92%); }
-}
+/* Only the centred card reveals its title/artist. */
+.tt-carousel .tt.is-active .tt__meta { transform: translateY(0); }
+.tt__title { font-size: 0.95rem; font-weight: 500; line-height: 1.15; color: var(--ink); }
+.tt__artist { font-size: 0.8rem; color: var(--ink-dim); }
 
 /* =========================================================
    The scenery — aspect-aware masonry of photos
@@ -596,7 +618,7 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .shot.is-missing { display: none; } /* hide tiles whose photo failed to load */
 
 /* Collapse the turntable section until turntable.json exists */
-.turntable.is-empty .tt-grid { display: none; }
+.turntable.is-empty .tt-carousel { display: none; }
 
 /* =========================================================
    Turntable popup — Discogs details + embedded YouTube

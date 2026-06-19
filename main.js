@@ -186,36 +186,54 @@
     list.append(fragment);
   }
 
-  /** Render the "on my turntable" grid — numbered tiles that open a popup.
-      Data comes from assets/turntable/turntable.json (built from a Discogs List). */
+  /* -------------------------------------------------------
+     "On my turntable" — a rotating coverflow carousel.
+     No numbers; the list is shuffled on every load so a
+     different album leads each visit. Auto-advances, pauses
+     on hover/focus or while the popup is open, and respects
+     reduced motion. Click the centred card to open details.
+     Data comes from assets/turntable/turntable.json.
+  ------------------------------------------------------- */
+  let ttCards = [];          // the rendered card elements, in shuffled order
+  let ttActive = 0;          // index of the centred card
+  let ttTimer = null;        // auto-advance interval handle
+  const TT_INTERVAL = 3800;  // ms between auto-advances
+
+  /** Fisher–Yates shuffle (returns a new array). */
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
   async function renderTurntable() {
-    const grid = document.getElementById("ttGrid");
-    if (!grid) return;
+    const stage = document.getElementById("ttGrid");
+    if (!stage) return;
 
     try {
       const res = await fetch("assets/turntable/turntable.json", { cache: "no-cache" });
       if (!res.ok) throw new Error(res.status);
-      TURNTABLE = await res.json();
+      TURNTABLE = shuffle(await res.json()); // randomise the running order each visit
     } catch {
-      grid.closest(".turntable")?.classList.add("is-empty");
+      stage.closest(".turntable")?.classList.add("is-empty");
       return; // section quietly collapses until the list is built
     }
 
     const palette = Object.values(ACCENTS);
-    const fragment = document.createDocumentFragment();
 
-    TURNTABLE.forEach((item, i) => {
-      const rank = String(i + 1).padStart(2, "0");
+    ttCards = TURNTABLE.map((item, i) => {
       const label = item.artist ? `${item.title} by ${item.artist}` : item.title;
 
       const art = el("img", { class: "tt__art", src: item.art || "", alt: "", loading: "lazy" });
       if (!item.art) art.classList.add("is-missing");
       art.addEventListener("error", () => art.classList.add("is-missing"));
 
-      const tile = el(
+      const card = el(
         "button",
-        { class: "tt", type: "button", "aria-label": `${rank} — ${label} — open details` },
-        el("span", { class: "tt__num", "aria-hidden": "true", text: rank }),
+        { class: "tt", type: "button", "aria-label": `${label} — open details` },
         art,
         el("span", { class: "tt__fallback", "aria-hidden": "true", text: item.title }),
         el(
@@ -225,13 +243,88 @@
           item.artist ? el("span", { class: "tt__artist", text: item.artist }) : null
         )
       );
-      tile.style.setProperty("--accent", palette[i % palette.length]);
-      tile.addEventListener("click", () => openTurntable(i, tile));
-      fragment.append(tile);
+      card.style.setProperty("--accent", palette[i % palette.length]);
+      // Centred card opens details; any other card rotates to the centre.
+      card.addEventListener("click", () => {
+        if (i === ttActive) openTurntable(i, card);
+        else ttGo(i);
+      });
+      stage.append(card);
+      return card;
     });
 
-    grid.append(fragment);
+    ttActive = Math.floor(Math.random() * ttCards.length); // randomise which leads
+    layoutTurntable();
+    setupCarouselControls();
+    startTurntableAuto();
   }
+
+  /** Position every card around the ring relative to the active one. */
+  function layoutTurntable() {
+    const n = ttCards.length;
+    if (!n) return;
+    ttCards.forEach((card, i) => {
+      let off = (((i - ttActive) % n) + n) % n; // 0 … n-1
+      if (off > n / 2) off -= n;                 // shortest signed distance
+      const abs = Math.abs(off);
+      const sign = Math.sign(off);
+
+      let tx = 0, tz = 0, ry = 0, sc = 1, op = 1, z = 100, pe = "auto";
+      if (abs === 1)      { tx = sign * 64;  tz = -120; ry = -sign * 38; sc = 0.82; op = 0.9;  z = 80; }
+      else if (abs === 2) { tx = sign * 112; tz = -280; ry = -sign * 44; sc = 0.66; op = 0.45; z = 60; }
+      else if (abs >= 3)  { tx = sign * 150; tz = -420; ry = -sign * 50; sc = 0.5;  op = 0;    z = 0; pe = "none"; }
+
+      card.style.transform =
+        `translate(-50%, -50%) translateX(${tx}%) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`;
+      card.style.zIndex = String(z);
+      card.style.opacity = String(op);
+      card.style.pointerEvents = pe;
+      card.classList.toggle("is-active", abs === 0);
+      card.setAttribute("aria-hidden", abs === 0 ? "false" : "true");
+      card.tabIndex = abs === 0 ? 0 : -1; // only the centred card is in the tab order
+    });
+  }
+
+  /** Rotate so card `i` becomes the centred one. */
+  function ttGo(i) {
+    const n = ttCards.length;
+    if (!n) return;
+    ttActive = ((i % n) + n) % n;
+    layoutTurntable();
+  }
+  function ttStep(dir) { ttGo(ttActive + dir); }
+
+  function setupCarouselControls() {
+    const carousel = document.getElementById("ttCarousel");
+    if (!carousel) return;
+
+    document.getElementById("ttPrev")?.addEventListener("click", () => { ttStep(-1); restartTurntableAuto(); });
+    document.getElementById("ttNext")?.addEventListener("click", () => { ttStep(1); restartTurntableAuto(); });
+
+    // Pause auto-rotation while the visitor is interacting.
+    carousel.addEventListener("mouseenter", stopTurntableAuto);
+    carousel.addEventListener("mouseleave", startTurntableAuto);
+    carousel.addEventListener("focusin", stopTurntableAuto);
+    carousel.addEventListener("focusout", startTurntableAuto);
+    carousel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft")  { ttStep(-1); restartTurntableAuto(); }
+      else if (event.key === "ArrowRight") { ttStep(1); restartTurntableAuto(); }
+    });
+  }
+
+  function startTurntableAuto() {
+    if (ttTimer != null || ttCards.length < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    ttTimer = window.setInterval(() => {
+      if (document.hidden) return;                              // save battery on hidden tabs
+      if (!document.getElementById("ttPopup")?.hidden) return; // hold while details are open
+      ttStep(1);
+    }, TT_INTERVAL);
+  }
+  function stopTurntableAuto() {
+    if (ttTimer != null) { clearInterval(ttTimer); ttTimer = null; }
+  }
+  function restartTurntableAuto() { stopTurntableAuto(); startTurntableAuto(); }
 
   /* -------------------------------------------------------
      Turntable popup — Discogs info + embedded YouTube player
