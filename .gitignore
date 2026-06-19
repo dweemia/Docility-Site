@@ -7,3 +7,6 @@ assets/covers/reflections.png
 
 # Staging folder for raw gallery photos (only optimized .webp gets committed)
 assets/gallery/_raw/
+
+# Discogs API token (never commit)
+tools/.discogs_token

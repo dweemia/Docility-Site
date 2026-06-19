@@ -70,33 +70,11 @@
        url:    the page to open in a new tab (Spotify, Bandcamp, …)
      Tiles with no art fall back to a coloured gradient + title.
   ------------------------------------------------------- */
-  const TURNTABLE = [
-    { title: "Title 1",  artist: "Artist", art: "assets/turntable/01.webp", url: "#" },
-    { title: "Title 2",  artist: "Artist", art: "assets/turntable/02.webp", url: "#" },
-    { title: "Title 3",  artist: "Artist", art: "assets/turntable/03.webp", url: "#" },
-    { title: "Title 4",  artist: "Artist", art: "assets/turntable/04.webp", url: "#" },
-    { title: "Title 5",  artist: "Artist", art: "assets/turntable/05.webp", url: "#" },
-    { title: "Title 6",  artist: "Artist", art: "assets/turntable/06.webp", url: "#" },
-    { title: "Title 7",  artist: "Artist", art: "assets/turntable/07.webp", url: "#" },
-    { title: "Title 8",  artist: "Artist", art: "assets/turntable/08.webp", url: "#" },
-    { title: "Title 9",  artist: "Artist", art: "assets/turntable/09.webp", url: "#" },
-    { title: "Title 10", artist: "Artist", art: "assets/turntable/10.webp", url: "#" },
-    { title: "Title 11", artist: "Artist", art: "assets/turntable/11.webp", url: "#" },
-    { title: "Title 12", artist: "Artist", art: "assets/turntable/12.webp", url: "#" },
-    { title: "Title 13", artist: "Artist", art: "assets/turntable/13.webp", url: "#" },
-    { title: "Title 14", artist: "Artist", art: "assets/turntable/14.webp", url: "#" },
-    { title: "Title 15", artist: "Artist", art: "assets/turntable/15.webp", url: "#" },
-    { title: "Title 16", artist: "Artist", art: "assets/turntable/16.webp", url: "#" },
-    { title: "Title 17", artist: "Artist", art: "assets/turntable/17.webp", url: "#" },
-    { title: "Title 18", artist: "Artist", art: "assets/turntable/18.webp", url: "#" },
-    { title: "Title 19", artist: "Artist", art: "assets/turntable/19.webp", url: "#" },
-    { title: "Title 20", artist: "Artist", art: "assets/turntable/20.webp", url: "#" },
-    { title: "Title 21", artist: "Artist", art: "assets/turntable/21.webp", url: "#" },
-    { title: "Title 22", artist: "Artist", art: "assets/turntable/22.webp", url: "#" },
-    { title: "Title 23", artist: "Artist", art: "assets/turntable/23.webp", url: "#" },
-    { title: "Title 24", artist: "Artist", art: "assets/turntable/24.webp", url: "#" },
-    { title: "Title 25", artist: "Artist", art: "assets/turntable/25.webp", url: "#" },
-  ];
+  /* The "On my turntable" grid is data-driven from a Discogs List.
+     Curate the list on Discogs, then run  python tools/build-turntable.py
+     to cache covers + metadata into assets/turntable/turntable.json, which is
+     loaded at runtime below. Nothing here to edit by hand. */
+  let TURNTABLE = []; // populated by renderTurntable() from turntable.json
 
   /* -------------------------------------------------------
      The scenery gallery  ← photos behind the music and the
@@ -208,10 +186,20 @@
     list.append(fragment);
   }
 
-  /** Render the 5×5 "on my turntable" grid — numbered tiles that link out. */
-  function renderTurntable() {
+  /** Render the "on my turntable" grid — numbered tiles that open a popup.
+      Data comes from assets/turntable/turntable.json (built from a Discogs List). */
+  async function renderTurntable() {
     const grid = document.getElementById("ttGrid");
     if (!grid) return;
+
+    try {
+      const res = await fetch("assets/turntable/turntable.json", { cache: "no-cache" });
+      if (!res.ok) throw new Error(res.status);
+      TURNTABLE = await res.json();
+    } catch {
+      grid.closest(".turntable")?.classList.add("is-empty");
+      return; // section quietly collapses until the list is built
+    }
 
     const palette = Object.values(ACCENTS);
     const fragment = document.createDocumentFragment();
@@ -220,18 +208,13 @@
       const rank = String(i + 1).padStart(2, "0");
       const label = item.artist ? `${item.title} by ${item.artist}` : item.title;
 
-      const art = el("img", { class: "tt__art", src: item.art, alt: "", loading: "lazy" });
+      const art = el("img", { class: "tt__art", src: item.art || "", alt: "", loading: "lazy" });
+      if (!item.art) art.classList.add("is-missing");
       art.addEventListener("error", () => art.classList.add("is-missing"));
 
       const tile = el(
-        "a",
-        {
-          class: "tt",
-          href: item.url || "#",
-          target: "_blank",
-          rel: "noopener",
-          "aria-label": `${rank} — ${label}`,
-        },
+        "button",
+        { class: "tt", type: "button", "aria-label": `${rank} — ${label} — open details` },
         el("span", { class: "tt__num", "aria-hidden": "true", text: rank }),
         art,
         el("span", { class: "tt__fallback", "aria-hidden": "true", text: item.title }),
@@ -243,6 +226,7 @@
         )
       );
       tile.style.setProperty("--accent", palette[i % palette.length]);
+      tile.addEventListener("click", () => openTurntable(i, tile));
       fragment.append(tile);
     });
 
@@ -250,6 +234,110 @@
   }
 
   /* -------------------------------------------------------
+     Turntable popup — Discogs info + embedded YouTube player
+  ------------------------------------------------------- */
+  let ttOpener = null;
+
+  function ytEmbed(id, autoplay) {
+    const p = new URLSearchParams({ rel: "0", modestbranding: "1", autoplay: autoplay ? "1" : "0" });
+    return `https://www.youtube.com/embed/${id}?${p}`;
+  }
+
+  function setupTurntablePopup() {
+    const pop = document.getElementById("ttPopup");
+    if (!pop) return;
+    document.getElementById("ttClose").addEventListener("click", closeTurntable);
+    document.getElementById("ttBackdrop").addEventListener("click", closeTurntable);
+    document.addEventListener("keydown", (event) => {
+      if (pop.hidden) return;
+      if (event.key === "Escape") closeTurntable();
+      else if (event.key === "Tab") trapFocus(event, pop);
+    });
+  }
+
+  function loadVideo(id, autoplay) {
+    const player = document.getElementById("ttPlayer");
+    const frame = el("iframe", {
+      src: ytEmbed(id, autoplay),
+      title: "YouTube video player",
+      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+      allowfullscreen: "",
+      loading: "lazy",
+    });
+    player.replaceChildren(frame);
+    document.querySelectorAll("#ttVideos .ttpop__vid").forEach((b) =>
+      b.setAttribute("aria-current", b.dataset.id === id ? "true" : "false")
+    );
+  }
+
+  function openTurntable(index, opener) {
+    const pop = document.getElementById("ttPopup");
+    const item = TURNTABLE[index];
+    if (!pop || !item) return;
+    ttOpener = opener || document.activeElement;
+
+    const cover = document.getElementById("ttCover");
+    cover.src = item.art || "";
+    cover.style.visibility = item.art ? "visible" : "hidden";
+    document.getElementById("ttTitle").textContent = item.title;
+    document.getElementById("ttArtist").textContent = item.artist || "";
+    const meta = [item.year, item.format].filter(Boolean).join(" · ");
+    document.getElementById("ttMeta").textContent = meta;
+    document.getElementById("ttGenres").textContent = (item.genres || []).join(" · ");
+    const note = document.getElementById("ttComment");
+    note.textContent = item.comment || "";
+    note.hidden = !item.comment;
+    const link = document.getElementById("ttDiscogs");
+    if (item.discogsUrl) { link.href = item.discogsUrl; link.hidden = false; } else { link.hidden = true; }
+
+    // Tracklist
+    const tracks = document.getElementById("ttTracks");
+    tracks.replaceChildren(
+      ...(item.tracklist || []).map((t) =>
+        el("li", { class: "ttpop__track" },
+          el("span", { class: "ttpop__pos", text: t.position || "" }),
+          el("span", { class: "ttpop__tname", text: t.title || "" }),
+          el("span", { class: "ttpop__dur", text: t.duration || "" })
+        )
+      )
+    );
+    document.getElementById("ttTracksWrap").hidden = !(item.tracklist || []).length;
+
+    // YouTube videos
+    const vids = item.videos || [];
+    const list = document.getElementById("ttVideos");
+    list.replaceChildren(
+      ...vids.map((v) =>
+        el("li", {},
+          el("button", { class: "ttpop__vid", type: "button", "data-id": v.id, text: v.title || "Video" })
+        )
+      )
+    );
+    list.querySelectorAll(".ttpop__vid").forEach((b) =>
+      b.addEventListener("click", () => loadVideo(b.dataset.id, true))
+    );
+    const body = document.getElementById("ttBody");
+    if (vids.length) {
+      body.classList.remove("is-empty");
+      loadVideo(vids[0].id, false);
+    } else {
+      body.classList.add("is-empty");
+      document.getElementById("ttPlayer").replaceChildren();
+    }
+
+    pop.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    document.getElementById("ttClose").focus({ preventScroll: true });
+  }
+
+  function closeTurntable() {
+    const pop = document.getElementById("ttPopup");
+    pop.hidden = true;
+    document.documentElement.style.overflow = "";
+    document.getElementById("ttPlayer").replaceChildren(); // stop playback
+    if (ttOpener && typeof ttOpener.focus === "function") ttOpener.focus({ preventScroll: true });
+  }
+
   /** Render the scenery gallery — an aspect-aware masonry of photos that
       open a full-screen lightbox. Portrait, landscape and panorama all keep
       their natural shape (no cropping). */
@@ -598,6 +686,7 @@
     renderGallery();
     setupGearFallbacks();
     setupPopup();
+    setupTurntablePopup();
     setupLightbox();
     buildBars();
     setupReveal();

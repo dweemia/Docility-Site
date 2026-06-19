@@ -603,6 +603,109 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .shot:hover .shot__cap, .shot:focus-visible .shot__cap { opacity: 1; transform: none; }
 .shot.is-missing { display: none; } /* hide tiles whose photo failed to load */
 
+/* Collapse the turntable section until turntable.json exists */
+.turntable.is-empty .tt-grid { display: none; }
+
+/* =========================================================
+   Turntable popup — Discogs details + embedded YouTube
+   ========================================================= */
+.ttpop {
+  position: fixed; inset: 0; z-index: 1050;
+  display: grid; place-items: center;
+  padding: clamp(0.8rem, 4vw, 2rem);
+}
+.ttpop[hidden] { display: none; }
+.ttpop__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(4, 6, 12, 0.7);
+  -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px);
+}
+.ttpop__panel {
+  position: relative; z-index: 1;
+  width: min(720px, 96vw); max-height: 90vh; overflow-y: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, #0e1426, #0a0e1c);
+  box-shadow: var(--shadow);
+  padding: clamp(1.2rem, 3.5vw, 2rem);
+  animation: lb-in 0.35s var(--ease) both;
+}
+.ttpop__close {
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--line); background: rgba(0,0,0,0.4); color: var(--ink);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+}
+.ttpop__close:hover { background: rgba(0,0,0,0.7); transform: rotate(90deg); }
+
+.ttpop__head { display: flex; gap: 1.1rem; padding-right: 2.4rem; }
+.ttpop__cover {
+  width: clamp(90px, 26vw, 140px); height: clamp(90px, 26vw, 140px);
+  flex: none; border-radius: 12px; object-fit: cover;
+  border: 1px solid var(--line); box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+}
+.ttpop__headtext { min-width: 0; }
+.ttpop__title { font-size: clamp(1.3rem, 3.6vw, 1.8rem); line-height: 1.1; }
+.ttpop__artist { color: var(--ink); font-size: 1.05rem; margin-top: 0.15rem; }
+.ttpop__metaline { color: var(--ink-dim); font-size: 0.85rem; margin-top: 0.4rem; }
+.ttpop__genres { color: var(--sky); font-size: 0.75rem; letter-spacing: 0.06em; margin-top: 0.3rem; }
+.ttpop__discogs {
+  display: inline-block; margin-top: 0.7rem;
+  font-size: 0.82rem; color: var(--aqua);
+  border-bottom: 1px solid color-mix(in srgb, var(--aqua) 40%, transparent);
+}
+.ttpop__discogs:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.ttpop__comment {
+  margin-top: 1rem; padding: 0.8rem 1rem;
+  border-left: 2px solid var(--violet);
+  background: rgba(154,123,255,0.08); border-radius: 0 8px 8px 0;
+  color: var(--ink-dim); font-size: 0.92rem; font-style: italic;
+}
+
+.ttpop__body { margin-top: 1.2rem; }
+.ttpop__body.is-empty { display: none; }
+.ttpop__player {
+  position: relative; aspect-ratio: 16 / 9;
+  border-radius: 12px; overflow: hidden; background: #000;
+  border: 1px solid var(--line);
+}
+.ttpop__player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ttpop__videos {
+  list-style: none; padding: 0; margin: 0.7rem 0 0;
+  display: flex; flex-direction: column; gap: 0.3rem;
+  max-height: 150px; overflow-y: auto;
+}
+.ttpop__vid {
+  width: 100%; text-align: left; cursor: pointer;
+  padding: 0.45rem 0.7rem; border-radius: 8px;
+  border: 1px solid transparent; background: rgba(255,255,255,0.03); color: var(--ink-dim);
+  font-size: 0.85rem; line-height: 1.3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.ttpop__vid:hover { background: rgba(255,255,255,0.07); color: var(--ink); }
+.ttpop__vid[aria-current="true"] {
+  color: var(--ink); border-color: color-mix(in srgb, var(--sky) 50%, transparent);
+  background: color-mix(in srgb, var(--sky) 12%, transparent);
+}
+
+.ttpop__tracks { margin-top: 1.2rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+.ttpop__tracks[hidden] { display: none; }
+.ttpop__tracks summary {
+  cursor: pointer; color: var(--ink-dim); font-size: 0.85rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.ttpop__tracklist { list-style: none; padding: 0; margin: 0.8rem 0 0; }
+.ttpop__track {
+  display: grid; grid-template-columns: 2.2rem 1fr auto; gap: 0.6rem;
+  padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.88rem;
+}
+.ttpop__pos { color: var(--ink-dim); }
+.ttpop__dur { color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+
+/* =========================================================
    Lightbox — full-screen scenery viewer
    ========================================================= */
 .lightbox {

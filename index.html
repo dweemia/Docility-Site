@@ -126,10 +126,9 @@
     <!-- What's on my turntable -->
     <section class="turntable" id="turntable">
       <div class="section-head reveal">
-        <span class="section-head__kicker">03 — On my turntable</span>
         <h2>On my turntable</h2>
         <p class="section-head__sub">
-          Twenty-five albums, artists and tracks on my mind right now. Tap any cover to go and listen.
+          Albums, artists and tracks on my mind right now. Tap any cover for the details and a player.
         </p>
       </div>
       <div class="tt-grid reveal" id="ttGrid">
@@ -299,6 +298,33 @@
           </label>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Turntable popup: Discogs info + embedded YouTube player -->
+  <div class="ttpop" id="ttPopup" hidden>
+    <div class="ttpop__backdrop" id="ttBackdrop"></div>
+    <div class="ttpop__panel" role="dialog" aria-modal="true" aria-labelledby="ttTitle">
+      <button class="ttpop__close" id="ttClose" type="button" aria-label="Close">&times;</button>
+      <div class="ttpop__head">
+        <img class="ttpop__cover" id="ttCover" alt="" />
+        <div class="ttpop__headtext">
+          <h3 class="ttpop__title" id="ttTitle"></h3>
+          <p class="ttpop__artist" id="ttArtist"></p>
+          <p class="ttpop__metaline" id="ttMeta"></p>
+          <p class="ttpop__genres" id="ttGenres"></p>
+          <a class="ttpop__discogs" id="ttDiscogs" target="_blank" rel="noopener">View on Discogs &#8599;</a>
+        </div>
+      </div>
+      <p class="ttpop__comment" id="ttComment" hidden></p>
+      <div class="ttpop__body" id="ttBody">
+        <div class="ttpop__player" id="ttPlayer"></div>
+        <ol class="ttpop__videos" id="ttVideos" aria-label="Videos from Discogs"></ol>
+      </div>
+      <details class="ttpop__tracks" id="ttTracksWrap">
+        <summary>Tracklist</summary>
+        <ol class="ttpop__tracklist" id="ttTracks"></ol>
+      </details>
     </div>
   </div>
 
