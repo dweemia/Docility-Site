@@ -946,35 +946,34 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 .hero__inner, .hero__wave, .hero__scroll { position: relative; z-index: 1; }
 
-/* Scrolling keyword band between the hero and the about section */
-.marquee {
-  position: relative; overflow: hidden;
-  padding: 1.05rem 0;
-  border-block: 1px solid var(--line);
-  background: linear-gradient(90deg, rgba(54, 224, 200, 0.05), rgba(154, 123, 255, 0.05));
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+/* Textured backdrop — a faint two-tone dot weave over the colour wash */
+.texture {
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none; opacity: 0.6;
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--sky) 10%, transparent) 1px, transparent 1.6px),
+    radial-gradient(color-mix(in srgb, var(--violet) 8%, transparent) 1px, transparent 1.6px);
+  background-position: 0 0, 13px 13px;
+  background-size: 26px 26px, 26px 26px;
 }
-.marquee__track {
-  display: flex; align-items: center; gap: 2.4rem;
-  width: max-content;
-  animation: marquee 38s linear infinite;
+
+/* Flowing colour-wave dividers between sections.
+   The palette gradient shows through an SVG wave mask; the mask scrolls
+   one tile width for a gentle "water" flow, and the gradient hue drifts. */
+.wave {
+  width: 100%; height: clamp(34px, 6vw, 54px);
+  margin: clamp(-1.5rem, -3vw, -3rem) 0;
+  background: linear-gradient(90deg, var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+  background-size: 200% 100%;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='60' viewBox='0 0 240 60'%3E%3Cpath d='M0,30 C40,14 80,14 120,30 C160,46 200,46 240,30' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E") repeat-x left center / 240px 100%;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='60' viewBox='0 0 240 60'%3E%3Cpath d='M0,30 C40,14 80,14 120,30 C160,46 200,46 240,30' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E") repeat-x left center / 240px 100%;
+  opacity: 0.7;
+  animation: wave-flow 14s linear infinite, hue 14s ease infinite;
 }
-.marquee:hover .marquee__track { animation-play-state: paused; }
-.marquee span {
-  font-size: clamp(1.05rem, 3.2vw, 1.9rem);
-  font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-  white-space: nowrap;
-  background: linear-gradient(100deg, var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold));
-  background-size: 240% 100%;
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: hue 10s ease infinite;
+.wave--flip { transform: scaleY(-1); }
+@keyframes wave-flow {
+  to { -webkit-mask-position: 240px center; mask-position: 240px center; }
 }
-.marquee .marquee__dot {
-  -webkit-text-fill-color: var(--sky); color: var(--sky);
-  background: none; font-size: 0.55em; opacity: 0.55; animation: none;
-}
-@keyframes marquee { to { transform: translateX(-50%); } }
 
 /* =========================================================
    Scroll reveal
