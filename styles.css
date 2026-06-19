@@ -361,7 +361,7 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 /* =========================================================
    Tools / gear
    ========================================================= */
-/* DAW screenshot, framed like an application window and tilted slightly */
+/* DAW screenshot, tilted slightly */
 .gear-feature {
   max-width: var(--maxw);
   margin: 0 auto clamp(3rem, 7vw, 5rem);
@@ -382,20 +382,12 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   box-shadow: var(--shadow);
   display: grid;
   place-items: center;
-  min-height: 200px;
+  aspect-ratio: 2557 / 1366;
   transform: perspective(1400px) rotateY(4deg) rotateX(2deg);
   transition: transform 0.5s var(--ease);
 }
 .gear-feature:hover .gear-feature__frame { transform: perspective(1400px) rotateY(0deg) rotateX(0deg); }
-.gear-feature__bar {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
-  display: flex; gap: 7px; align-items: center;
-  padding: 10px 12px;
-  background: rgba(0, 0, 0, 0.35);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-}
-.gear-feature__bar span { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,0.35); }
-.gear-feature__shot { width: 100%; height: auto; display: block; }
+.gear-feature__shot { width: 100%; height: 100%; object-fit: cover; display: block; }
 .gear-feature__shot.is-missing { display: none; }
 .gear-feature__fallback {
   display: none; /* shown only when the screenshot is missing */
@@ -876,21 +868,6 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
-
-/* =========================================================
-   Listen / Follow
-   ========================================================= */
-.listen { display: grid; place-items: center; }
-.listen__card {
-  max-width: 640px; width: 100%; text-align: center;
-  padding: clamp(2.5rem, 6vw, 4rem);
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: linear-gradient(160deg, rgba(154,123,255,0.12), rgba(54,224,200,0.08));
-  position: relative; overflow: hidden;
-}
-.listen__card h2 { font-size: clamp(2rem, 5vw, 3rem); }
-.listen__card p { color: var(--ink-dim); margin: 0.8rem 0 2rem; }
 
 /* =========================================================
    Footer

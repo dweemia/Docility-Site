@@ -10,3 +10,6 @@ assets/gallery/_raw/
 
 # Discogs API token (never commit)
 tools/.discogs_token
+
+# Local assistant/editor settings
+.claude/settings.local.json

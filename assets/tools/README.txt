@@ -15,7 +15,7 @@ Cut-outs (transparent subject, background removed):
 
 Screenshot (rectangular, no transparency needed):
 
-    ableton.jpeg     → Ableton Live 12 session
+    ableton.png      → Ableton Live 12 session
 
 The class in brackets shapes each item's halo to its silhouette (see
 .gear--wide / --tall / --diag in styles.css). If you swap an image for a
