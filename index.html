@@ -382,6 +382,32 @@
     </div>
   </div>
 
+  <!-- Now playing mini bar -->
+  <div class="nowplaying" id="nowPlaying" hidden>
+    <div class="nowplaying__left">
+      <img class="nowplaying__art" id="npArt" alt="" aria-hidden="true" />
+      <div class="nowplaying__info">
+        <span class="nowplaying__title" id="npTitle"></span>
+        <span class="nowplaying__album" id="npAlbum"></span>
+      </div>
+    </div>
+    <div class="nowplaying__controls">
+      <button class="nowplaying__btn" id="npPlayPause" type="button" aria-label="Play / pause">
+        <svg class="np-icon np-icon--pause" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        <svg class="np-icon np-icon--play" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+      </button>
+      <button class="nowplaying__btn nowplaying__btn--expand" id="npExpand" type="button" aria-label="Reopen player">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
+      <button class="nowplaying__btn nowplaying__btn--stop" id="npStop" type="button" aria-label="Stop playback">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="4" y="4" width="16" height="16"/></svg>
+      </button>
+    </div>
+    <div class="nowplaying__progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="nowplaying__fill" id="npFill"></div>
+    </div>
+  </div>
+
   <footer class="footer">
     <span>Docility</span>
     <span>Ambient music &amp; field recordings</span>

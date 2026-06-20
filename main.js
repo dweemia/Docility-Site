@@ -196,6 +196,8 @@
   let currentWidget = null; // SoundCloud widget for the open popup
   let lastFocused = null;   // element to restore focus to on close
   let originSleeve = null;  // the sleeve a popup was opened from (for the leap animation)
+  let npActive = false;     // true while now-playing bar is shown
+  let npAlbumData = null;   // the album object currently loaded in the bar
 
   /** Render a set of releases as record sleeves into the given container. */
   function renderSleeves(releases, listId) {
@@ -659,9 +661,12 @@
 
   function openPopup(album, accent, sleeve) {
     const popup = document.getElementById("popup");
+    // If bar is showing from a previous session, stop it first.
+    if (npActive) stopNowPlaying();
     const flipcard = document.getElementById("flipcard");
     originSleeve = sleeve;
     lastFocused = sleeve;
+    npAlbumData = album;
 
     flipcard.style.setProperty("--accent", accent);
     const cover = document.getElementById("popupCover");
@@ -736,13 +741,52 @@
       if (done) return;
       done = true;
       flipcard.removeEventListener("transitionend", onEnd);
-      popup.hidden = true;
-      flipcard.classList.remove("is-flipped");
-      flipcard.style.transform = "none";
-      flipcard.style.opacity = "";
-      document.getElementById("popupPlayer").replaceChildren(); // stop playback
-      currentWidget = null;
-      originSleeve = null;
+      // Check if still playing — if so, dock instead of fully closing
+      if (currentWidget) {
+        currentWidget.isPaused((paused) => {
+          if (!paused) {
+            // Dock: keep iframe alive, show mini bar
+            popup.classList.add("is-docked");
+            popup.removeAttribute("hidden"); // must stay in DOM for iframe
+            flipcard.style.transform = "none";
+            flipcard.style.opacity = "";
+            dockBar(true);
+            // Wire PLAY_PROGRESS to the bar's fill
+            currentWidget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
+              const fill = document.getElementById("npFill");
+              if (fill) fill.style.transform = `scaleX(${data.relativePosition || 0})`;
+              const bar = document.getElementById("nowPlaying");
+              if (bar) bar.classList.remove("is-paused");
+            });
+            currentWidget.bind(SC.Widget.Events.PAUSE, () => {
+              document.getElementById("nowPlaying")?.classList.add("is-paused");
+            });
+            currentWidget.bind(SC.Widget.Events.PLAY, () => {
+              document.getElementById("nowPlaying")?.classList.remove("is-paused");
+            });
+            currentWidget.bind(SC.Widget.Events.FINISH, () => {
+              stopNowPlaying();
+            });
+          } else {
+            // Not playing — full close
+            popup.hidden = true;
+            flipcard.classList.remove("is-flipped");
+            flipcard.style.transform = "none";
+            flipcard.style.opacity = "";
+            document.getElementById("popupPlayer").replaceChildren();
+            currentWidget = null;
+            originSleeve = null;
+          }
+        });
+      } else {
+        popup.hidden = true;
+        flipcard.classList.remove("is-flipped");
+        flipcard.style.transform = "none";
+        flipcard.style.opacity = "";
+        document.getElementById("popupPlayer").replaceChildren();
+        currentWidget = null;
+        originSleeve = null;
+      }
     };
     const onEnd = (event) => {
       if (event.target === flipcard && event.propertyName === "opacity") finish();
@@ -753,6 +797,68 @@
     if (lastFocused && typeof lastFocused.focus === "function") {
       lastFocused.focus({ preventScroll: true });
     }
+  }
+
+  /* -------------------------------------------------------
+     Now-playing mini bar
+  ------------------------------------------------------- */
+  function setupNowPlaying() {
+    const bar = document.getElementById("nowPlaying");
+    if (!bar) return;
+
+    document.getElementById("npPlayPause").addEventListener("click", () => {
+      if (!currentWidget) return;
+      currentWidget.isPaused((paused) => {
+        if (paused) { currentWidget.play(); bar.classList.remove("is-paused"); }
+        else        { currentWidget.pause(); bar.classList.add("is-paused"); }
+      });
+    });
+
+    document.getElementById("npExpand").addEventListener("click", () => {
+      const popup = document.getElementById("popup");
+      if (!popup) return;
+      popup.classList.remove("is-docked");
+      popup.removeAttribute("hidden");
+      document.documentElement.style.overflow = "hidden";
+      dockBar(false);
+      document.getElementById("popupClose").focus({ preventScroll: true });
+    });
+
+    document.getElementById("npStop").addEventListener("click", stopNowPlaying);
+  }
+
+  function dockBar(show) {
+    const bar = document.getElementById("nowPlaying");
+    if (!bar) return;
+    if (show) {
+      if (npAlbumData) {
+        document.getElementById("npArt").src = npAlbumData.cover || "";
+        document.getElementById("npTitle").textContent = npAlbumData.title || "";
+        document.getElementById("npAlbum").textContent = npAlbumData.year || "";
+      }
+      bar.removeAttribute("hidden");
+      // RAF to allow display:flex to apply before transition
+      requestAnimationFrame(() => bar.classList.add("is-visible"));
+      npActive = true;
+    } else {
+      bar.classList.remove("is-visible");
+      npActive = false;
+      // After transition ends, re-hide
+      bar.addEventListener("transitionend", () => { if (!npActive) bar.setAttribute("hidden", ""); }, { once: true });
+    }
+  }
+
+  function stopNowPlaying() {
+    const popup = document.getElementById("popup");
+    if (popup) {
+      popup.classList.remove("is-docked");
+      document.getElementById("popupPlayer").replaceChildren();
+      currentWidget = null;
+      popup.hidden = true;
+      document.documentElement.style.overflow = "";
+    }
+    dockBar(false);
+    npAlbumData = null;
   }
 
   /* -------------------------------------------------------
@@ -1038,6 +1144,7 @@
     renderGallery();
     setupGearFallbacks();
     setupPopup();
+    setupNowPlaying();
     setupTurntablePopup();
     setupLightbox();
     buildBars();
