@@ -24,14 +24,6 @@
 
   const ALBUMS = [
     {
-      title: "Prism",
-      year: "Album · In progress",
-      accent: "violet",
-      blurb: "A work in progress — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
-      cover: "assets/covers/prism.webp",
-      url: "https://soundcloud.com/docility-m/sets/prism",
-    },
-    {
       title: "Reflections",
       year: "Album · 2026",
       accent: "aqua",
@@ -57,6 +49,17 @@
       blurb: "My first release (2015) — an experimental EP inspired by Carl Sagan's Contact and the idea of making first contact with aliens.",
       cover: "assets/covers/contact.webp",
       url: "https://soundcloud.com/docility-m/sets/contact-ep",
+    },
+  ];
+
+  const UPCOMING = [
+    {
+      title: "Prism",
+      year: "Upcoming · In progress",
+      accent: "violet",
+      blurb: "A work in progress — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
+      cover: "assets/covers/prism.webp",
+      url: "https://soundcloud.com/docility-m/sets/prism",
     },
   ];
 
@@ -823,6 +826,7 @@
     setupSpotlight();
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
+    renderSleeves(UPCOMING, "upcomingList");
     renderTurntable();
     renderGallery();
     setupGearFallbacks();
