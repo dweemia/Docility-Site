@@ -45,6 +45,15 @@ API = "https://api.discogs.com"
 THUMB_PX = 600  # square thumbnail size (grid shows ~300px; 600 covers retina)
 
 
+def fetch_json(url: str) -> dict:
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return json.loads(r.read())
+    except Exception:
+        return {}
+
+
 def load_token() -> str | None:
     tok = os.environ.get("DISCOGS_TOKEN")
     if tok:
@@ -181,6 +190,28 @@ def main() -> int:
                 (OUT_DIR / name).write_bytes(square_thumb(data))
                 art_rel = f"assets/turntable/{name}"
 
+        # Odesli / song.link — best-effort streaming platform links
+        streaming_links: dict = {}
+        if videos:
+            vid_id = videos[0]["id"]
+            yt_url = f"https://www.youtube.com/watch?v={vid_id}"
+            odesli_url = (
+                "https://api.song.link/v1-alpha.1/links"
+                f"?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{vid_id}"
+            )
+            try:
+                odesli = fetch_json(odesli_url)
+                by_platform = odesli.get("linksByPlatform") or {}
+                for key in ("spotify", "appleMusic", "youtubeMusic", "tidal"):
+                    entry = by_platform.get(key)
+                    if entry and entry.get("url"):
+                        streaming_links[key] = entry["url"]
+            except Exception:
+                pass
+            time.sleep(0.5)
+            platforms_found = ", ".join(streaming_links.keys()) if streaming_links else "none"
+            print(f"    Odesli → {platforms_found}")
+
         entries.append({
             "title": title,
             "artist": artist,
@@ -195,6 +226,7 @@ def main() -> int:
                 for t in (rel.get("tracklist") or []) if t.get("type_") in (None, "track")
             ],
             "videos": videos,
+            "streamingLinks": streaming_links,
         })
         print(f"  {i:02d}. {artist} — {title}  ({len(videos)} video(s){'' if art_rel else ', no cover'})")
 
