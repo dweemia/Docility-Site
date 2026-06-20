@@ -140,6 +140,21 @@
     { src: "assets/gallery/26.webp", alt: "Shadow of a person standing on top of a hill looking down a valley.", caption: "Iceland, 2014." },
   ];
 
+  const MAP_LOCATIONS = [
+    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, note: "Glaciers, waterfalls, rain — inspiration for Open Sky." },
+    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, note: "Misty river valley recordings." },
+    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, note: "Dense forest ambiences." },
+    { name: "Mount Fuji, Japan", year: "2016", lat: 35.361, lng: 138.727, note: "Above-cloud field recordings." },
+    { name: "Busan, South Korea", year: "2024", lat: 35.18, lng: 129.076, note: "Coastal city sounds and reflections." },
+    { name: "Beppu, Japan", year: "2024", lat: 33.285, lng: 131.493, note: "Hot spring mist and steam." },
+    { name: "Naoshima, Japan", year: "2024", lat: 34.457, lng: 133.996, note: "Garden silence and architecture." },
+    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, note: "Underwater acoustics and reef sounds." },
+    { name: "Magnetic Island, Australia", year: "2025", lat: -19.133, lng: 146.867, note: "Bay water and wildlife." },
+    { name: "Townsville, Australia", year: "2025", lat: -19.258, lng: 146.818, note: "Coastal sunset recordings." },
+    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, note: "Urban textures and neon ambience." },
+    { name: "Mount Takao, Japan", year: "2026", lat: 35.626, lng: 139.244, note: "Mountain forest soundscapes." },
+  ];
+
   /* -------------------------------------------------------
      Helpers
   ------------------------------------------------------- */
@@ -857,6 +872,44 @@
   }
 
   /* -------------------------------------------------------
+     Interactive field recording location map (Leaflet.js)
+  ------------------------------------------------------- */
+  function renderFieldMap() {
+    const container = document.getElementById("fieldMap");
+    if (!container || typeof L === "undefined") return;
+
+    const map = L.map(container, {
+      center: [25, 115],
+      zoom: 3,
+      zoomControl: true,
+      attributionControl: true,
+      scrollWheelZoom: false,
+    });
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const markerIcon = L.divIcon({
+      className: "fmap__pin",
+      html: '<span class="fmap__pin-dot"></span>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+      popupAnchor: [0, -12],
+    });
+
+    MAP_LOCATIONS.forEach((loc) => {
+      L.marker([loc.lat, loc.lng], { icon: markerIcon })
+        .addTo(map)
+        .bindPopup(`<strong>${loc.name}</strong><br><em>${loc.year}</em><br>${loc.note}`, {
+          className: "fmap__popup",
+          maxWidth: 220,
+        });
+    });
+  }
+
+  /* -------------------------------------------------------
      Colourful scroll progress bar across the top
   ------------------------------------------------------- */
   function setupScrollProgress() {
@@ -914,6 +967,7 @@
     renderTurntable();
     renderMixes();
     setupMixPopup();
+    renderFieldMap();
     renderGallery();
     setupGearFallbacks();
     setupPopup();
