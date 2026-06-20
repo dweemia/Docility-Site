@@ -142,6 +142,17 @@
       </div>
     </section>
 
+    <!-- DJ Mixes -->
+    <section class="mixes" id="mixes">
+      <div class="section-head reveal">
+        <h2>Mixes</h2>
+        <p class="section-head__sub">DJ mixes from the archive.</p>
+      </div>
+      <div class="mixes__grid" id="mixGrid">
+        <!-- Mix cards injected by main.js -->
+      </div>
+    </section>
+
     <!-- The scenery — masonry gallery -->
     <section class="gallery" id="gallery">
       <div class="section-head reveal">
@@ -319,6 +330,20 @@
         <summary>Tracklist</summary>
         <ol class="ttpop__tracklist" id="ttTracks"></ol>
       </details>
+    </div>
+  </div>
+
+  <!-- Mix popup: Mixcloud player -->
+  <div class="mxpop" id="mxPopup" hidden>
+    <div class="mxpop__backdrop" id="mxBackdrop"></div>
+    <div class="mxpop__panel" role="dialog" aria-modal="true" aria-labelledby="mxTitle">
+      <button class="mxpop__close" id="mxClose" type="button" aria-label="Close">&times;</button>
+      <div class="mxpop__head">
+        <h3 class="mxpop__title" id="mxTitle"></h3>
+        <p class="mxpop__date" id="mxDate"></p>
+        <a class="mxpop__link" id="mxLink" target="_blank" rel="noopener">Listen on Mixcloud &#8599;</a>
+      </div>
+      <div class="mxpop__player" id="mxPlayer"></div>
     </div>
   </div>
 
