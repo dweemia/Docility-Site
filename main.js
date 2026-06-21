@@ -24,14 +24,6 @@
 
   const ALBUMS = [
     {
-      title: "Prism",
-      year: "Album · In progress",
-      accent: "violet",
-      blurb: "A work in progress — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
-      cover: "assets/covers/prism.webp",
-      url: "https://soundcloud.com/docility-m/sets/prism",
-    },
-    {
       title: "Reflections",
       year: "Album · 2026",
       accent: "aqua",
@@ -60,6 +52,14 @@
     },
   ];
 
+  const UPCOMING = [
+    {
+      title: "Prism",
+      year: "Upcoming · In progress",
+      accent: "violet",
+      blurb: "A work in progress — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
+      cover: "assets/covers/prism.webp",
+      url: "https://soundcloud.com/docility-m/sets/prism",
   const MIXES = [
     {
       title: "Ambient Insomnia",
@@ -907,6 +907,7 @@
     setupSpotlight();
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
+    renderSleeves(UPCOMING, "upcomingList");
     renderTurntable();
     renderMixes();
     setupMixPopup();

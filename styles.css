@@ -178,6 +178,16 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 /* A second heading within a section (e.g. EPs after Albums) needs breathing room above it. */
 .albums__list + .section-head { margin-top: clamp(3rem, 7vw, 5rem); }
 
+/* Upcoming releases — "in progress" badge on the sleeve */
+.albums__list--upcoming .sleeve::before {
+  content: "In progress";
+  position: absolute; top: 10px; right: 10px; z-index: 2;
+  padding: 0.2rem 0.6rem; border-radius: 100px;
+  font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(154, 123, 255, 0.18); border: 1px solid rgba(154, 123, 255, 0.45);
+  color: #9a7bff;
+}
+
 /* =========================================================
    Hero
    ========================================================= */
