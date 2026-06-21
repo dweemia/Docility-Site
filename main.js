@@ -70,6 +70,7 @@
       accent: "violet",
       feed: "/dweejay/261014-ambient-insomnia/",
       url: "https://www.mixcloud.com/dweejay/261014-ambient-insomnia/",
+      art: "assets/mixes/ambient-insomnia.jpg",
     },
     {
       title: "Global Groove",
@@ -77,6 +78,7 @@
       accent: "sky",
       feed: "/dweejay/21-11-2016-global-groove/",
       url: "https://www.mixcloud.com/dweejay/21-11-2016-global-groove/",
+      art: "assets/mixes/global-groove.jpg",
     },
     {
       title: "Spring Has Sprung",
@@ -84,6 +86,7 @@
       accent: "aqua",
       feed: "/dweejay/01-09-2014-spring-has-sprung/",
       url: "https://www.mixcloud.com/dweejay/01-09-2014-spring-has-sprung/",
+      art: "assets/mixes/spring-has-sprung.jpg",
     },
   ];
 
@@ -202,6 +205,7 @@
   let npFieldAudio = null;  // HTML5 Audio for field recording (kept alive when docked)
   let npFieldMarker = null; // Leaflet marker ref so expand can re-open the popup
   let currentMix = null;    // mix object currently open or docked
+  let mxWidget = null;      // Mixcloud Widget API handle
 
   /** Render a set of releases as record sleeves into the given container. */
   function renderSleeves(releases, listId) {
@@ -536,9 +540,20 @@
     if (!pop || !currentMix) return;
     pop.hidden = true;
     document.documentElement.style.overflow = "";
-    // Keep iframe alive — don't touch mxPlayer
-    showNpBar("mix", { title: currentMix.title, subtitle: currentMix.date, art: null, canExpand: true });
+    // Keep iframe + mxWidget alive — don't touch mxPlayer
+    showNpBar("mix", { title: currentMix.title, subtitle: currentMix.date, art: currentMix.art || null, canExpand: true });
     if (mxOpener && typeof mxOpener.focus === "function") mxOpener.focus({ preventScroll: true });
+  }
+
+  function loadMixcloudApi() {
+    if (window.Mixcloud || document.getElementById("mcApi")) return Promise.resolve();
+    return new Promise((resolve) => {
+      const s = document.createElement("script");
+      s.id = "mcApi";
+      s.src = "https://widget.mixcloud.com/media/js/widgetApi.js";
+      s.onload = resolve;
+      document.head.appendChild(s);
+    });
   }
 
   function openMix(index) {
@@ -547,6 +562,7 @@
     const mix = MIXES[index];
     if (!pop || !mix) return;
     currentMix = mix;
+    mxWidget = null;
     mxOpener = document.activeElement;
     document.getElementById("mxTitle").textContent = mix.title;
     document.getElementById("mxDate").textContent = mix.date;
@@ -558,6 +574,24 @@
     pop.hidden = false;
     document.documentElement.style.overflow = "hidden";
     document.getElementById("mxClose").focus({ preventScroll: true });
+
+    loadMixcloudApi().then(() => {
+      const widget = window.Mixcloud.PlayerWidget(frame);
+      widget.ready.then(() => {
+        mxWidget = widget;
+        const bar = document.getElementById("nowPlaying");
+        widget.events.play.on(() => bar?.classList.remove("is-paused"));
+        widget.events.pause.on(() => bar?.classList.add("is-paused"));
+        widget.events.progress.on((position, duration) => {
+          if (duration > 0) {
+            document.getElementById("npFill")?.style.setProperty("transform", `scaleX(${position / duration})`);
+          }
+        });
+        // Sync bar volume to widget on first connect
+        const vol = document.getElementById("npVol");
+        if (vol) widget.setVolume(Number(vol.value) / 100);
+      });
+    });
   }
 
   function closeMix() {
@@ -844,11 +878,23 @@
           if (paused) { currentWidget.play(); bar.classList.remove("is-paused"); }
           else        { currentWidget.pause(); bar.classList.add("is-paused"); }
         });
+      } else if (npSource === "mix" && mxWidget) {
+        mxWidget.togglePlay();
       } else if (npSource === "field" && npFieldAudio) {
         if (npFieldAudio.paused) { npFieldAudio.play(); bar.classList.remove("is-paused"); }
         else                     { npFieldAudio.pause(); bar.classList.add("is-paused"); }
       }
     });
+
+    const volSlider = document.getElementById("npVol");
+    if (volSlider) {
+      volSlider.addEventListener("input", () => {
+        const v = Number(volSlider.value) / 100;
+        if (npSource === "sc" && currentWidget)       currentWidget.setVolume(v);
+        else if (npSource === "mix" && mxWidget)      mxWidget.setVolume(v);
+        else if (npSource === "field" && npFieldAudio) npFieldAudio.volume = v;
+      });
+    }
 
     document.getElementById("npExpand").addEventListener("click", () => {
       if (npSource === "sc") {
@@ -883,7 +929,7 @@
     artEl.hidden = !art;
     document.getElementById("npTitle").textContent = title || "";
     document.getElementById("npAlbum").textContent = subtitle || "";
-    document.getElementById("npPlayPause").hidden = source === "mix";
+    document.getElementById("npPlayPause").hidden = false;
     document.getElementById("npExpand").hidden = !canExpand;
     bar.classList.remove("is-paused");
     bar.removeAttribute("hidden");
