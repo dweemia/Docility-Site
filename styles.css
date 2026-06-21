@@ -918,6 +918,14 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .fmap__popup .leaflet-popup-content strong { color: #eef2ff; font-weight: 500; }
 .fmap__popup .leaflet-popup-content em { color: #46c6ff; font-style: normal; font-size: 0.78rem; }
 .leaflet-container { font-family: inherit; }
+.fmap__popup-sound {
+  display: inline-block; margin-top: 0.4rem;
+  font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #36e0c8; opacity: 0.6;
+}
+.fmap__popup-sound::before { content: "♪ "; }
+.fmap__popup-sound.is-playing { opacity: 1; animation: fmap-sound-pulse 1.4s ease-in-out infinite; }
+@keyframes fmap-sound-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
 /* =========================================================
    Album popup — the sleeve flips to reveal details + player

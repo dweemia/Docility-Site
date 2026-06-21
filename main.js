@@ -140,19 +140,19 @@
     { src: "assets/gallery/26.webp", alt: "Shadow of a person standing on top of a hill looking down a valley.", caption: "Iceland, 2014." },
   ];
 
+  // sound: path to an audio file in assets/field-recordings/ — set to null if you don't have one yet
   const MAP_LOCATIONS = [
-    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, note: "Glaciers, waterfalls, rain — inspiration for Open Sky." },
-    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, note: "Misty river valley recordings." },
-    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, note: "Dense forest ambiences." },
-    { name: "Mount Fuji, Japan", year: "2016", lat: 35.361, lng: 138.727, note: "Above-cloud field recordings." },
-    { name: "Busan, South Korea", year: "2024", lat: 35.18, lng: 129.076, note: "Coastal city sounds and reflections." },
-    { name: "Beppu, Japan", year: "2024", lat: 33.285, lng: 131.493, note: "Hot spring mist and steam." },
-    { name: "Naoshima, Japan", year: "2024", lat: 34.457, lng: 133.996, note: "Garden silence and architecture." },
-    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, note: "Underwater acoustics and reef sounds." },
-    { name: "Magnetic Island, Australia", year: "2025", lat: -19.133, lng: 146.867, note: "Bay water and wildlife." },
-    { name: "Townsville, Australia", year: "2025", lat: -19.258, lng: 146.818, note: "Coastal sunset recordings." },
-    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, note: "Urban textures and neon ambience." },
-    { name: "Mount Takao, Japan", year: "2026", lat: 35.626, lng: 139.244, note: "Mountain forest soundscapes." },
+    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, sound: null },
+    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, sound: null },
+    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, sound: null },
+    { name: "Mount Fuji, Japan", year: "2016", lat: 35.361, lng: 138.727, sound: null },
+    { name: "Naoshima, Japan", year: "2024", lat: 34.457, lng: 133.996, sound: null },
+    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, sound: null },
+    { name: "Magnetic Island, Australia", year: "2025", lat: -19.133, lng: 146.867, sound: null },
+    { name: "Townsville, Australia", year: "2025", lat: -19.258, lng: 146.818, sound: null },
+    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, sound: null },
+    { name: "Dambula, Sri Lanka", year: "2019", lat: 7.882229302197966, lng: 80.66179268173713, sound: null },
+    { name: "Melbourne, Australia", year: "2012-2026", lat: -37.81282908788092, lng: 144.9782535060548, sound: null },
   ];
 
   /* -------------------------------------------------------
@@ -904,13 +904,39 @@
       popupAnchor: [0, -12],
     });
 
+    let currentAudio = null;
+
     MAP_LOCATIONS.forEach((loc) => {
-      L.marker([loc.lat, loc.lng], { icon: markerIcon })
+      const popupHtml = `<strong>${loc.name}</strong><br><em>${loc.year}</em>`
+        + (loc.sound ? `<br><span class="fmap__popup-sound">Field recording</span>` : "");
+
+      const marker = L.marker([loc.lat, loc.lng], { icon: markerIcon })
         .addTo(map)
-        .bindPopup(`<strong>${loc.name}</strong><br><em>${loc.year}</em><br>${loc.note}`, {
-          className: "fmap__popup",
-          maxWidth: 220,
-        });
+        .bindPopup(popupHtml, { className: "fmap__popup", maxWidth: 220 });
+
+      marker.on("popupopen", (e) => {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        if (loc.sound) {
+          currentAudio = new Audio(loc.sound);
+          currentAudio.loop = true;
+          currentAudio.volume = 0.7;
+          currentAudio.play().catch(() => {});
+          e.popup.getElement()?.querySelector(".fmap__popup-sound")?.classList.add("is-playing");
+        } else {
+          currentAudio = null;
+        }
+      });
+
+      marker.on("popupclose", () => {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+          currentAudio = null;
+        }
+      });
     });
 
     // The map container starts hidden by the .reveal animation. Once the CSS
