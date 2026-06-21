@@ -140,6 +140,22 @@
     { src: "assets/gallery/26.webp", alt: "Shadow of a person standing on top of a hill looking down a valley.", caption: "Iceland, 2014." },
   ];
 
+  // sound: path to an audio file in assets/field-recordings/ — set to null if you don't have one yet
+  // note: short description shown in the pin popup
+  const MAP_LOCATIONS = [
+    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, note: "Recordings from aporee.org", sound: null },
+    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, note: "", sound: "assets/field-recordings/kamikochi.mp3" },
+    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, note: "", sound: "assets/field-recordings/yakushima.mp3" },
+    { name: "Kyoto, Japan", year: "2024", lat: 34.96473578392683, lng: 135.76729203413296, note: "", sound: "assets/field-recordings/kyoto.mp3" },
+    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, note: "", sound: "assets/field-recordings/daydream island.mp3" },
+    { name: "Kaduruketha, Sri Lanka", year: "2016", lat: 6.755697480385614, lng: 81.10166118689993, note: "", sound: "assets/field-recordings/kaduruketha.mp3" },
+    { name: "Kuala Lumpur, Malaysia", year: "2015", lat: 3.1464046071201124, lng: 101.62386402065428, note: "", sound: "assets/field-recordings/kuala-lumpur.mp3" },
+    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, note: "", sound: "assets/field-recordings/tokyo.mp3" },
+    { name: "Dambula, Sri Lanka", year: "2019", lat: 7.882229302197966, lng: 80.66179268173713, note: "", sound: "assets/field-recordings/dambula.mp3" },
+    { name: "Shinjuku, Japan", year: "2026", lat: 35.66170576128572, lng: 139.66772834954452, note: "", sound: "assets/field-recordings/shinjuku.mp3" },
+    { name: "Melbourne, Australia", year: "2012-2026", lat: -37.81282908788092, lng: 144.9782535060548, note: "", sound: "assets/field-recordings/melbourne.mp3" },
+  ];
+
   /* -------------------------------------------------------
      Helpers
   ------------------------------------------------------- */
@@ -857,6 +873,110 @@
   }
 
   /* -------------------------------------------------------
+     Interactive field recording location map (Leaflet.js)
+  ------------------------------------------------------- */
+  function renderFieldMap() {
+    const container = document.getElementById("fieldMap");
+    if (!container) return;
+    if (typeof L === "undefined") {
+      // Leaflet script hasn't executed yet — retry once the page is fully loaded
+      window.addEventListener("load", renderFieldMap, { once: true });
+      return;
+    }
+
+    const map = L.map(container, {
+      center: [25, 115],
+      zoom: 3,
+      zoomControl: true,
+      attributionControl: true,
+      scrollWheelZoom: false,
+    });
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const PIN_COLOURS = Object.values(ACCENTS); // aqua, sky, violet, coral, gold, green
+    let currentAudio = null;
+    let fieldVolume = 0.7;
+
+    // Volume control overlay (bottom-left, above Leaflet attribution)
+    const VolumeControl = L.Control.extend({
+      options: { position: "bottomleft" },
+      onAdd() {
+        const div = L.DomUtil.create("div", "fmap__vol-control");
+        div.innerHTML = `
+          <svg class="fmap__vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M4 9v6h4l5 5V4L8 9H4z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                  d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/>
+          </svg>
+          <input class="fmap__vol-slider" type="range" min="0" max="100" value="70" aria-label="Field recording volume">
+        `;
+        L.DomEvent.disableClickPropagation(div);
+        div.querySelector(".fmap__vol-slider").addEventListener("input", (e) => {
+          fieldVolume = Number(e.target.value) / 100;
+          if (currentAudio) currentAudio.volume = fieldVolume;
+        });
+        return div;
+      },
+    });
+    new VolumeControl().addTo(map);
+
+    MAP_LOCATIONS.forEach((loc, i) => {
+      const color = PIN_COLOURS[i % PIN_COLOURS.length];
+      const icon = L.divIcon({
+        className: "fmap__pin",
+        html: `<span class="fmap__pin-dot" style="--pin-color:${color}"></span>`,
+        iconSize: [16, 16],
+        iconAnchor: [8, 8],
+        popupAnchor: [0, -12],
+      });
+
+      const popupHtml = `<strong>${loc.name}</strong><br><em>${loc.year}</em>`
+        + (loc.note ? `<br>${loc.note}` : "")
+        + (loc.sound ? `<br><span class="fmap__popup-sound">Field recording</span>` : "");
+
+      const marker = L.marker([loc.lat, loc.lng], { icon })
+        .addTo(map)
+        .bindPopup(popupHtml, { className: "fmap__popup", maxWidth: 220 });
+
+      marker.on("popupopen", (e) => {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        if (loc.sound) {
+          currentAudio = new Audio(loc.sound);
+          currentAudio.loop = true;
+          currentAudio.volume = fieldVolume;
+          currentAudio.play().catch(() => {});
+          e.popup.getElement()?.querySelector(".fmap__popup-sound")?.classList.add("is-playing");
+        } else {
+          currentAudio = null;
+        }
+      });
+
+      marker.on("popupclose", () => {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+          currentAudio = null;
+        }
+      });
+    });
+
+    // The map container starts hidden by the .reveal animation. Once the CSS
+    // transition ends and the container is fully visible, recalculate tile layout.
+    container.closest(".fmap__wrap")?.addEventListener(
+      "transitionend",
+      () => map.invalidateSize(),
+      { once: true }
+    );
+  }
+
+  /* -------------------------------------------------------
      Colourful scroll progress bar across the top
   ------------------------------------------------------- */
   function setupScrollProgress() {
@@ -914,6 +1034,7 @@
     renderTurntable();
     renderMixes();
     setupMixPopup();
+    renderFieldMap();
     renderGallery();
     setupGearFallbacks();
     setupPopup();

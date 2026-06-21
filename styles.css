@@ -883,6 +883,75 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 /* =========================================================
+   Field recording map
+   ========================================================= */
+.fmap__wrap {
+  max-width: var(--maxw); margin: 0 auto;
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.fmap__map {
+  height: clamp(320px, 52vw, 520px);
+  background: #0a0e1c;
+}
+
+.fmap__pin { background: transparent; border: none; }
+.fmap__pin-dot {
+  display: block; width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--pin-color, var(--aqua));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin-color, var(--aqua)) 25%, transparent),
+              0 0 12px var(--pin-color, var(--aqua));
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin-color, var(--aqua)) 25%, transparent), 0 0 12px var(--pin-color, var(--aqua)); }
+  50%       { box-shadow: 0 0 0 7px color-mix(in srgb, var(--pin-color, var(--aqua)) 10%, transparent), 0 0 20px var(--pin-color, var(--aqua)); }
+}
+
+.fmap__vol-control {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  background: rgba(10, 14, 28, 0.82);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-radius: 8px; border: 1px solid var(--line);
+  color: var(--ink-dim);
+}
+.fmap__vol-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 72px; height: 3px; border-radius: 3px;
+  background: rgba(255,255,255,0.15); cursor: pointer;
+}
+.fmap__vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--aqua); cursor: pointer;
+}
+.fmap__vol-slider::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--aqua); border: none; cursor: pointer;
+}
+
+.fmap__popup .leaflet-popup-content-wrapper {
+  background: #0e1426; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px; color: #eef2ff; font-family: inherit;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.fmap__popup .leaflet-popup-tip { background: #0e1426; }
+.fmap__popup .leaflet-popup-content { font-size: 0.88rem; line-height: 1.5; margin: 0.7rem 1rem; }
+.fmap__popup .leaflet-popup-content strong { color: #eef2ff; font-weight: 500; }
+.fmap__popup .leaflet-popup-content em { color: #46c6ff; font-style: normal; font-size: 0.78rem; }
+.leaflet-container { font-family: inherit; }
+.fmap__popup-sound {
+  display: inline-block; margin-top: 0.4rem;
+  font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #36e0c8; opacity: 0.6;
+}
+.fmap__popup-sound::before { content: "♪ "; }
+.fmap__popup-sound.is-playing { opacity: 1; animation: fmap-sound-pulse 1.4s ease-in-out infinite; }
+@keyframes fmap-sound-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+/* =========================================================
    Album popup — the sleeve flips to reveal details + player
    ========================================================= */
 .popup {
