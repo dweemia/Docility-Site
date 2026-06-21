@@ -521,8 +521,9 @@
 
   function closeTurntable() {
     const pop = document.getElementById("ttPopup");
-    // If a video is playing, dock to bar instead of fully closing
-    if (ytPlayer && ytPlayer.getPlayerState?.() === YT.PlayerState.PLAYING) {
+    // Dock to bar if the video has been interacted with (playing, paused, or buffering)
+    const ytState = ytPlayer?.getPlayerState?.() ?? -1;
+    if (ytPlayer && (ytState === 1 || ytState === 2 || ytState === 3)) {
       pop.classList.add("is-docked");
       document.documentElement.style.overflow = "";
       const item = TURNTABLE[ttActive];
@@ -548,6 +549,7 @@
     MIXES.forEach((mix, i) => {
       const accent = ACCENTS[mix.accent] || palette[i % palette.length];
       const card = el("button", { class: "mix-card", type: "button", "aria-label": `${mix.title} — open mix` },
+        mix.art ? el("img", { class: "mix-card__art", src: mix.art, alt: "", "aria-hidden": "true" }) : null,
         el("span", { class: "mix-card__title", text: mix.title }),
         el("span", { class: "mix-card__date", text: mix.date })
       );
@@ -566,7 +568,7 @@
     document.getElementById("mxClose").addEventListener("click", dockMix);
     document.getElementById("mxBackdrop").addEventListener("click", dockMix);
     document.addEventListener("keydown", (e) => {
-      if (pop.hidden) return;
+      if (pop.hidden || pop.classList.contains("is-docked")) return;
       if (e.key === "Escape") dockMix();
       else if (e.key === "Tab") trapFocus(e, pop);
     });
@@ -575,7 +577,7 @@
   function dockMix() {
     const pop = document.getElementById("mxPopup");
     if (!pop || !currentMix) return;
-    pop.hidden = true;
+    pop.classList.add("is-docked"); // keep iframe alive (display:none suspends it)
     document.documentElement.style.overflow = "";
     // Keep iframe + mxWidget alive — don't touch mxPlayer
     showNpBar("mix", { title: currentMix.title, subtitle: currentMix.date, art: currentMix.art || null, canExpand: true });
@@ -603,6 +605,8 @@
     mxOpener = document.activeElement;
     document.getElementById("mxTitle").textContent = mix.title;
     document.getElementById("mxDate").textContent = mix.date;
+    const mxArtEl = document.getElementById("mxArt");
+    if (mxArtEl) { mxArtEl.src = mix.art || ""; mxArtEl.hidden = !mix.art; }
     const link = document.getElementById("mxLink");
     link.href = mix.url;
     const src = `https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=0&autoplay=0&feed=${encodeURIComponent(mix.feed)}`;
@@ -932,7 +936,7 @@
       volSlider.addEventListener("input", () => {
         const pct = Number(volSlider.value);        // 0-100
         const frac = pct / 100;                      // 0-1
-        if (npSource === "sc" && currentWidget)        currentWidget.setVolume(pct);
+        if (npSource === "sc" && currentWidget)        currentWidget.setVolume(frac);
         else if (npSource === "mix" && mxWidget)       mxWidget.setVolume(frac);
         else if (npSource === "field" && npFieldAudio)  npFieldAudio.volume = frac;
         else if (npSource === "yt" && ytPlayer)         ytPlayer.setVolume(pct);
@@ -951,7 +955,7 @@
       } else if (npSource === "mix") {
         const pop = document.getElementById("mxPopup");
         if (!pop) return;
-        pop.removeAttribute("hidden");
+        pop.classList.remove("is-docked");
         document.documentElement.style.overflow = "hidden";
         dockBar(false);
         document.getElementById("mxClose").focus({ preventScroll: true });
@@ -1019,8 +1023,9 @@
     } else if (npSource === "mix") {
       document.getElementById("mxPlayer")?.replaceChildren();
       const pop = document.getElementById("mxPopup");
-      if (pop) { pop.hidden = true; document.documentElement.style.overflow = ""; }
+      if (pop) { pop.classList.remove("is-docked"); pop.hidden = true; document.documentElement.style.overflow = ""; }
       currentMix = null;
+      mxWidget = null;
     } else if (npSource === "field") {
       if (npFieldAudio) { npFieldAudio.pause(); npFieldAudio.currentTime = 0; npFieldAudio = null; }
       npFieldMarker = null;
