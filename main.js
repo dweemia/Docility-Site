@@ -60,6 +60,30 @@
     },
   ];
 
+  const MIXES = [
+    {
+      title: "Ambient Insomnia",
+      date: "October 2014",
+      accent: "violet",
+      feed: "/dweejay/261014-ambient-insomnia/",
+      url: "https://www.mixcloud.com/dweejay/261014-ambient-insomnia/",
+    },
+    {
+      title: "Global Groove",
+      date: "November 2016",
+      accent: "sky",
+      feed: "/dweejay/21-11-2016-global-groove/",
+      url: "https://www.mixcloud.com/dweejay/21-11-2016-global-groove/",
+    },
+    {
+      title: "Spring Has Sprung",
+      date: "September 2014",
+      accent: "aqua",
+      feed: "/dweejay/01-09-2014-spring-has-sprung/",
+      url: "https://www.mixcloud.com/dweejay/01-09-2014-spring-has-sprung/",
+    },
+  ];
+
   /* -------------------------------------------------------
      What's on my turntable  ← 25 things currently on my mind.
      Each tile shows the artwork and links straight out to where
@@ -429,6 +453,66 @@
     document.documentElement.style.overflow = "";
     document.getElementById("ttPlayer").replaceChildren(); // stop playback
     if (ttOpener && typeof ttOpener.focus === "function") ttOpener.focus({ preventScroll: true });
+  }
+
+  /* -------------------------------------------------------
+     DJ Mixes
+  ------------------------------------------------------- */
+  function renderMixes() {
+    const grid = document.getElementById("mixGrid");
+    if (!grid) return;
+    const palette = Object.values(ACCENTS);
+    const fragment = document.createDocumentFragment();
+    MIXES.forEach((mix, i) => {
+      const accent = ACCENTS[mix.accent] || palette[i % palette.length];
+      const card = el("button", { class: "mix-card", type: "button", "aria-label": `${mix.title} — open mix` },
+        el("span", { class: "mix-card__title", text: mix.title }),
+        el("span", { class: "mix-card__date", text: mix.date })
+      );
+      card.style.setProperty("--accent", accent);
+      card.addEventListener("click", () => openMix(i));
+      fragment.append(card);
+    });
+    grid.append(fragment);
+  }
+
+  let mxOpener = null;
+
+  function setupMixPopup() {
+    const pop = document.getElementById("mxPopup");
+    if (!pop) return;
+    document.getElementById("mxClose").addEventListener("click", closeMix);
+    document.getElementById("mxBackdrop").addEventListener("click", closeMix);
+    document.addEventListener("keydown", (e) => {
+      if (pop.hidden) return;
+      if (e.key === "Escape") closeMix();
+      else if (e.key === "Tab") trapFocus(e, pop);
+    });
+  }
+
+  function openMix(index) {
+    const pop = document.getElementById("mxPopup");
+    const mix = MIXES[index];
+    if (!pop || !mix) return;
+    mxOpener = document.activeElement;
+    document.getElementById("mxTitle").textContent = mix.title;
+    document.getElementById("mxDate").textContent = mix.date;
+    const link = document.getElementById("mxLink");
+    link.href = mix.url;
+    const src = `https://www.mixcloud.com/widget/iframe/?hide_cover=1&mini=0&autoplay=0&feed=${encodeURIComponent(mix.feed)}`;
+    const frame = el("iframe", { src, title: `${mix.title} — Mixcloud player`, loading: "lazy", allow: "autoplay" });
+    document.getElementById("mxPlayer").replaceChildren(frame);
+    pop.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    document.getElementById("mxClose").focus({ preventScroll: true });
+  }
+
+  function closeMix() {
+    const pop = document.getElementById("mxPopup");
+    pop.hidden = true;
+    document.documentElement.style.overflow = "";
+    document.getElementById("mxPlayer").replaceChildren();
+    if (mxOpener && typeof mxOpener.focus === "function") mxOpener.focus({ preventScroll: true });
   }
 
   /** Render the scenery gallery — an aspect-aware masonry of photos that
@@ -824,6 +908,8 @@
     renderSleeves(ALBUMS, "albumList");
     renderSleeves(EPs, "epList");
     renderTurntable();
+    renderMixes();
+    setupMixPopup();
     renderGallery();
     setupGearFallbacks();
     setupPopup();
