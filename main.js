@@ -862,8 +862,6 @@
             currentWidget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
               const fill = document.getElementById("npFill");
               if (fill) fill.style.transform = `scaleX(${data.relativePosition || 0})`;
-              const bar = document.getElementById("nowPlaying");
-              if (bar) bar.classList.remove("is-paused");
             });
             currentWidget.bind(SC.Widget.Events.PAUSE, () => {
               document.getElementById("nowPlaying")?.classList.add("is-paused");
