@@ -88,7 +88,7 @@
   ];
 
   /* -------------------------------------------------------
-     What's on my turntable  ← 25 things currently on my mind.
+     What's on my turntable  ← Music on my mind.
      Each tile shows the artwork and links straight out to where
      you can listen. To edit one:
        title:  album / track / artist name (shown on hover)
