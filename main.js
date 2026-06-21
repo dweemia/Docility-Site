@@ -876,7 +876,12 @@
   ------------------------------------------------------- */
   function renderFieldMap() {
     const container = document.getElementById("fieldMap");
-    if (!container || typeof L === "undefined") return;
+    if (!container) return;
+    if (typeof L === "undefined") {
+      // Leaflet script hasn't executed yet — retry once the page is fully loaded
+      window.addEventListener("load", renderFieldMap, { once: true });
+      return;
+    }
 
     const map = L.map(container, {
       center: [25, 115],
