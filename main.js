@@ -60,6 +60,9 @@
       blurb: "A work in progress — a shift into downtempo electronic music, building soundscapes with synthesizers. Influenced by Röyksopp and Mylo.",
       cover: "assets/covers/prism.webp",
       url: "https://soundcloud.com/docility-m/sets/prism",
+    },
+  ];
+
   const MIXES = [
     {
       title: "Ambient Insomnia",
