@@ -1106,7 +1106,28 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-.nowplaying__controls { display: flex; align-items: center; gap: 0.4rem; flex: none; }
+.nowplaying__controls { display: flex; align-items: center; gap: 0.5rem; flex: none; }
+
+.nowplaying__vol-wrap {
+  display: flex; align-items: center; gap: 0.3rem;
+  color: var(--ink-dim);
+}
+.nowplaying__vol-icon { flex: none; }
+.nowplaying__vol {
+  -webkit-appearance: none; appearance: none;
+  width: 72px; height: 3px;
+  background: rgba(255,255,255,0.15); border-radius: 2px; cursor: pointer;
+  accent-color: var(--aqua);
+}
+.nowplaying__vol::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--ink); cursor: pointer;
+}
+.nowplaying__vol::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--ink); border: 0; cursor: pointer;
+}
 .nowplaying__btn {
   display: grid; place-items: center;
   width: 36px; height: 36px; border-radius: 50%;
@@ -1142,6 +1163,11 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 .popup.is-docked .popup__backdrop { opacity: 0; }
 .popup.is-docked .flipcard { opacity: 0; visibility: hidden; }
+
+/* Turntable popup docked — keeps YouTube iframe alive for audio */
+.ttpop.is-docked { pointer-events: none; }
+.ttpop.is-docked .ttpop__backdrop { opacity: 0; }
+.ttpop.is-docked .ttpop__panel { opacity: 0; visibility: hidden; }
 
 /* =========================================================
    Footer
