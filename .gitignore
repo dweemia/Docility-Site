@@ -13,3 +13,4 @@ tools/.discogs_token
 
 # Local assistant/editor settings
 .claude/settings.local.json
+.claude/worktrees/
