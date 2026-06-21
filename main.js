@@ -897,22 +897,48 @@
       maxZoom: 19,
     }).addTo(map);
 
-    const markerIcon = L.divIcon({
-      className: "fmap__pin",
-      html: '<span class="fmap__pin-dot"></span>',
-      iconSize: [16, 16],
-      iconAnchor: [8, 8],
-      popupAnchor: [0, -12],
-    });
-
+    const PIN_COLOURS = Object.values(ACCENTS); // aqua, sky, violet, coral, gold, green
     let currentAudio = null;
+    let fieldVolume = 0.7;
 
-    MAP_LOCATIONS.forEach((loc) => {
+    // Volume control overlay (bottom-left, above Leaflet attribution)
+    const VolumeControl = L.Control.extend({
+      options: { position: "bottomleft" },
+      onAdd() {
+        const div = L.DomUtil.create("div", "fmap__vol-control");
+        div.innerHTML = `
+          <svg class="fmap__vol-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M4 9v6h4l5 5V4L8 9H4z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                  d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/>
+          </svg>
+          <input class="fmap__vol-slider" type="range" min="0" max="100" value="70" aria-label="Field recording volume">
+        `;
+        L.DomEvent.disableClickPropagation(div);
+        div.querySelector(".fmap__vol-slider").addEventListener("input", (e) => {
+          fieldVolume = Number(e.target.value) / 100;
+          if (currentAudio) currentAudio.volume = fieldVolume;
+        });
+        return div;
+      },
+    });
+    new VolumeControl().addTo(map);
+
+    MAP_LOCATIONS.forEach((loc, i) => {
+      const color = PIN_COLOURS[i % PIN_COLOURS.length];
+      const icon = L.divIcon({
+        className: "fmap__pin",
+        html: `<span class="fmap__pin-dot" style="--pin-color:${color}"></span>`,
+        iconSize: [16, 16],
+        iconAnchor: [8, 8],
+        popupAnchor: [0, -12],
+      });
+
       const popupHtml = `<strong>${loc.name}</strong><br><em>${loc.year}</em>`
         + (loc.note ? `<br>${loc.note}` : "")
         + (loc.sound ? `<br><span class="fmap__popup-sound">Field recording</span>` : "");
 
-      const marker = L.marker([loc.lat, loc.lng], { icon: markerIcon })
+      const marker = L.marker([loc.lat, loc.lng], { icon })
         .addTo(map)
         .bindPopup(popupHtml, { className: "fmap__popup", maxWidth: 220 });
 
@@ -924,7 +950,7 @@
         if (loc.sound) {
           currentAudio = new Audio(loc.sound);
           currentAudio.loop = true;
-          currentAudio.volume = 0.7;
+          currentAudio.volume = fieldVolume;
           currentAudio.play().catch(() => {});
           e.popup.getElement()?.querySelector(".fmap__popup-sound")?.classList.add("is-playing");
         } else {

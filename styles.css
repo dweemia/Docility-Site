@@ -899,13 +899,37 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .fmap__pin-dot {
   display: block; width: 12px; height: 12px;
   border-radius: 50%;
-  background: var(--aqua);
-  box-shadow: 0 0 0 3px rgba(54, 224, 200, 0.25), 0 0 12px var(--aqua);
+  background: var(--pin-color, var(--aqua));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin-color, var(--aqua)) 25%, transparent),
+              0 0 12px var(--pin-color, var(--aqua));
   animation: pulse 2.4s ease-in-out infinite;
 }
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(54, 224, 200, 0.25), 0 0 12px var(--aqua); }
-  50%       { box-shadow: 0 0 0 7px rgba(54, 224, 200, 0.1),  0 0 20px var(--aqua); }
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--pin-color, var(--aqua)) 25%, transparent), 0 0 12px var(--pin-color, var(--aqua)); }
+  50%       { box-shadow: 0 0 0 7px color-mix(in srgb, var(--pin-color, var(--aqua)) 10%, transparent), 0 0 20px var(--pin-color, var(--aqua)); }
+}
+
+.fmap__vol-control {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  background: rgba(10, 14, 28, 0.82);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-radius: 8px; border: 1px solid var(--line);
+  color: var(--ink-dim);
+}
+.fmap__vol-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 72px; height: 3px; border-radius: 3px;
+  background: rgba(255,255,255,0.15); cursor: pointer;
+}
+.fmap__vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--aqua); cursor: pointer;
+}
+.fmap__vol-slider::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--aqua); border: none; cursor: pointer;
 }
 
 .fmap__popup .leaflet-popup-content-wrapper {
