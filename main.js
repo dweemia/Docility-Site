@@ -141,18 +141,19 @@
   ];
 
   // sound: path to an audio file in assets/field-recordings/ — set to null if you don't have one yet
+  // note: short description shown in the pin popup
   const MAP_LOCATIONS = [
-    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, sound: null },
-    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, sound: null },
-    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, sound: null },
-    { name: "Mount Fuji, Japan", year: "2016", lat: 35.361, lng: 138.727, sound: null },
-    { name: "Naoshima, Japan", year: "2024", lat: 34.457, lng: 133.996, sound: null },
-    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, sound: null },
-    { name: "Magnetic Island, Australia", year: "2025", lat: -19.133, lng: 146.867, sound: null },
-    { name: "Townsville, Australia", year: "2025", lat: -19.258, lng: 146.818, sound: null },
-    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, sound: null },
-    { name: "Dambula, Sri Lanka", year: "2019", lat: 7.882229302197966, lng: 80.66179268173713, sound: null },
-    { name: "Melbourne, Australia", year: "2012-2026", lat: -37.81282908788092, lng: 144.9782535060548, sound: null },
+    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, note: "", sound: null },
+    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, note: "", sound: "assets/field-recordings/kamikochi.wav" },
+    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, note: "", sound: null },
+    { name: "Mount Fuji, Japan", year: "2016", lat: 35.361, lng: 138.727, note: "", sound: null },
+    { name: "Naoshima, Japan", year: "2024", lat: 34.457, lng: 133.996, note: "", sound: null },
+    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, note: "", sound: "assets/field-recordings/daydream island.wav" },
+    { name: "Magnetic Island, Australia", year: "2025", lat: -19.133, lng: 146.867, note: "", sound: null },
+    { name: "Townsville, Australia", year: "2025", lat: -19.258, lng: 146.818, note: "", sound: null },
+    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, note: "", sound: "assets/field-recordings/tokyo.wav" },
+    { name: "Dambula, Sri Lanka", year: "2019", lat: 7.882229302197966, lng: 80.66179268173713, note: "", sound: "assets/field-recordings/dambula.wav" },
+    { name: "Melbourne, Australia", year: "2012-2026", lat: -37.81282908788092, lng: 144.9782535060548, note: "", sound: null },
   ];
 
   /* -------------------------------------------------------
@@ -908,6 +909,7 @@
 
     MAP_LOCATIONS.forEach((loc) => {
       const popupHtml = `<strong>${loc.name}</strong><br><em>${loc.year}</em>`
+        + (loc.note ? `<br>${loc.note}` : "")
         + (loc.sound ? `<br><span class="fmap__popup-sound">Field recording</span>` : "");
 
       const marker = L.marker([loc.lat, loc.lng], { icon: markerIcon })
