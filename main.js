@@ -143,17 +143,17 @@
   // sound: path to an audio file in assets/field-recordings/ — set to null if you don't have one yet
   // note: short description shown in the pin popup
   const MAP_LOCATIONS = [
-    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, note: "", sound: null },
-    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, note: "", sound: "assets/field-recordings/kamikochi.wav" },
-    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, note: "", sound: null },
-    { name: "Mount Fuji, Japan", year: "2016", lat: 35.361, lng: 138.727, note: "", sound: null },
-    { name: "Naoshima, Japan", year: "2024", lat: 34.457, lng: 133.996, note: "", sound: null },
-    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, note: "", sound: "assets/field-recordings/daydream island.wav" },
-    { name: "Magnetic Island, Australia", year: "2025", lat: -19.133, lng: 146.867, note: "", sound: null },
-    { name: "Townsville, Australia", year: "2025", lat: -19.258, lng: 146.818, note: "", sound: null },
-    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, note: "", sound: "assets/field-recordings/tokyo.wav" },
-    { name: "Dambula, Sri Lanka", year: "2019", lat: 7.882229302197966, lng: 80.66179268173713, note: "", sound: "assets/field-recordings/dambula.wav" },
-    { name: "Melbourne, Australia", year: "2012-2026", lat: -37.81282908788092, lng: 144.9782535060548, note: "", sound: null },
+    { name: "Iceland", year: "2014", lat: 64.96, lng: -19.02, note: "Recordings from aporee.org", sound: null },
+    { name: "Kamikochi, Japan", year: "2016", lat: 36.245, lng: 137.653, note: "", sound: "assets/field-recordings/kamikochi.mp3" },
+    { name: "Yakushima, Japan", year: "2016", lat: 30.356, lng: 130.556, note: "", sound: "assets/field-recordings/yakushima.mp3" },
+    { name: "Kyoto, Japan", year: "2024", lat: 34.96473578392683, lng: 135.76729203413296, note: "", sound: "assets/field-recordings/kyoto.mp3" },
+    { name: "Daydream Island, Australia", year: "2025", lat: -20.249, lng: 148.823, note: "", sound: "assets/field-recordings/daydream island.mp3" },
+    { name: "Kaduruketha, Sri Lanka", year: "2016", lat: 6.755697480385614, lng: 81.10166118689993, note: "", sound: "assets/field-recordings/kaduruketha.mp3" },
+    { name: "Kuala Lumpur, Malaysia", year: "2015", lat: 3.1464046071201124, lng: 101.62386402065428, note: "", sound: "assets/field-recordings/kuala-lumpur.mp3" },
+    { name: "Tokyo, Japan", year: "2026", lat: 35.676, lng: 139.65, note: "", sound: "assets/field-recordings/tokyo.mp3" },
+    { name: "Dambula, Sri Lanka", year: "2019", lat: 7.882229302197966, lng: 80.66179268173713, note: "", sound: "assets/field-recordings/dambula.mp3" },
+    { name: "Shinjuku, Japan", year: "2026", lat: 35.66170576128572, lng: 139.66772834954452, note: "", sound: "assets/field-recordings/shinjuku.mp3" },
+    { name: "Melbourne, Australia", year: "2012-2026", lat: -37.81282908788092, lng: 144.9782535060548, note: "", sound: "assets/field-recordings/melbourne.mp3" },
   ];
 
   /* -------------------------------------------------------
