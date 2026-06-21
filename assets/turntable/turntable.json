@@ -105,7 +105,11 @@
         "title": "Yagya-Rigning Tíu",
         "duration": 463
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/50u0AJ0W0NAZpPF0Waikl3",
+      "tidal": "https://listen.tidal.com/album/89007128"
+    }
   },
   {
     "title": "Inferno",
@@ -315,7 +319,11 @@
         "title": "Boards of Canada - Flexi/Hexi disc - 177 Giraud's Mirror (Bonus track Inferno)",
         "duration": 205
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/0mu3EvWYfNwBfISSg0q03p",
+      "tidal": "https://listen.tidal.com/album/528351285"
+    }
   },
   {
     "title": "Cloud Suites",
@@ -458,7 +466,11 @@
         "title": "Sundog",
         "duration": 248
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/3IDEc3I09qC2ZDGVGt1yjO",
+      "tidal": "https://listen.tidal.com/album/307283667"
+    }
   },
   {
     "title": "Hope Is The Sister Of Despair",
@@ -642,7 +654,11 @@
         "title": "The End",
         "duration": 488
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/1vTsdoezV3sehGc7GJbHAA",
+      "tidal": "https://listen.tidal.com/album/157501559"
+    }
   },
   {
     "title": "Everyone’s Children",
@@ -801,7 +817,8 @@
         "title": "Surya Meditation (Reprise (Radio Edit))",
         "duration": 297
       }
-    ]
+    ],
+    "streamingLinks": {}
   },
   {
     "title": "Blue Moon Safari",
@@ -920,7 +937,11 @@
         "title": "Le voyage de Pénélope (Vegyn Version)",
         "duration": 185
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/091tPFouQEyjL5Rekipta8",
+      "tidal": "https://listen.tidal.com/album/427730652"
+    }
   },
   {
     "title": "A New Beat",
@@ -981,7 +1002,8 @@
         "duration": "5:41"
       }
     ],
-    "videos": []
+    "videos": [],
+    "streamingLinks": {}
   },
   {
     "title": "Elaenia",
@@ -1070,7 +1092,11 @@
         "title": "Floating Points - Peroration Six",
         "duration": 321
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/51QBkcL7S3KYdXSSA0zM9R",
+      "tidal": "https://listen.tidal.com/album/258045308"
+    }
   },
   {
     "title": "The Shimmering Land",
@@ -1116,7 +1142,11 @@
         "duration": "9:48"
       }
     ],
-    "videos": []
+    "videos": [],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/3uKsRcKOfpqKGyzLhJ53gG",
+      "tidal": "https://listen.tidal.com/album/42027003"
+    }
   },
   {
     "title": "Melody A.M.",
@@ -1199,7 +1229,11 @@
         "title": "Remind Me",
         "duration": 220
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/4WOZU9evfEO7eI6ICsoGN0",
+      "tidal": "https://listen.tidal.com/album/52593173"
+    }
   },
   {
     "title": "Promises",
@@ -1262,7 +1296,8 @@
         "title": "Floating Points, Pharoah Sanders & The London Symphony Orchestra - Promises [Movement 8]",
         "duration": 444
       }
-    ]
+    ],
+    "streamingLinks": {}
   },
   {
     "title": "Aguas Da Amazonia",
@@ -1350,7 +1385,8 @@
         "title": "Uakti and Philip Glass - Aguas da Amazonia (HQ)",
         "duration": 3290
       }
-    ]
+    ],
+    "streamingLinks": {}
   },
   {
     "title": "Fatou",
@@ -1487,7 +1523,11 @@
         "title": "Fatoumata Diawara - Kele (Official Audio)",
         "duration": 191
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/0AkYV0mq8RuPYk07G8221P",
+      "tidal": "https://listen.tidal.com/album/490871926"
+    }
   },
   {
     "title": "Derelicts",
@@ -1591,7 +1631,11 @@
         "title": "Carbon Based Lifeforms – Derelicts 2LP Album Re 2026 Leftfield VINYL Unboxing",
         "duration": 286
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/76QaXAKFxEIoNbuH1BoEcG",
+      "tidal": "https://listen.tidal.com/album/124739687"
+    }
   },
   {
     "title": "Zebra",
@@ -1780,7 +1824,11 @@
         "title": "Parallelism",
         "duration": 382
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/5VGcNiEpJp3iaxDchzXgDD",
+      "tidal": "https://listen.tidal.com/album/395276320"
+    }
   },
   {
     "title": "CZ-5000 Sounds & Sequences",
@@ -1908,7 +1956,11 @@
         "title": "Satoshi & Makoto - That's All",
         "duration": 221
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/0y5hRFFLP15WWajyyDy1dy",
+      "tidal": "https://listen.tidal.com/album/154160825"
+    }
   },
   {
     "title": "Theory Of Colours",
@@ -2022,7 +2074,11 @@
         "title": "Dauwd - 'Theory of Colours' (Official Audio)",
         "duration": 329
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/6oIrL0YBYT6T6tXVF3LBVY",
+      "tidal": "https://listen.tidal.com/album/73130929"
+    }
   },
   {
     "title": "Healesville",
@@ -2115,7 +2171,8 @@
         "title": "Sean's Lullaby",
         "duration": 374
       }
-    ]
+    ],
+    "streamingLinks": {}
   },
   {
     "title": "Vapor",
@@ -2295,7 +2352,11 @@
         "title": "16 Yosi Horikawa - Outro [First Word Records]",
         "duration": 145
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/1IpHSURAZpaIlAkLX8vqGt",
+      "tidal": "https://listen.tidal.com/album/20051751"
+    }
   },
   {
     "title": "Silent Way",
@@ -2423,7 +2484,11 @@
         "title": "Defect",
         "duration": 383
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/0VNrAhVsTuL1RLopapcQFE",
+      "tidal": "https://listen.tidal.com/album/489569497"
+    }
   },
   {
     "title": "Eau",
@@ -2490,7 +2555,11 @@
         "duration": ""
       }
     ],
-    "videos": []
+    "videos": [],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/7cFPblcCkLc6105lfgAP2o",
+      "tidal": "https://listen.tidal.com/album/456860049"
+    }
   },
   {
     "title": "Butterfly Effect",
@@ -2554,7 +2623,11 @@
         "title": "Shinichi Atobe - Butterfly Effect (Full Album)",
         "duration": 3501
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/4W49zKXch3TonDtup1x7yS",
+      "tidal": "https://listen.tidal.com/album/86655519"
+    }
   },
   {
     "title": "The Slipping Beauty",
@@ -2703,7 +2776,11 @@
         "title": "Picture of an Other World",
         "duration": 109
       }
-    ]
+    ],
+    "streamingLinks": {
+      "spotify": "https://open.spotify.com/album/3UPMnWqWaekDbARyDNeUIS",
+      "tidal": "https://listen.tidal.com/album/27302436"
+    }
   },
   {
     "title": "A・I・R (Air In Resort)",
@@ -2760,7 +2837,8 @@
         "title": "Hiroshi Yoshimura - A・I・R (Air In Resort) (full album)",
         "duration": 2198
       }
-    ]
+    ],
+    "streamingLinks": {}
   },
   {
     "title": "He's Coming",
@@ -2869,6 +2947,7 @@
         "title": "Fire Weaver",
         "duration": 221
       }
-    ]
+    ],
+    "streamingLinks": {}
   }
 ]

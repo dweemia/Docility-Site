@@ -765,6 +765,22 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
   border-bottom: 1px solid color-mix(in srgb, var(--aqua) 40%, transparent);
 }
 .ttpop__discogs:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.ttpop__streams {
+  display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem;
+}
+.ttpop__streams[hidden] { display: none; }
+.ttpop__stream {
+  display: inline-flex; align-items: center;
+  padding: 0.3rem 0.75rem; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.03em;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.05);
+  color: var(--ink-dim); transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.ttpop__stream:hover { background: rgba(255,255,255,0.12); color: var(--ink); border-color: rgba(255,255,255,0.25); }
+.ttpop__stream--spotify:hover  { border-color: #1ed760; color: #1ed760; }
+.ttpop__stream--appleMusic:hover { border-color: #fc3c44; color: #fc3c44; }
+.ttpop__stream--youtubeMusic:hover { border-color: #ff0000; color: #ff0000; }
+.ttpop__stream--tidal:hover    { border-color: #00ffff; color: #00ffff; }
 .ttpop__comment {
   margin-top: 1rem; padding: 0.8rem 1rem;
   border-left: 2px solid var(--violet);

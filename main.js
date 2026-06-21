@@ -88,7 +88,7 @@
   ];
 
   /* -------------------------------------------------------
-     What's on my turntable  ← 25 things currently on my mind.
+     What's on my turntable  ← Music on my mind.
      Each tile shows the artwork and links straight out to where
      you can listen. To edit one:
        title:  album / track / artist name (shown on hover)
@@ -431,6 +431,22 @@
     note.hidden = !item.comment;
     const link = document.getElementById("ttDiscogs");
     if (item.discogsUrl) { link.href = item.discogsUrl; link.hidden = false; } else { link.hidden = true; }
+
+    const streams = document.getElementById("ttStreams");
+    const links = item.streamingLinks || {};
+    const STREAM_LABELS = {
+      spotify: "Spotify",
+      appleMusic: "Apple Music",
+      youtubeMusic: "YouTube Music",
+      tidal: "Tidal",
+    };
+    const btns = Object.entries(STREAM_LABELS)
+      .filter(([key]) => links[key])
+      .map(([key, label]) =>
+        el("a", { class: `ttpop__stream ttpop__stream--${key}`, href: links[key], target: "_blank", rel: "noopener", text: label })
+      );
+    streams.replaceChildren(...btns);
+    streams.hidden = btns.length === 0;
 
     // Tracklist
     const tracks = document.getElementById("ttTracks");
