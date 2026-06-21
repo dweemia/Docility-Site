@@ -201,7 +201,7 @@
   let originSleeve = null;  // the sleeve a popup was opened from (for the leap animation)
   let npActive = false;     // true while now-playing bar is shown
   let npAlbumData = null;   // the album object currently loaded in the bar
-  let npSource = null;      // "sc" | "mix" | "field" — which source owns the bar
+  let npSource = null;      // "sc" | "mix" | "field" | "yt" — which source owns the bar
   let npFieldAudio = null;  // HTML5 Audio for field recording (kept alive when docked)
   let npFieldMarker = null; // Leaflet marker ref so expand can re-open the popup
   let currentMix = null;    // mix object currently open or docked
@@ -635,14 +635,6 @@
     });
   }
 
-  function closeMix() {
-    const pop = document.getElementById("mxPopup");
-    pop.hidden = true;
-    document.documentElement.style.overflow = "";
-    document.getElementById("mxPlayer").replaceChildren();
-    if (mxOpener && typeof mxOpener.focus === "function") mxOpener.focus({ preventScroll: true });
-  }
-
   /** Render the scenery gallery — an aspect-aware masonry of photos that
       open a full-screen lightbox. Portrait, landscape and panorama all keep
       their natural shape (no cropping). */
@@ -737,7 +729,7 @@
     document.getElementById("popupClose").addEventListener("click", closePopup);
     document.getElementById("popupBackdrop").addEventListener("click", closePopup);
     document.addEventListener("keydown", (event) => {
-      if (popup.hidden) return;
+      if (popup.hidden || popup.classList.contains("is-docked")) return;
       if (event.key === "Escape") closePopup();
       else if (event.key === "Tab") trapFocus(event, popup);
     });
@@ -745,7 +737,7 @@
     // The volume slider always drives whichever player is currently open.
     const slider = document.getElementById("popupVol");
     slider.addEventListener("input", () => {
-      if (currentWidget) currentWidget.setVolume(Number(slider.value));
+      if (currentWidget) currentWidget.setVolume(Number(slider.value) / 100);
     });
   }
 
@@ -826,7 +818,7 @@
       return null;
     }
     const widget = SC.Widget(iframe);
-    widget.bind(SC.Widget.Events.READY, () => widget.setVolume(Number(slider.value)));
+    widget.bind(SC.Widget.Events.READY, () => widget.setVolume(Number(slider.value) / 100));
     return widget;
   }
 
@@ -936,7 +928,7 @@
         const frac = pct / 100;                      // 0-1
         if (npSource === "sc" && currentWidget)        currentWidget.setVolume(frac);
         else if (npSource === "mix" && mxWidget)       mxWidget.setVolume(frac);
-        else if (npSource === "field" && npFieldAudio)  npFieldAudio.volume = frac;
+        else if (npSource === "field" && npFieldAudio)  { npFieldAudio.volume = frac; fieldVolume = frac; }
         else if (npSource === "yt" && ytPlayer)         ytPlayer.setVolume(pct);
       });
     }
@@ -1240,6 +1232,8 @@
             document.getElementById("npFill")?.style.setProperty("transform", `scaleX(${ratio})`);
           });
           npFieldMarker = marker;
+          const volEl = document.getElementById("npVol");
+          if (volEl) volEl.value = Math.round(fieldVolume * 100);
           showNpBar("field", { title: loc.name, subtitle: `Field recording · ${loc.year}`, art: null, canExpand: true });
           e.popup.getElement()?.querySelector(".fmap__popup-sound")?.classList.add("is-playing");
         }

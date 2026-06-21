@@ -1174,7 +1174,7 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .popup.is-docked {
   pointer-events: none;
 }
-.popup.is-docked .popup__backdrop { opacity: 0; }
+.popup.is-docked .popup__backdrop { opacity: 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
 .popup.is-docked .flipcard { opacity: 0; visibility: hidden; }
 
 /* Turntable popup docked — keeps YouTube iframe alive for audio */
