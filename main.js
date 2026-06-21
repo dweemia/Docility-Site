@@ -206,6 +206,7 @@
   let npFieldMarker = null; // Leaflet marker ref so expand can re-open the popup
   let currentMix = null;    // mix object currently open or docked
   let mxWidget = null;      // Mixcloud Widget API handle
+  let ytPlayer = null;      // YouTube iframe API player
 
   /** Render a set of releases as record sleeves into the given container. */
   function renderSleeves(releases, listId) {
@@ -370,7 +371,8 @@
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     ttTimer = window.setInterval(() => {
       if (document.hidden) return;                              // save battery on hidden tabs
-      if (!document.getElementById("ttPopup")?.hidden) return; // hold while details are open
+      const _ttPop = document.getElementById("ttPopup");
+      if (_ttPop && !_ttPop.hidden && !_ttPop.classList.contains("is-docked")) return; // hold while popup is open
       ttStep(1);
     }, TT_INTERVAL);
   }
@@ -384,9 +386,18 @@
   ------------------------------------------------------- */
   let ttOpener = null;
 
-  function ytEmbed(id, autoplay) {
-    const p = new URLSearchParams({ rel: "0", modestbranding: "1", autoplay: autoplay ? "1" : "0" });
-    return `https://www.youtube.com/embed/${id}?${p}`;
+  function loadYouTubeApi() {
+    if (window.YT?.Player) return Promise.resolve();
+    return new Promise((resolve) => {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { if (prev) prev(); resolve(); };
+      if (!document.getElementById("ytApi")) {
+        const s = document.createElement("script");
+        s.id = "ytApi";
+        s.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(s);
+      }
+    });
   }
 
   function setupTurntablePopup() {
@@ -395,28 +406,44 @@
     document.getElementById("ttClose").addEventListener("click", closeTurntable);
     document.getElementById("ttBackdrop").addEventListener("click", closeTurntable);
     document.addEventListener("keydown", (event) => {
-      if (pop.hidden) return;
+      if (pop.hidden || pop.classList.contains("is-docked")) return;
       if (event.key === "Escape") closeTurntable();
       else if (event.key === "Tab") trapFocus(event, pop);
     });
   }
 
   function loadVideo(id, autoplay) {
-    const player = document.getElementById("ttPlayer");
-    const frame = el("iframe", {
-      src: ytEmbed(id, autoplay),
-      title: "YouTube video player",
-      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-      allowfullscreen: "",
-      loading: "lazy",
+    const playerContainer = document.getElementById("ttPlayer");
+    if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
+    const target = document.createElement("div");
+    playerContainer.replaceChildren(target);
+    loadYouTubeApi().then(() => {
+      ytPlayer = new YT.Player(target, {
+        videoId: id,
+        playerVars: { rel: 0, modestbranding: 1, autoplay: autoplay ? 1 : 0 },
+        events: {
+          onStateChange: (e) => {
+            const bar = document.getElementById("nowPlaying");
+            if (e.data === YT.PlayerState.PLAYING) {
+              bar?.classList.remove("is-paused");
+              const vol = document.getElementById("npVol");
+              if (vol && npSource === "yt") ytPlayer.setVolume(Number(vol.value));
+            } else if (e.data === YT.PlayerState.PAUSED) {
+              bar?.classList.add("is-paused");
+            } else if (e.data === YT.PlayerState.ENDED) {
+              if (npSource === "yt") stopNowPlaying();
+            }
+          },
+        },
+      });
     });
-    player.replaceChildren(frame);
     document.querySelectorAll("#ttVideos .ttpop__vid").forEach((b) =>
       b.setAttribute("aria-current", b.dataset.id === id ? "true" : "false")
     );
   }
 
   function openTurntable(index, opener) {
+    if (npActive) stopNowPlaying(); // clear any docked source
     const pop = document.getElementById("ttPopup");
     const item = TURNTABLE[index];
     if (!pop || !item) return;
@@ -494,9 +521,19 @@
 
   function closeTurntable() {
     const pop = document.getElementById("ttPopup");
+    // If a video is playing, dock to bar instead of fully closing
+    if (ytPlayer && ytPlayer.getPlayerState?.() === YT.PlayerState.PLAYING) {
+      pop.classList.add("is-docked");
+      document.documentElement.style.overflow = "";
+      const item = TURNTABLE[ttActive];
+      showNpBar("yt", { title: item?.title || "Video", subtitle: item?.artist || "", art: item?.art || null, canExpand: true });
+      if (ttOpener && typeof ttOpener.focus === "function") ttOpener.focus({ preventScroll: true });
+      return;
+    }
     pop.hidden = true;
+    pop.classList.remove("is-docked");
     document.documentElement.style.overflow = "";
-    document.getElementById("ttPlayer").replaceChildren(); // stop playback
+    if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
     if (ttOpener && typeof ttOpener.focus === "function") ttOpener.focus({ preventScroll: true });
   }
 
@@ -883,16 +920,22 @@
       } else if (npSource === "field" && npFieldAudio) {
         if (npFieldAudio.paused) { npFieldAudio.play(); bar.classList.remove("is-paused"); }
         else                     { npFieldAudio.pause(); bar.classList.add("is-paused"); }
+      } else if (npSource === "yt" && ytPlayer) {
+        const state = ytPlayer.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) { ytPlayer.pauseVideo(); bar.classList.add("is-paused"); }
+        else { ytPlayer.playVideo(); bar.classList.remove("is-paused"); }
       }
     });
 
     const volSlider = document.getElementById("npVol");
     if (volSlider) {
       volSlider.addEventListener("input", () => {
-        const v = Number(volSlider.value) / 100;
-        if (npSource === "sc" && currentWidget)       currentWidget.setVolume(v);
-        else if (npSource === "mix" && mxWidget)      mxWidget.setVolume(v);
-        else if (npSource === "field" && npFieldAudio) npFieldAudio.volume = v;
+        const pct = Number(volSlider.value);        // 0-100
+        const frac = pct / 100;                      // 0-1
+        if (npSource === "sc" && currentWidget)        currentWidget.setVolume(pct);
+        else if (npSource === "mix" && mxWidget)       mxWidget.setVolume(frac);
+        else if (npSource === "field" && npFieldAudio)  npFieldAudio.volume = frac;
+        else if (npSource === "yt" && ytPlayer)         ytPlayer.setVolume(pct);
       });
     }
 
@@ -914,6 +957,14 @@
         document.getElementById("mxClose").focus({ preventScroll: true });
       } else if (npSource === "field" && npFieldMarker) {
         npFieldMarker.openPopup();
+      } else if (npSource === "yt") {
+        const ttPop = document.getElementById("ttPopup");
+        if (ttPop) {
+          ttPop.classList.remove("is-docked");
+          document.documentElement.style.overflow = "hidden";
+          dockBar(false);
+          document.getElementById("ttClose")?.focus({ preventScroll: true });
+        }
       }
     });
 
@@ -973,6 +1024,10 @@
     } else if (npSource === "field") {
       if (npFieldAudio) { npFieldAudio.pause(); npFieldAudio.currentTime = 0; npFieldAudio = null; }
       npFieldMarker = null;
+    } else if (npSource === "yt") {
+      const ttPop = document.getElementById("ttPopup");
+      if (ttPop) { ttPop.classList.remove("is-docked"); ttPop.hidden = true; document.documentElement.style.overflow = ""; }
+      if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
     }
     dockBar(false);
     npSource = null;

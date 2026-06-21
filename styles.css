@@ -1164,6 +1164,11 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 .popup.is-docked .popup__backdrop { opacity: 0; }
 .popup.is-docked .flipcard { opacity: 0; visibility: hidden; }
 
+/* Turntable popup docked — keeps YouTube iframe alive for audio */
+.ttpop.is-docked { pointer-events: none; }
+.ttpop.is-docked .ttpop__backdrop { opacity: 0; }
+.ttpop.is-docked .ttpop__panel { opacity: 0; visibility: hidden; }
+
 /* =========================================================
    Footer
    ========================================================= */
