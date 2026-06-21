@@ -198,6 +198,10 @@
   let originSleeve = null;  // the sleeve a popup was opened from (for the leap animation)
   let npActive = false;     // true while now-playing bar is shown
   let npAlbumData = null;   // the album object currently loaded in the bar
+  let npSource = null;      // "sc" | "mix" | "field" — which source owns the bar
+  let npFieldAudio = null;  // HTML5 Audio for field recording (kept alive when docked)
+  let npFieldMarker = null; // Leaflet marker ref so expand can re-open the popup
+  let currentMix = null;    // mix object currently open or docked
 
   /** Render a set of releases as record sleeves into the given container. */
   function renderSleeves(releases, listId) {
@@ -502,19 +506,31 @@
   function setupMixPopup() {
     const pop = document.getElementById("mxPopup");
     if (!pop) return;
-    document.getElementById("mxClose").addEventListener("click", closeMix);
-    document.getElementById("mxBackdrop").addEventListener("click", closeMix);
+    document.getElementById("mxClose").addEventListener("click", dockMix);
+    document.getElementById("mxBackdrop").addEventListener("click", dockMix);
     document.addEventListener("keydown", (e) => {
       if (pop.hidden) return;
-      if (e.key === "Escape") closeMix();
+      if (e.key === "Escape") dockMix();
       else if (e.key === "Tab") trapFocus(e, pop);
     });
   }
 
+  function dockMix() {
+    const pop = document.getElementById("mxPopup");
+    if (!pop || !currentMix) return;
+    pop.hidden = true;
+    document.documentElement.style.overflow = "";
+    // Keep iframe alive — don't touch mxPlayer
+    showNpBar("mix", { title: currentMix.title, subtitle: currentMix.date, art: null, canExpand: true });
+    if (mxOpener && typeof mxOpener.focus === "function") mxOpener.focus({ preventScroll: true });
+  }
+
   function openMix(index) {
+    if (npActive) stopNowPlaying(); // clear any docked source before opening mix
     const pop = document.getElementById("mxPopup");
     const mix = MIXES[index];
     if (!pop || !mix) return;
+    currentMix = mix;
     mxOpener = document.activeElement;
     document.getElementById("mxTitle").textContent = mix.title;
     document.getElementById("mxDate").textContent = mix.date;
@@ -662,7 +678,7 @@
   function openPopup(album, accent, sleeve) {
     const popup = document.getElementById("popup");
     // If bar is showing from a previous session, stop it first.
-    if (npActive) stopNowPlaying();
+    if (npActive) stopNowPlaying(); // clears field audio and docked mix too
     const flipcard = document.getElementById("flipcard");
     originSleeve = sleeve;
     lastFocused = sleeve;
@@ -807,58 +823,97 @@
     if (!bar) return;
 
     document.getElementById("npPlayPause").addEventListener("click", () => {
-      if (!currentWidget) return;
-      currentWidget.isPaused((paused) => {
-        if (paused) { currentWidget.play(); bar.classList.remove("is-paused"); }
-        else        { currentWidget.pause(); bar.classList.add("is-paused"); }
-      });
+      if (npSource === "sc" && currentWidget) {
+        currentWidget.isPaused((paused) => {
+          if (paused) { currentWidget.play(); bar.classList.remove("is-paused"); }
+          else        { currentWidget.pause(); bar.classList.add("is-paused"); }
+        });
+      } else if (npSource === "field" && npFieldAudio) {
+        if (npFieldAudio.paused) { npFieldAudio.play(); bar.classList.remove("is-paused"); }
+        else                     { npFieldAudio.pause(); bar.classList.add("is-paused"); }
+      }
     });
 
     document.getElementById("npExpand").addEventListener("click", () => {
-      const popup = document.getElementById("popup");
-      if (!popup) return;
-      popup.classList.remove("is-docked");
-      popup.removeAttribute("hidden");
-      document.documentElement.style.overflow = "hidden";
-      dockBar(false);
-      document.getElementById("popupClose").focus({ preventScroll: true });
+      if (npSource === "sc") {
+        const popup = document.getElementById("popup");
+        if (!popup) return;
+        popup.classList.remove("is-docked");
+        popup.removeAttribute("hidden");
+        document.documentElement.style.overflow = "hidden";
+        dockBar(false);
+        document.getElementById("popupClose").focus({ preventScroll: true });
+      } else if (npSource === "mix") {
+        const pop = document.getElementById("mxPopup");
+        if (!pop) return;
+        pop.removeAttribute("hidden");
+        document.documentElement.style.overflow = "hidden";
+        dockBar(false);
+        document.getElementById("mxClose").focus({ preventScroll: true });
+      } else if (npSource === "field" && npFieldMarker) {
+        npFieldMarker.openPopup();
+      }
     });
 
     document.getElementById("npStop").addEventListener("click", stopNowPlaying);
   }
 
-  function dockBar(show) {
+  function showNpBar(source, { title, subtitle, art, canExpand }) {
+    npSource = source;
     const bar = document.getElementById("nowPlaying");
     if (!bar) return;
+    const artEl = document.getElementById("npArt");
+    artEl.src = art || "";
+    artEl.hidden = !art;
+    document.getElementById("npTitle").textContent = title || "";
+    document.getElementById("npAlbum").textContent = subtitle || "";
+    document.getElementById("npPlayPause").hidden = source === "mix";
+    document.getElementById("npExpand").hidden = !canExpand;
+    bar.classList.remove("is-paused");
+    bar.removeAttribute("hidden");
+    requestAnimationFrame(() => bar.classList.add("is-visible"));
+    npActive = true;
+  }
+
+  function dockBar(show) {
     if (show) {
-      if (npAlbumData) {
-        document.getElementById("npArt").src = npAlbumData.cover || "";
-        document.getElementById("npTitle").textContent = npAlbumData.title || "";
-        document.getElementById("npAlbum").textContent = npAlbumData.year || "";
-      }
-      bar.removeAttribute("hidden");
-      // RAF to allow display:flex to apply before transition
-      requestAnimationFrame(() => bar.classList.add("is-visible"));
-      npActive = true;
+      showNpBar("sc", {
+        title: npAlbumData?.title || "",
+        subtitle: npAlbumData?.year || "",
+        art: npAlbumData?.cover || null,
+        canExpand: true,
+      });
     } else {
+      const bar = document.getElementById("nowPlaying");
+      if (!bar) return;
       bar.classList.remove("is-visible");
       npActive = false;
-      // After transition ends, re-hide
       bar.addEventListener("transitionend", () => { if (!npActive) bar.setAttribute("hidden", ""); }, { once: true });
     }
   }
 
   function stopNowPlaying() {
-    const popup = document.getElementById("popup");
-    if (popup) {
-      popup.classList.remove("is-docked");
-      document.getElementById("popupPlayer").replaceChildren();
-      currentWidget = null;
-      popup.hidden = true;
-      document.documentElement.style.overflow = "";
+    if (npSource === "sc" || npSource === null) {
+      const popup = document.getElementById("popup");
+      if (popup) {
+        popup.classList.remove("is-docked");
+        document.getElementById("popupPlayer")?.replaceChildren();
+        currentWidget = null;
+        popup.hidden = true;
+        document.documentElement.style.overflow = "";
+      }
+      npAlbumData = null;
+    } else if (npSource === "mix") {
+      document.getElementById("mxPlayer")?.replaceChildren();
+      const pop = document.getElementById("mxPopup");
+      if (pop) { pop.hidden = true; document.documentElement.style.overflow = ""; }
+      currentMix = null;
+    } else if (npSource === "field") {
+      if (npFieldAudio) { npFieldAudio.pause(); npFieldAudio.currentTime = 0; npFieldAudio = null; }
+      npFieldMarker = null;
     }
     dockBar(false);
-    npAlbumData = null;
+    npSource = null;
   }
 
   /* -------------------------------------------------------
@@ -1004,7 +1059,6 @@
     }).addTo(map);
 
     const PIN_COLOURS = Object.values(ACCENTS); // aqua, sky, violet, coral, gold, green
-    let currentAudio = null;
     let fieldVolume = 0.7;
 
     // Volume control overlay (bottom-left, above Leaflet attribution)
@@ -1023,7 +1077,7 @@
         L.DomEvent.disableClickPropagation(div);
         div.querySelector(".fmap__vol-slider").addEventListener("input", (e) => {
           fieldVolume = Number(e.target.value) / 100;
-          if (currentAudio) currentAudio.volume = fieldVolume;
+          if (npFieldAudio) npFieldAudio.volume = fieldVolume;
         });
         return div;
       },
@@ -1049,28 +1103,30 @@
         .bindPopup(popupHtml, { className: "fmap__popup", maxWidth: 220 });
 
       marker.on("popupopen", (e) => {
-        if (currentAudio) {
-          currentAudio.pause();
-          currentAudio.currentTime = 0;
-        }
+        // Stop any currently playing field audio (different pin)
+        if (npFieldAudio) { npFieldAudio.pause(); npFieldAudio.currentTime = 0; npFieldAudio = null; }
+        // Clear any other docked source
+        if (npActive && npSource !== "field") stopNowPlaying();
+
         if (loc.sound) {
-          currentAudio = new Audio(loc.sound);
-          currentAudio.loop = true;
-          currentAudio.volume = fieldVolume;
-          currentAudio.play().catch(() => {});
+          npFieldAudio = new Audio(loc.sound);
+          npFieldAudio.loop = true;
+          npFieldAudio.volume = fieldVolume;
+          npFieldAudio.play().catch(() => {});
+          npFieldAudio.addEventListener("pause", () => document.getElementById("nowPlaying")?.classList.add("is-paused"));
+          npFieldAudio.addEventListener("play",  () => document.getElementById("nowPlaying")?.classList.remove("is-paused"));
+          npFieldAudio.addEventListener("timeupdate", () => {
+            const ratio = npFieldAudio ? npFieldAudio.currentTime / (npFieldAudio.duration || 1) : 0;
+            document.getElementById("npFill")?.style.setProperty("transform", `scaleX(${ratio})`);
+          });
+          npFieldMarker = marker;
+          showNpBar("field", { title: loc.name, subtitle: `Field recording · ${loc.year}`, art: null, canExpand: true });
           e.popup.getElement()?.querySelector(".fmap__popup-sound")?.classList.add("is-playing");
-        } else {
-          currentAudio = null;
         }
       });
 
-      marker.on("popupclose", () => {
-        if (currentAudio) {
-          currentAudio.pause();
-          currentAudio.currentTime = 0;
-          currentAudio = null;
-        }
-      });
+      // Popup close: audio keeps playing via the now-playing bar — nothing to do here
+      marker.on("popupclose", () => {});
     });
 
     // The map container starts hidden by the .reveal animation. Once the CSS
