@@ -907,6 +907,14 @@
           maxWidth: 220,
         });
     });
+
+    // The map container starts hidden by the .reveal animation. Once the CSS
+    // transition ends and the container is fully visible, recalculate tile layout.
+    container.closest(".fmap__wrap")?.addEventListener(
+      "transitionend",
+      () => map.invalidateSize(),
+      { once: true }
+    );
   }
 
   /* -------------------------------------------------------
