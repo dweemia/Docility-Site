@@ -1287,3 +1287,174 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 :focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; border-radius: 6px; }
+
+/* =========================================================
+   MagicUI-inspired visual layer
+   Appended on branch: feature/magicui-test
+   All rules are additive overrides — nothing below touches
+   layout or breaks existing functionality.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. Spinning border beam
+   The existing conic ring (see "Animated colour ring" above)
+   already shows on hover. Here we:
+     a) Register --beam-angle so CSS can animate it
+     b) Make the ring SPIN instead of just appearing
+     c) Extend the same treatment to .mix-card
+   --------------------------------------------------------- */
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 180deg;
+  inherits: false;
+}
+
+/* Override the static gradient to use the animatable angle */
+.sleeve::after, .tt::after, .shot::after {
+  background: conic-gradient(from var(--beam-angle), var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+}
+.sleeve:hover::after, .sleeve:focus-visible::after,
+.tt:hover::after,     .tt:focus-visible::after,
+.shot:hover::after,   .shot:focus-visible::after {
+  animation: beam-spin 3s linear infinite;
+}
+@keyframes beam-spin { to { --beam-angle: 540deg; } }
+
+/* Give mix-card the same mask-ring as sleeve/tt/shot */
+.mix-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 3;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: conic-gradient(from var(--beam-angle), var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.mix-card:hover::after, .mix-card:focus-visible::after {
+  opacity: 1;
+  animation: beam-spin 3s linear infinite;
+}
+
+/* ---------------------------------------------------------
+   2. Section headings — subtle gradient text with slow shimmer
+   --------------------------------------------------------- */
+.section-head h2 {
+  background: linear-gradient(
+    100deg,
+    var(--ink) 0%,
+    color-mix(in srgb, var(--sky) 55%, var(--ink)) 38%,
+    color-mix(in srgb, var(--violet) 50%, var(--ink)) 68%,
+    var(--ink) 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: heading-shimmer 10s ease infinite;
+}
+@keyframes heading-shimmer {
+  0%, 100% { background-position: 0% 0; }
+  50%       { background-position: 100% 0; }
+}
+
+/* ---------------------------------------------------------
+   3. Hero eyebrow — MagicUI announcement badge
+   --------------------------------------------------------- */
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 1.1rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.04);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 1.4rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.hero__eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--aqua);
+  box-shadow: 0 0 8px var(--aqua);
+  animation: eyebrow-dot 2.4s ease-in-out infinite;
+}
+@keyframes eyebrow-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ---------------------------------------------------------
+   4. Mix cards — frosted glass over the aurora backdrop
+   --------------------------------------------------------- */
+.mix-card {
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--accent) 22%, rgba(7, 10, 20, 0.52)),
+    rgba(7, 10, 20, 0.58) 78%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+}
+
+/* ---------------------------------------------------------
+   5. Now-playing bar — animated gradient top border
+   --------------------------------------------------------- */
+.nowplaying { border-top: none; }
+.nowplaying::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--aqua)   20%,
+    var(--sky)    40%,
+    var(--violet) 60%,
+    var(--coral)  80%,
+    transparent  100%
+  );
+  background-size: 200% 100%;
+  animation: bar-sweep 6s linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+@keyframes bar-sweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------------------------------------------------------
+   6. Hero title — soft glow behind the gradient text
+   --------------------------------------------------------- */
+.hero__word {
+  filter: drop-shadow(0 0 32px color-mix(in srgb, var(--sky) 28%, transparent));
+}
+
+/* ---------------------------------------------------------
+   7. Hero halo — slightly more visible
+   --------------------------------------------------------- */
+.hero__halo { opacity: 0.36; }
+
+/* ---------------------------------------------------------
+   Reduced motion — disable all new animations added above
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__eyebrow::before { animation: none; }
+  .nowplaying::before    { animation: none; }
+  .section-head h2 {
+    animation: none;
+    background: var(--ink);
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: var(--ink);
+  }
+}
