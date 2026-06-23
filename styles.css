@@ -171,12 +171,22 @@ h1, h2, h3 { font-family: var(--font); font-weight: 500; line-height: 1.05; }
 /* =========================================================
    Layout helpers
    ========================================================= */
-section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
+section { padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.1rem, 5vw, 3rem); }
 .section-head { max-width: var(--maxw); margin: 0 auto clamp(2rem, 5vw, 3.5rem); }
 .section-head h2 { font-size: clamp(2.1rem, 6vw, 3.6rem); }
 .section-head__sub { color: var(--ink-dim); margin-top: 0.8rem; max-width: 46ch; }
 /* A second heading within a section (e.g. EPs after Albums) needs breathing room above it. */
 .albums__list + .section-head { margin-top: clamp(3rem, 7vw, 5rem); }
+.releases__sub {
+  max-width: var(--maxw);
+  margin: clamp(2rem, 4vw, 3rem) auto clamp(0.7rem, 1.5vw, 1rem);
+  font-size: clamp(0.7rem, 1.2vw, 0.82rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.section-head + .releases__sub { margin-top: 0; }
 
 /* Upcoming releases — "in progress" badge on the sleeve */
 .albums__list--upcoming .sleeve::before {
@@ -1360,50 +1370,52 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 /* ---------------------------------------------------------
-   3. Hero eyebrow — MagicUI announcement badge
+   3. Card hover — ring at the outer border edge
+   border-width: 0 removes the border gap without changing
+   the card's outer size (box-sizing: border-box). The ring
+   at inset: 0 is now flush with the outer card edge.
+   overflow: hidden stays active — no artwork hacks needed.
    --------------------------------------------------------- */
-.hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.35rem 1.1rem;
-  border-radius: 100px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  background: rgba(255, 255, 255, 0.04);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  font-size: 0.78rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  margin-bottom: 1.4rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+.sleeve:hover,   .sleeve:focus-visible,
+.mix-card:hover, .mix-card:focus-visible {
+  border-width: 0;
 }
-.hero__eyebrow::before {
-  content: '';
-  width: 6px; height: 6px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--aqua);
-  box-shadow: 0 0 8px var(--aqua);
-  animation: eyebrow-dot 2.4s ease-in-out infinite;
+.sleeve:hover::after, .sleeve:focus-visible::after,
+.mix-card:hover::after, .mix-card:focus-visible::after {
+  padding: 2px;
 }
-@keyframes eyebrow-dot {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
+
+.shot:hover, .shot:focus-visible {
+  border-width: 0;
+}
+.shot:hover::after, .shot:focus-visible::after {
+  padding: 1px;
+}
+
+.tt:hover, .tt:focus-visible {
+  border-width: 0;
+}
+.tt:hover::after, .tt:focus-visible::after {
+  padding: 2px;
+}
+.tt-carousel .tt.is-active {
+  border-width: 0;
+}
+.tt-carousel .tt.is-active::after {
+  opacity: 1;
+  padding: 2px;
 }
 
 /* ---------------------------------------------------------
-   4. Mix cards — frosted glass over the aurora backdrop
+   4. Mix cards — solid dark gradient (backdrop-filter removed:
+   it forced 3 always-visible compositing layers on the aurora)
    --------------------------------------------------------- */
 .mix-card {
   background: linear-gradient(
     150deg,
-    color-mix(in srgb, var(--accent) 22%, rgba(7, 10, 20, 0.52)),
-    rgba(7, 10, 20, 0.58) 78%
+    color-mix(in srgb, var(--accent) 22%, rgba(7, 10, 20, 0.82)),
+    rgba(7, 10, 20, 0.92) 78%
   );
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  backdrop-filter: blur(14px) saturate(180%);
 }
 
 /* ---------------------------------------------------------
@@ -1448,8 +1460,7 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
    Reduced motion — disable all new animations added above
    --------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .hero__eyebrow::before { animation: none; }
-  .nowplaying::before    { animation: none; }
+  .nowplaying::before { animation: none; }
   .section-head h2 {
     animation: none;
     background: var(--ink);
