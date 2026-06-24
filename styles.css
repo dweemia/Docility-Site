@@ -118,6 +118,74 @@ h1, h2, h3 { font-family: var(--font); font-weight: 500; line-height: 1.05; }
 }
 
 /* =========================================================
+   Decorative edge rings  (desktop only — hidden below 1200px)
+   Fixed overlay, z-index: -1 keeps them behind all content.
+   Rings bleed off the left/right edges and overlap each other,
+   creating a framing effect without touching the main column.
+   ========================================================= */
+.deco-rings {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.deco-ring {
+  display: none;
+  position: absolute;
+  border-radius: 50%;
+}
+@media (min-width: 1200px) {
+  .deco-ring { display: block; }
+
+  /* Left cluster — bleeds off the left edge */
+  .deco-ring--l1 {
+    width: 440px; height: 440px;
+    top: 5%;  left: -175px;
+    border: 1.5px solid var(--aqua);
+    opacity: 0.18;
+    box-shadow: 0 0 48px color-mix(in srgb, var(--aqua) 14%, transparent);
+  }
+  .deco-ring--l2 {
+    width: 300px; height: 300px;
+    top: 18%; left: -90px;
+    border: 1.5px solid var(--violet);
+    opacity: 0.16;
+    box-shadow: 0 0 36px color-mix(in srgb, var(--violet) 13%, transparent);
+  }
+  .deco-ring--l3 {
+    width: 200px; height: 200px;
+    top: 29%; left: -62px;
+    border: 1.5px solid var(--coral);
+    opacity: 0.14;
+    box-shadow: 0 0 28px color-mix(in srgb, var(--coral) 12%, transparent);
+  }
+
+  /* Right cluster — bleeds off the right edge */
+  .deco-ring--r1 {
+    width: 420px; height: 420px;
+    top: 8%;  right: -160px;
+    border: 1.5px solid var(--sky);
+    opacity: 0.17;
+    box-shadow: 0 0 48px color-mix(in srgb, var(--sky) 13%, transparent);
+  }
+  .deco-ring--r2 {
+    width: 290px; height: 290px;
+    top: 21%; right: -78px;
+    border: 1.5px solid var(--gold);
+    opacity: 0.16;
+    box-shadow: 0 0 36px color-mix(in srgb, var(--gold) 12%, transparent);
+  }
+  .deco-ring--r3 {
+    width: 190px; height: 190px;
+    top: 32%; right: -58px;
+    border: 1.5px solid var(--violet);
+    opacity: 0.13;
+    box-shadow: 0 0 28px color-mix(in srgb, var(--violet) 10%, transparent);
+  }
+}
+
+/* =========================================================
    Navigation
    ========================================================= */
 .nav {
@@ -171,12 +239,22 @@ h1, h2, h3 { font-family: var(--font); font-weight: 500; line-height: 1.05; }
 /* =========================================================
    Layout helpers
    ========================================================= */
-section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
+section { padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.1rem, 5vw, 3rem); }
 .section-head { max-width: var(--maxw); margin: 0 auto clamp(2rem, 5vw, 3.5rem); }
 .section-head h2 { font-size: clamp(2.1rem, 6vw, 3.6rem); }
 .section-head__sub { color: var(--ink-dim); margin-top: 0.8rem; max-width: 46ch; }
 /* A second heading within a section (e.g. EPs after Albums) needs breathing room above it. */
 .albums__list + .section-head { margin-top: clamp(3rem, 7vw, 5rem); }
+.releases__sub {
+  max-width: var(--maxw);
+  margin: clamp(2rem, 4vw, 3rem) auto clamp(0.7rem, 1.5vw, 1rem);
+  font-size: clamp(0.7rem, 1.2vw, 0.82rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.section-head + .releases__sub { margin-top: 0; }
 
 /* Upcoming releases — "in progress" badge on the sleeve */
 .albums__list--upcoming .sleeve::before {
@@ -1287,3 +1365,175 @@ section { padding: clamp(4rem, 10vw, 8rem) clamp(1.1rem, 5vw, 3rem); }
 }
 
 :focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; border-radius: 6px; }
+
+/* =========================================================
+   MagicUI-inspired visual layer
+   Appended on branch: feature/magicui-test
+   All rules are additive overrides — nothing below touches
+   layout or breaks existing functionality.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. Spinning border beam
+   The existing conic ring (see "Animated colour ring" above)
+   already shows on hover. Here we:
+     a) Register --beam-angle so CSS can animate it
+     b) Make the ring SPIN instead of just appearing
+     c) Extend the same treatment to .mix-card
+   --------------------------------------------------------- */
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 180deg;
+  inherits: false;
+}
+
+/* Override the static gradient to use the animatable angle */
+.sleeve::after, .tt::after, .shot::after {
+  background: conic-gradient(from var(--beam-angle), var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+}
+.sleeve:hover::after, .sleeve:focus-visible::after,
+.tt:hover::after,     .tt:focus-visible::after,
+.shot:hover::after,   .shot:focus-visible::after {
+  animation: beam-spin 3s linear infinite;
+}
+@keyframes beam-spin { to { --beam-angle: 540deg; } }
+
+/* Give mix-card the same mask-ring as sleeve/tt/shot */
+.mix-card::after {
+  content: ""; position: absolute; inset: 0; z-index: 3;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: conic-gradient(from var(--beam-angle), var(--aqua), var(--sky), var(--violet), var(--coral), var(--gold), var(--aqua));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+.mix-card:hover::after, .mix-card:focus-visible::after {
+  opacity: 1;
+  animation: beam-spin 3s linear infinite;
+}
+
+/* ---------------------------------------------------------
+   2. Section headings — subtle gradient text with slow shimmer
+   --------------------------------------------------------- */
+.section-head h2 {
+  background: linear-gradient(
+    100deg,
+    var(--ink) 0%,
+    color-mix(in srgb, var(--sky) 55%, var(--ink)) 38%,
+    color-mix(in srgb, var(--violet) 50%, var(--ink)) 68%,
+    var(--ink) 100%
+  );
+  background-size: 260% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: heading-shimmer 10s ease infinite;
+}
+@keyframes heading-shimmer {
+  0%, 100% { background-position: 0% 0; }
+  50%       { background-position: 100% 0; }
+}
+
+/* ---------------------------------------------------------
+   3. Card hover — ring at the outer border edge
+   border-width: 0 removes the border gap without changing
+   the card's outer size (box-sizing: border-box). The ring
+   at inset: 0 is now flush with the outer card edge.
+   overflow: hidden stays active — no artwork hacks needed.
+   --------------------------------------------------------- */
+.sleeve:hover,   .sleeve:focus-visible,
+.mix-card:hover, .mix-card:focus-visible {
+  border-width: 0;
+}
+.sleeve:hover::after, .sleeve:focus-visible::after,
+.mix-card:hover::after, .mix-card:focus-visible::after {
+  padding: 2px;
+}
+
+.shot:hover, .shot:focus-visible {
+  border-width: 0;
+}
+.shot:hover::after, .shot:focus-visible::after {
+  padding: 1px;
+}
+
+.tt:hover, .tt:focus-visible {
+  border-width: 0;
+}
+.tt:hover::after, .tt:focus-visible::after {
+  padding: 2px;
+}
+.tt-carousel .tt.is-active {
+  border-width: 0;
+}
+.tt-carousel .tt.is-active::after {
+  opacity: 1;
+  padding: 2px;
+}
+
+/* ---------------------------------------------------------
+   4. Mix cards — solid dark gradient (backdrop-filter removed:
+   it forced 3 always-visible compositing layers on the aurora)
+   --------------------------------------------------------- */
+.mix-card {
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--accent) 22%, rgba(7, 10, 20, 0.82)),
+    rgba(7, 10, 20, 0.92) 78%
+  );
+}
+
+/* ---------------------------------------------------------
+   5. Now-playing bar — animated gradient top border
+   --------------------------------------------------------- */
+.nowplaying { border-top: none; }
+.nowplaying::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--aqua)   20%,
+    var(--sky)    40%,
+    var(--violet) 60%,
+    var(--coral)  80%,
+    transparent  100%
+  );
+  background-size: 200% 100%;
+  animation: bar-sweep 6s linear infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+@keyframes bar-sweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------------------------------------------------------
+   6. Hero title — soft glow behind the gradient text
+   --------------------------------------------------------- */
+.hero__word {
+  filter: drop-shadow(0 0 32px color-mix(in srgb, var(--sky) 28%, transparent));
+}
+
+/* ---------------------------------------------------------
+   7. Hero halo — slightly more visible
+   --------------------------------------------------------- */
+.hero__halo { opacity: 0.36; }
+
+/* ---------------------------------------------------------
+   Reduced motion — disable all new animations added above
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .nowplaying::before { animation: none; }
+  .section-head h2 {
+    animation: none;
+    background: var(--ink);
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: var(--ink);
+  }
+}

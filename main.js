@@ -1098,50 +1098,53 @@
     const ctx = canvas.getContext("2d");
     const colors = ["#46c6ff", "#36e0c8", "#9a7bff", "#52e0a1"];
     let width, height, drops;
-    let frameId = null;
-
-    const makeDrop = () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      length: 8 + Math.random() * 16,
-      speed: 2 + Math.random() * 4,
-      alpha: 0.1 + Math.random() * 0.3,
-      color: colors[(Math.random() * colors.length) | 0],
-    });
+    let frameId = null, tick = 0;
 
     const resize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      drops = Array.from({ length: Math.min(140, Math.floor(width / 12)) }, makeDrop);
+      // Pre-assign colors evenly so drops batch perfectly; halved count vs. original.
+      const count = Math.min(60, Math.floor(width / 24));
+      drops = Array.from({ length: count }, (_, i) => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        length: 8 + Math.random() * 16,
+        speed: 2 + Math.random() * 4,
+        color: colors[i % colors.length],
+      }));
     };
 
     const draw = () => {
+      frameId = requestAnimationFrame(draw);
+      if (++tick % 2) return; // ~30 fps — rain doesn't need 60
+
       ctx.clearRect(0, 0, width, height);
       ctx.lineWidth = 1.1;
+
+      // Advance positions then batch all drops of the same color into one path.
+      // 4 stroke() calls instead of 60–140 per frame.
+      const groups = new Map(colors.map(c => [c, []]));
       for (const drop of drops) {
-        ctx.strokeStyle = drop.color;
-        ctx.globalAlpha = drop.alpha;
-        ctx.beginPath();
-        ctx.moveTo(drop.x, drop.y);
-        ctx.lineTo(drop.x, drop.y + drop.length);
-        ctx.stroke();
         drop.y += drop.speed;
-        if (drop.y > height) {
-          drop.y = -drop.length;
-          drop.x = Math.random() * width;
-        }
+        if (drop.y > height) { drop.y = -drop.length; drop.x = Math.random() * width; }
+        groups.get(drop.color).push(drop);
+      }
+      ctx.globalAlpha = 0.18;
+      for (const [color, group] of groups) {
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        for (const d of group) { ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.length); }
+        ctx.stroke();
       }
       ctx.globalAlpha = 1;
-      frameId = requestAnimationFrame(draw);
     };
 
-    const start = () => { if (frameId == null) draw(); };
+    const start = () => { if (frameId == null) { tick = 0; draw(); } };
     const stop = () => { if (frameId != null) { cancelAnimationFrame(frameId); frameId = null; } };
 
     resize();
     start();
     window.addEventListener("resize", resize);
-    // Pause when the tab is hidden to save battery, and never stack loops.
     document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
   }
 

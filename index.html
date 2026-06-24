@@ -45,6 +45,14 @@
   <canvas id="rain" aria-hidden="true"></canvas>
   <div class="texture" aria-hidden="true"></div>
   <div class="grain" aria-hidden="true"></div>
+  <div class="deco-rings" aria-hidden="true">
+    <span class="deco-ring deco-ring--l1"></span>
+    <span class="deco-ring deco-ring--l2"></span>
+    <span class="deco-ring deco-ring--l3"></span>
+    <span class="deco-ring deco-ring--r1"></span>
+    <span class="deco-ring deco-ring--r2"></span>
+    <span class="deco-ring deco-ring--r3"></span>
+  </div>
 
   <!-- Navigation -->
   <header class="nav" id="nav">
@@ -68,7 +76,6 @@
       <!-- Slowly-spinning colour wheel glow behind the title -->
       <div class="hero__halo" aria-hidden="true"></div>
       <div class="hero__inner">
-        <p class="hero__eyebrow reveal">Ambient music · Field recordings</p>
         <h1 class="hero__title">
           <span class="hero__word" style="--d:0">Docility</span>
         </h1>
@@ -111,24 +118,20 @@
       </div>
     </section>
 
-    <!-- Albums & EPs -->
+    <!-- Releases -->
     <section class="albums" id="albums">
       <div class="section-head reveal">
-        <h2>Albums</h2>
+        <h2>Releases</h2>
       </div>
+      <h3 class="releases__sub reveal">Albums</h3>
       <div class="albums__list" id="albumList">
         <!-- Record sleeves injected by main.js -->
       </div>
-      <div class="section-head reveal">
-        <h2>EPs</h2>
-      </div>
+      <h3 class="releases__sub reveal">EPs</h3>
       <div class="albums__list" id="epList">
         <!-- Record sleeves injected by main.js -->
       </div>
-      <div class="section-head reveal">
-        <h2>Upcoming</h2>
-        <p class="section-head__sub">Work in progress.</p>
-      </div>
+      <h3 class="releases__sub reveal">Upcoming</h3>
       <div class="albums__list albums__list--upcoming" id="upcomingList">
         <!-- Upcoming releases injected by main.js -->
       </div>
