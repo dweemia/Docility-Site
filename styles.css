@@ -118,6 +118,74 @@ h1, h2, h3 { font-family: var(--font); font-weight: 500; line-height: 1.05; }
 }
 
 /* =========================================================
+   Decorative edge rings  (desktop only — hidden below 1200px)
+   Fixed overlay, z-index: -1 keeps them behind all content.
+   Rings bleed off the left/right edges and overlap each other,
+   creating a framing effect without touching the main column.
+   ========================================================= */
+.deco-rings {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.deco-ring {
+  display: none;
+  position: absolute;
+  border-radius: 50%;
+}
+@media (min-width: 1200px) {
+  .deco-ring { display: block; }
+
+  /* Left cluster — bleeds off the left edge */
+  .deco-ring--l1 {
+    width: 440px; height: 440px;
+    top: 5%;  left: -175px;
+    border: 1.5px solid var(--aqua);
+    opacity: 0.18;
+    box-shadow: 0 0 48px color-mix(in srgb, var(--aqua) 14%, transparent);
+  }
+  .deco-ring--l2 {
+    width: 300px; height: 300px;
+    top: 18%; left: -90px;
+    border: 1.5px solid var(--violet);
+    opacity: 0.16;
+    box-shadow: 0 0 36px color-mix(in srgb, var(--violet) 13%, transparent);
+  }
+  .deco-ring--l3 {
+    width: 200px; height: 200px;
+    top: 29%; left: -62px;
+    border: 1.5px solid var(--coral);
+    opacity: 0.14;
+    box-shadow: 0 0 28px color-mix(in srgb, var(--coral) 12%, transparent);
+  }
+
+  /* Right cluster — bleeds off the right edge */
+  .deco-ring--r1 {
+    width: 420px; height: 420px;
+    top: 8%;  right: -160px;
+    border: 1.5px solid var(--sky);
+    opacity: 0.17;
+    box-shadow: 0 0 48px color-mix(in srgb, var(--sky) 13%, transparent);
+  }
+  .deco-ring--r2 {
+    width: 290px; height: 290px;
+    top: 21%; right: -78px;
+    border: 1.5px solid var(--gold);
+    opacity: 0.16;
+    box-shadow: 0 0 36px color-mix(in srgb, var(--gold) 12%, transparent);
+  }
+  .deco-ring--r3 {
+    width: 190px; height: 190px;
+    top: 32%; right: -58px;
+    border: 1.5px solid var(--violet);
+    opacity: 0.13;
+    box-shadow: 0 0 28px color-mix(in srgb, var(--violet) 10%, transparent);
+  }
+}
+
+/* =========================================================
    Navigation
    ========================================================= */
 .nav {
